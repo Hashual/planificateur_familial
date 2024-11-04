@@ -1,0 +1,32 @@
+{
+  "name": "freego-api",
+  "version": "1.0.0",
+  "description": "Freego api",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build": "npx tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.8.7",
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hashual/SAE_A_planificateur_familial.git"
+  },
+  "author": "Les daltons",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hashual/SAE_A_planificateur_familial/issues"
+  },
+  "homepage": "https://github.com/Hashual/SAE_A_planificateur_familial#readme"
+}

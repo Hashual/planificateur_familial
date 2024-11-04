@@ -1,0 +1,36 @@
+services:
+  api:
+    image: node:20
+    container_name: freego-api
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - ./api:/usr/src/api
+    working_dir: /usr/src/api
+    ports:
+      - 3000:3000
+  db:
+    container_name: mysql8
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: MySecurePwd
+      MYSQL_DATABASE: freego
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: monpassword
+    ports:
+      - 3306:3306
+  phpmya:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      PMA_USER: myuser
+      PMA_PASSWORD: monpassword
+      UPLOAD_LIMIT: 20M
+    ports:
+      - 8899:80
