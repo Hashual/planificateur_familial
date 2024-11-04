@@ -12,6 +12,17 @@ services:
     working_dir: /usr/src/api
     ports:
       - 3000:3000
+  expo-app:
+    image: node:20
+    container_name: expo-app
+    build:
+      context: .
+      dockerfile: ./free-go/Dockerfile
+    volumes:
+      - ./free-go:/usr/src/free-go
+    working_dir: /usr/src/free-go
+    ports:
+      - 8081:8081
   db:
     container_name: mysql8
     image: mysql:8.0
