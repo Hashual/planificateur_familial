@@ -1,0 +1,18 @@
+./api/node_modules
+./api/dist
+./api/.env
+
+./free-go/node_modules/
+./free-go/.expo/
+./free-go/dist/
+./free-go/npm-debug.*
+./free-go/*.jks
+./free-go/*.p8
+./free-go/*.p12
+./free-go/*.key
+./free-go/*.mobileprovision
+./free-go/*.orig.*
+./free-go/web-build/
+
+# macOS
+./free-go/.DS_Store
