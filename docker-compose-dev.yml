@@ -1,26 +1,24 @@
 services:
   api:
-    image: node:20
     container_name: freego-api
     build:
-      context: .
-      dockerfile: ./api/Dockerfile
+      context: ./api
+      dockerfile: Dockerfile
+    env_file:
+      - ./api/.env
     depends_on:
       - db
     volumes:
       - ./api:/usr/src/api
-    working_dir: /usr/src/api
     ports:
       - 3000:3000
   expo-app:
-    image: node:20
     container_name: expo-app
     build:
-      context: .
-      dockerfile: ./free-go/Dockerfile
+      context: ./free-go
+      dockerfile: Dockerfile
     volumes:
       - ./free-go:/usr/src/free-go
-    working_dir: /usr/src/free-go
     ports:
       - 8081:8081
   db:
