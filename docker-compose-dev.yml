@@ -36,7 +36,7 @@ services:
       - 3306:3306
   phpmya:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: phpmyadmin
+    container_name: phpmya
     environment:
       PMA_ARBITRARY: 1
       PMA_HOST: db
