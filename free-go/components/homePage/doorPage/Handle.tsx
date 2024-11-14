@@ -8,10 +8,12 @@ const Handle: React.FC = () => {
 
 const styles = StyleSheet.create({
   handle: {
-    width: 50,
-    height: 10,
+    width: 60,
+    height: 13,
     backgroundColor: COLORS.handleGray,
     borderRadius: 5,
+    left: '30%',
+    bottom: '4%',
   },
 });
 
