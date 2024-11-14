@@ -1,16 +1,19 @@
-import * as FileSystem from 'expo-file-system';
-import { MockData, Task } from '@/mockapi/types';
+import * as FileSystem from "expo-file-system";
+import { MockData, Task } from "@/mockapi/types";
 
-const mockDataPath = `${FileSystem.documentDirectory}mockData.json`;
+const mockDataPath = `${FileSystem.documentDirectory}mockData.json`; // Pas sur du chemin
 
 const initialData: MockData = {
-  toDoList: []
+  toDoList: [],
 };
 
 const ensureFileExists = async () => {
   const fileExists = await FileSystem.getInfoAsync(mockDataPath);
   if (!fileExists.exists) {
-    await FileSystem.writeAsStringAsync(mockDataPath, JSON.stringify(initialData, null, 2));
+    await FileSystem.writeAsStringAsync(
+      mockDataPath,
+      JSON.stringify(initialData, null, 2)
+    );
   }
 };
 
@@ -21,27 +24,30 @@ export const getMockData = async (): Promise<MockData> => {
 };
 
 const saveMockData = async (data: MockData): Promise<void> => {
-  await FileSystem.writeAsStringAsync(mockDataPath, JSON.stringify(data, null, 2));
+  await FileSystem.writeAsStringAsync(
+    mockDataPath,
+    JSON.stringify(data, null, 2)
+  );
 };
 
-export const addTask = async (categoryId: number, newTask: Task): Promise<MockData> => {
+export const addTask = async (listId: number, newTask: Task): Promise<MockData> => {
   const data = await getMockData();
-  const category = data.toDoList.find((cat) => cat.id === categoryId);
+  const taskList = data.toDoList.find((list) => list.id === listId);
 
-  if (!category) throw new Error('Category not found');
+  if (!taskList) throw new Error("List not found");
 
-  category.tasks.push(newTask);
+  taskList.tasks.push(newTask);
   await saveMockData(data);
   return data;
 };
 
-export const deleteTask = async (categoryId: number, taskId: number): Promise<MockData> => {
+export const deleteTask = async (listId: number, taskId: number): Promise<MockData> => {
   const data = await getMockData();
-  const category = data.toDoList.find((cat) => cat.id === categoryId);
+  const taskList = data.toDoList.find((list) => list.id === listId);
 
-  if (!category) throw new Error('Category not found');
+  if (!taskList) throw new Error("List not found");
 
-  category.tasks = category.tasks.filter((task) => task.id !== taskId);
+  taskList.tasks = taskList.tasks.filter((task) => task.id !== taskId);
   await saveMockData(data);
   return data;
 };
