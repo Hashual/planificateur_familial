@@ -8,13 +8,14 @@ const DoorReflection: React.FC = () => {
 
 const styles = StyleSheet.create({
   reflection: {
-    width: '80%',
+    width: '50%',
     height: 10,
     backgroundColor: COLORS.reflectionGray,
-    opacity: 0.5,
+    opacity: 0.6,
     borderRadius: 5,
     position: 'absolute',
-    top: '10%',
+    top: '40%',
+    right: '65%',
     transform: [{ rotate: '90deg' }],
   },
 });

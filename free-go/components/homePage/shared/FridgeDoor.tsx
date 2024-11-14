@@ -12,10 +12,10 @@ const FridgeDoor: React.FC<FridgeDoorProps> = ({ children }) => {
 
 const styles = StyleSheet.create({
   door: {
-    width: '90%',
+    width: '50%',
     height: '90%',
     backgroundColor: COLORS.fridgeYellow,
-    borderRadius: 10,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
