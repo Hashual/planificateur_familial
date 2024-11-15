@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, FlatList, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TextInput, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { getMockData, addTask, deleteTask } from '@/mockapi/mockData';
 import { MockData, TaskList, Task } from '@/mockapi/types';
 import { useFonts } from 'expo-font';
@@ -7,7 +7,7 @@ import { useFonts } from 'expo-font';
 export default function ToDolist() {
 
   const [fontsLoaded] = useFonts({
-    Pacifico: require('@/assets/fonts/Pacifico.ttf'), // Chargement de la police
+    Pacifico: require('@/assets/fonts/Pacifico.ttf'), 
   });
 
   const [toDoData, setToDoData] = useState<MockData>({ toDoList: [] });
@@ -21,17 +21,15 @@ export default function ToDolist() {
     }
   };
 
-  // Appel à l'API pour supprimer une tâche
   const handleDeleteTask = async (listId: number, taskId: number) => {
     try {
       const updatedData = await deleteTask(listId, taskId);
-      setToDoData(updatedData); // Mettre à jour l'état avec les nouvelles données
+      setToDoData(updatedData);
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
 
-  // Appel à l'API pour ajouter une tâche
   const handleAddTask = async (listId: number, newTaskName: string) => {
     if (newTaskName.trim()) {
       try {
@@ -63,6 +61,10 @@ export default function ToDolist() {
   useEffect(() => {
     loadToDoData();
   }, []);
+
+  if (!fontsLoaded) {
+    return <ActivityIndicator size="large" />; // Afficher un indicateur de chargement jusqu'à ce que la police soit prête
+  }
 
   return (
     <View style={styles.container}>
