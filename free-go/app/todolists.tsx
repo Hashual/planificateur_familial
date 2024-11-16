@@ -3,8 +3,9 @@ import { StyleSheet, View, TextInput, FlatList, TouchableOpacity, Text, Activity
 import { getMockData, addTask, deleteTask } from '@/mockapi/mockData';
 import { MockData, TaskList, Task } from '@/mockapi/types';
 import { useFonts } from 'expo-font';
+import TaskItem from '@/components/TaskItem';
 
-export default function ToDolist() {
+export default function ToDoLists() {
 
   const [fontsLoaded] = useFonts({
     Pacifico: require('@/assets/fonts/Pacifico.ttf'), 
@@ -47,17 +48,6 @@ export default function ToDolist() {
     }
   };
 
-  const getTaskStyle = (task: Task) => {
-    const now = new Date();
-    if (task.completedDate) {
-      return styles.completedTask;
-    }
-    if (!task.completedDate && task.dueDate && new Date(task.dueDate) < now) {
-      return styles.overdueTask;
-    }
-    return styles.pendingTask;
-  };
-
   useEffect(() => {
     loadToDoData();
   }, []);
@@ -79,14 +69,11 @@ export default function ToDolist() {
               data={list.tasks}
               keyExtractor={(task) => task.id.toString()}
               renderItem={({ item: task }) => (
-                <View style={styles.taskItem}>
-                  <Text style={getTaskStyle(task)}>{task.name}</Text>
-                  <TouchableOpacity
-                    onPress={() => handleDeleteTask(list.id, task.id)}
-                  >
-                    <Text style={styles.deleteButton}>❌</Text>
-                  </TouchableOpacity>
-                </View>
+                <TaskItem 
+                  task={task}
+                  listId={list.id}
+                  handleDeleteTask={handleDeleteTask}
+                />  
               )}
             />
             <TextInput
@@ -107,13 +94,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#e0f7fa',
+    backgroundColor: '#F7FAFA',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#00796b',
+    color: '#141C24',
     textAlign: 'center',
     fontFamily: 'Pacifico'
   },
@@ -124,7 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#004d40',
+    color: '#141C24',
   },
   input: {
     borderColor: '#00796b',

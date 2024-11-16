@@ -10,7 +10,7 @@ export default function Index() {
       <Text style={styles.text}>Bienvenue dans l'application de gestion de tâches !</Text>
       <Button
         title="Aller à la To-Do List"
-        onPress={() => router.push("/todolist")} 
+        onPress={() => router.push("/todolists")} 
       />
     </View>
   );
