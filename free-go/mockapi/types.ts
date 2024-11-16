@@ -1,8 +1,8 @@
 export type Task = {
   id: number;
   name: string;
-  dueDate: string | null;
-  completedDate: string | null;
+  dueDate: Date | null;
+  completedDate: Date | null;
 };
 
 export type TaskList = {
