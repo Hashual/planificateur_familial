@@ -4,6 +4,7 @@ import { getMockData, addTask, deleteTask, updateTask } from '@/mockapi/mockData
 import { MockData, TaskList, Task } from '@/mockapi/types';
 import { useFonts } from 'expo-font';
 import TaskItem from '@/components/TaskItem';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ToDoLists() {
 
@@ -88,7 +89,7 @@ export default function ToDoLists() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>To-Do List</Text>
       <FlatList
         data={toDoData.toDoList}
@@ -118,7 +119,7 @@ export default function ToDoLists() {
           </View>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

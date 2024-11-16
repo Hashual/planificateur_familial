@@ -1,18 +1,19 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Index() {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.text}>Bienvenue dans l'application de gestion de tâches !</Text>
       <Button
         title="Aller à la To-Do List"
         onPress={() => router.push("/todolists")} 
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
