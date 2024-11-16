@@ -1,11 +1,23 @@
 import * as FileSystem from "expo-file-system";
+import { Platform } from "react-native";
 import { MockData, Task } from "@/mockapi/types";
 
 const mockDataPath = FileSystem.documentDirectory + "mockData.json";
 
 const initialData: MockData = require("../data/mockData.json") as MockData
 
+// Gestion alternative pour le Web
+let mockDataInMemory: MockData = { ...initialData };
+
 const ensureFileExists = async () => {
+  if (Platform.OS === "web") {
+    console.log("Mode web détecté. Utilisation des données en mémoire.");
+  } else {
+    await ensureFileExistsNative();
+  }
+};
+
+const ensureFileExistsNative = async () => {
   try {
     const fileExists = await FileSystem.getInfoAsync(mockDataPath);
     if (!fileExists.exists) {
@@ -21,6 +33,10 @@ const ensureFileExists = async () => {
 };
 
 export const getMockData = async (): Promise<MockData> => {
+  if (Platform.OS === "web") {
+    return mockDataInMemory;
+  }
+
   await ensureFileExists();
   const data = await FileSystem.readAsStringAsync(mockDataPath);
   try {
@@ -39,10 +55,14 @@ export const getMockData = async (): Promise<MockData> => {
 
 
 const saveMockData = async (data: MockData): Promise<void> => {
-  await FileSystem.writeAsStringAsync(
-    mockDataPath,
-    JSON.stringify(data, null, 2)
-  );
+  if (Platform.OS === "web") {
+    mockDataInMemory = data; // Mise à jour en mémoire pour le web
+  } else {
+    await FileSystem.writeAsStringAsync(
+      mockDataPath,
+      JSON.stringify(data, null, 2)
+    );
+  }
 };
 
 export const addTask = async (listId: number, newTask: Task): Promise<MockData> => {
@@ -66,4 +86,3 @@ export const deleteTask = async (listId: number, taskId: number): Promise<MockDa
   await saveMockData(data);
   return data;
 };
-
