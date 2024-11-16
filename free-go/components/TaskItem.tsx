@@ -5,9 +5,10 @@ type TaskItemProps = {
     task: Task;
     listId: number;
     handleDeleteTask: (listId: number, taskId: number) => void;
+    handleCompleteTask: (listId: number, taskId: number) => void;
 };
 
-export default function TaskItem({ task, listId, handleDeleteTask }: TaskItemProps) {
+export default function TaskItem({ task, listId, handleDeleteTask, handleCompleteTask }: TaskItemProps) {
     const getTaskStyle = (task: Task) => {
         const now = new Date();
         if (task.completedDate) {
@@ -40,19 +41,23 @@ export default function TaskItem({ task, listId, handleDeleteTask }: TaskItemPro
 
     return (
         <View style={styles.taskItem}>
-            <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
-              <Text style={getCheckBoxStyle(task)}>✓</Text>
-              <View style={{ flexShrink: 1, maxWidth: "90%" }}>
-                <Text style={getTaskStyle(task)}>{task.name}</Text>
-                {remainingDays != null ? (
-                  <Text style={styles.dueDateStatus}>
-                    {remainingDays >= 0
-                      ? `${remainingDays} jour${remainingDays !== 1 ? 's' : ''} restants`
-                      : `Retard de ${Math.abs(remainingDays)} jour${Math.abs(remainingDays) !== 1 ? 's' : ''}`}
-                  </Text>
-                ) : null}
+            <TouchableOpacity
+            onPress={() => handleCompleteTask(listId, task.id)}
+            >
+              <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
+                <Text style={getCheckBoxStyle(task)}>✓</Text>
+                <View style={{ flexShrink: 1, maxWidth: "90%" }}>
+                  <Text style={getTaskStyle(task)}>{task.name}</Text>
+                  {remainingDays != null ? (
+                    <Text style={styles.dueDateStatus}>
+                      {remainingDays >= 0
+                        ? `${remainingDays} jour${remainingDays !== 1 ? 's' : ''} restants`
+                        : `Retard de ${Math.abs(remainingDays)} jour${Math.abs(remainingDays) !== 1 ? 's' : ''}`}
+                    </Text>
+                  ) : null}
+                </View>
               </View>
-            </View>
+            </TouchableOpacity>
             <TouchableOpacity
             onPress={() => handleDeleteTask(listId, task.id)}
             >
