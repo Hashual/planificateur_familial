@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
-import { getMockData, addTask, deleteTask } from '@/mockapi/mockData';
+import { getMockData, addTask, deleteTask, updateTask } from '@/mockapi/mockData';
 import { MockData, TaskList, Task } from '@/mockapi/types';
 import { useFonts } from 'expo-font';
 import TaskItem from '@/components/TaskItem';
@@ -48,6 +48,37 @@ export default function ToDoLists() {
     }
   };
 
+  const handleCompleteTask = async (listId: number, taskId: number) => {
+    try {
+      const taskList = toDoData.toDoList.find((list) => list.id === listId);
+      const task = taskList?.tasks.find((task) => task.id === taskId);
+      if (!task) {
+        throw new Error("Task not found");
+      }
+
+      if (!task.id) {
+        throw new Error("Task is missing an ID");
+      }
+ 
+      const updatedTask = { ...task };
+  
+      if (updatedTask.completedDate) {
+        updatedTask.completedDate = null;
+      } else {
+        updatedTask.completedDate = new Date();
+      }
+  
+      const updatedData = await updateTask(listId, updatedTask);
+      setToDoData(updatedData);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Error completing task:", error.message);
+      } else {
+        console.error("Unknown error occurred");
+      }
+    }
+  };
+
   useEffect(() => {
     loadToDoData();
   }, []);
@@ -73,6 +104,7 @@ export default function ToDoLists() {
                   task={task}
                   listId={list.id}
                   handleDeleteTask={handleDeleteTask}
+                  handleCompleteTask={handleCompleteTask}
                 />  
               )}
             />

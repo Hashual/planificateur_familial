@@ -86,3 +86,22 @@ export const deleteTask = async (listId: number, taskId: number): Promise<MockDa
   await saveMockData(data);
   return data;
 };
+
+export const updateTask = async (listId: number, updatedTask: Task): Promise<MockData> => {
+  const data = await getMockData();
+  
+  const taskList = data.toDoList.find((list) => list.id === listId);
+
+  if (!taskList) throw new Error("List not found");
+
+  const taskIndex = taskList.tasks.findIndex((task) => task.id === updatedTask.id);
+
+  if (taskIndex === -1) {
+    throw new Error("Task not found");
+  }
+
+  taskList.tasks[taskIndex] = { ...taskList.tasks[taskIndex], ...updatedTask };
+
+  await saveMockData(data);
+  return data;
+};
