@@ -66,8 +66,6 @@ export default function ToDoList() {
         };
         const updatedData = await addTask(listId, newTask);
         closeModal();
-        setInputValue("");
-        setDate(null);
         setToDoData(updatedData);
         setList(updatedData.toDoList.find((list) => list.id === listId));
       } catch (error) {
@@ -113,6 +111,8 @@ export default function ToDoList() {
 
   const closeModal = () => {
     setModalVisible(false);
+    setInputValue("");
+    setDate(null);
   };
 
   useEffect(() => {
@@ -166,12 +166,14 @@ export default function ToDoList() {
               value={inputValue}
               onChangeText={setInputValue}
             />
-            <View style={[styles.input, {flexDirection: "row", justifyContent: "space-between"}]}>
-                {date ? <Text>{date.toLocaleDateString()}</Text> : <Text>Date</Text>}
-                <Pressable onPress={openPicker}>
-                    <MaterialCommunityIcons name="calendar" size={20} color="#141C24" />
-                </Pressable>
-            </View>
+            { Platform.OS !== "web" && (
+                <View style={[styles.input, {flexDirection: "row", justifyContent: "space-between"}]}>
+                    {date ? <Text>{date.toLocaleDateString()}</Text> : <Text>Date</Text>}
+                    <Pressable onPress={openPicker}>
+                        <MaterialCommunityIcons name="calendar" size={20} color="#141C24" />
+                    </Pressable>
+                </View>
+            )}
             
             {showPicker && Platform.OS !== "web" && (
               <DateTimePicker
