@@ -48,7 +48,12 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
                 <Text style={getCheckBoxStyle(task)}>✓</Text>
                 <View style={{ flexShrink: 1, maxWidth: "85%" }}>
                   <Text style={getTaskStyle(task)}>{task.name}</Text>
-                  {remainingDays != null ? (
+                  {task.completedDate ? (
+                    <Text style={styles.dueDateStatus}>
+                      Complété le {new Date(task.completedDate).toLocaleDateString()} à{' '}
+                      {new Date(task.completedDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}
+                    </Text>
+                  ) : remainingDays != null ? (
                     <Text style={styles.dueDateStatus}>
                       {remainingDays >= 0
                         ? `${remainingDays} jour${remainingDays !== 1 ? 's' : ''} restants`
