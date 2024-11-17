@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, FlatList, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
-import { getMockData, addTask, deleteTask, updateTask } from '@/mockapi/mockData';
-import { MockData, TaskList, Task } from '@/mockapi/types';
+import { StyleSheet, View, FlatList, Text, ActivityIndicator, Pressable } from 'react-native';
+import { getMockData} from '@/mockapi/mockData';
+import { MockData} from '@/mockapi/types';
 import { useFonts } from 'expo-font';
-import TaskItem from '@/components/TaskItem';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
 
 export default function ToDoLists() {
 
@@ -23,69 +23,16 @@ export default function ToDoLists() {
     }
   };
 
-  const handleDeleteTask = async (listId: number, taskId: number) => {
-    try {
-      const updatedData = await deleteTask(listId, taskId);
-      setToDoData(updatedData);
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
-
-  const handleAddTask = async (listId: number, newTaskName: string) => {
-    if (newTaskName.trim()) {
-      try {
-        const newTask: Task = {
-          id: Date.now(),
-          name: newTaskName,
-          dueDate: null,
-          completedDate: null,
-        };
-        const updatedData = await addTask(listId, newTask);
-        setToDoData(updatedData);
-      } catch (error) {
-        console.error("Error adding task:", error);
-      }
-    }
-  };
-
-  const handleCompleteTask = async (listId: number, taskId: number) => {
-    try {
-      const taskList = toDoData.toDoList.find((list) => list.id === listId);
-      const task = taskList?.tasks.find((task) => task.id === taskId);
-      if (!task) {
-        throw new Error("Task not found");
-      }
-
-      if (!task.id) {
-        throw new Error("Task is missing an ID");
-      }
- 
-      const updatedTask = { ...task };
-  
-      if (updatedTask.completedDate) {
-        updatedTask.completedDate = null;
-      } else {
-        updatedTask.completedDate = new Date();
-      }
-  
-      const updatedData = await updateTask(listId, updatedTask);
-      setToDoData(updatedData);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Error completing task:", error.message);
-      } else {
-        console.error("Unknown error occurred");
-      }
-    }
-  };
-
   useEffect(() => {
     loadToDoData();
   }, []);
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size="large" />; // Afficher un indicateur de chargement jusqu'à ce que la police soit prête
+    return (
+      <SafeAreaView style={[styles.container, {justifyContent: 'center'}]}>
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    )
   }
 
   return (
@@ -95,28 +42,13 @@ export default function ToDoLists() {
         data={toDoData.toDoList}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item: list }) => (
-          <View style={styles.category}>
-            <Text style={styles.categoryTitle}>{list.name}</Text>
-            <FlatList
-              data={list.tasks}
-              keyExtractor={(task) => task.id.toString()}
-              renderItem={({ item: task }) => (
-                <TaskItem 
-                  task={task}
-                  listId={list.id}
-                  handleDeleteTask={handleDeleteTask}
-                  handleCompleteTask={handleCompleteTask}
-                />  
-              )}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder={`Ajouter une tâche à ${list.name}...`}
-              onSubmitEditing={(e) =>
-                handleAddTask(list.id, e.nativeEvent.text)
-              }
-            />
-          </View>
+          <Link href={{pathname: "/todolist/[id]", params: {id: list.id}}} asChild>
+            <Pressable>
+              <View style={[styles.category, styles.shadowElement]}>
+                <Text style={styles.categoryTitle}>{list.name}</Text>
+              </View>
+            </Pressable>
+          </Link>
         )}
       />
     </SafeAreaView>
@@ -138,7 +70,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Pacifico'
   },
   category: {
-    marginBottom: 20,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    paddingTop: 5,
+    borderRadius: 10,
+    backgroundColor: "#E3E8F2",
+    overflow: 'hidden'
   },
   categoryTitle: {
     fontSize: 20,
@@ -154,25 +91,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '#fff',
   },
-  taskItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 10,
-    marginVertical: 5,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 5,
-  },
-  completedTask: {
-    textDecorationLine: "line-through",
-    color: "#BDBDBD"
-  },
-  pendingTask: {
-    color: "#000",
-  },
-  overdueTask: {
-    color: "#d32f2f",
-  },
-  deleteButton: {
-    color: '#d32f2f',
+  shadowElement: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 5,
+
+    elevation: 5,
   },
 });
