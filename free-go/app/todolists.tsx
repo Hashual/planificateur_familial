@@ -151,8 +151,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   categoryTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
     marginBottom: 10,
     color: '#141C24',
   },
