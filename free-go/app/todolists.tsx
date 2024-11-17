@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Text, ActivityIndicator, Pressable } from 'react-native';
-import { getMockData} from '@/mockapi/mockData';
+import { StyleSheet, View, FlatList, Text, ActivityIndicator, Pressable, Button, Modal, TextInput, Alert } from 'react-native';
+import { createTaskList, getMockData} from '@/mockapi/mockData';
 import { MockData} from '@/mockapi/types';
 import { useFonts } from 'expo-font';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link } from 'expo-router';
+import { ThemedButton } from '@/components/ThemedButton';
 
 export default function ToDoLists() {
 
@@ -13,6 +14,8 @@ export default function ToDoLists() {
   });
 
   const [toDoData, setToDoData] = useState<MockData>({ toDoList: [] });
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   const loadToDoData = async () => {
     try {
@@ -20,6 +23,32 @@ export default function ToDoLists() {
       setToDoData(data);
     } catch (error) {
       console.error("Error loading data:", error);
+    }
+  };
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleAddTaskList = async () => {
+    const newTaskListName = inputValue.trim();
+    
+    if (newTaskListName) {
+      try {
+        await createTaskList(newTaskListName);
+        setInputValue('');
+        await loadToDoData();
+        closeModal();
+      } catch (error) {
+        console.error("Erreur lors de la création de la liste de tâches :", error);
+        Alert.alert("Erreur", "Il y a eu un problème lors de la création de la liste.");
+      }
+    } else {
+      Alert.alert("Entrée invalide", "Le nom de la liste ne peut pas être vide.");
     }
   };
 
@@ -51,6 +80,50 @@ export default function ToDoLists() {
           </Link>
         )}
       />
+      <ThemedButton
+                title="Ajouter une liste"
+                addButton={true}
+                onPress={openModal}
+                type="primary"
+                lightColor="#F5C754"
+                darkColor="#F5C754"
+              />
+
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Ajouter une nouvelle liste</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nom de la liste"
+              value={inputValue}
+              onChangeText={setInputValue}
+            />
+            <View style={styles.modalButtons}>
+              <ThemedButton
+                title="Annuler"
+                onPress={closeModal}
+                type="secondary"
+                lightColor="#F5C754"
+                darkColor="#F5C754"
+              />
+              <ThemedButton
+                title="Ajouter"
+                
+                onPress={handleAddTaskList}
+                type="primary"
+                lightColor="#F5C754"
+                darkColor="#F5C754"
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -62,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7FAFA',
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#141C24',
@@ -84,8 +157,9 @@ const styles = StyleSheet.create({
     color: '#141C24',
   },
   input: {
-    borderColor: '#00796b',
+    borderColor: '#F5C754',
     borderWidth: 1,
+    width: "90%",
     padding: 10,
     marginTop: 10,
     borderRadius: 5,
@@ -94,9 +168,33 @@ const styles = StyleSheet.create({
   shadowElement: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
 
-    elevation: 5,
+    elevation: 2,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '80%',
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 20,
+    marginBottom: 15,
+    fontWeight: 'bold',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 15,
   },
 });

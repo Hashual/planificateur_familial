@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         color: '#141C24',
     },
     input: {
-        borderColor: '#00796b',
+        borderColor: '#F5C754',
         borderWidth: 1,
         padding: 10,
         marginTop: 10,

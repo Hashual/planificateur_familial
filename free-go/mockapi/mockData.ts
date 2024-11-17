@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
-import { MockData, Task } from "@/mockapi/types";
+import { MockData, Task, TaskList } from "@/mockapi/types";
 
 const mockDataPath = FileSystem.documentDirectory + "mockData.json";
 
@@ -105,3 +105,21 @@ export const updateTask = async (listId: number, updatedTask: Task): Promise<Moc
   await saveMockData(data);
   return data;
 };
+
+export const createTaskList = async (listName: string): Promise<MockData> => {
+  const data = await getMockData();
+
+  const newList: TaskList = {
+    id: data.toDoList.length ? Math.max(...data.toDoList.map(list => list.id)) + 1 : 1, 
+    name: listName,
+    completed: false,
+    tasks: []
+  };
+
+  data.toDoList.push(newList);
+
+  await saveMockData(data);
+
+  return data;
+};
+
