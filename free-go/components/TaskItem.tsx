@@ -46,7 +46,7 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
             >
               <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
                 <Text style={getCheckBoxStyle(task)}>✓</Text>
-                <View style={{ flexShrink: 1, maxWidth: "90%" }}>
+                <View style={{ flexShrink: 1, maxWidth: "85%" }}>
                   <Text style={getTaskStyle(task)}>{task.name}</Text>
                   {remainingDays != null ? (
                     <Text style={styles.dueDateStatus}>
@@ -61,7 +61,7 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
             <TouchableOpacity
             onPress={() => handleDeleteTask(listId, task.id)}
             >
-            <Text style={styles.deleteButton}>❌</Text>
+            <Text style={styles.deleteButton}>✕</Text>
             </TouchableOpacity>
         </View>
     )
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     deleteButton: {
       color: '#d32f2f',
       flex: 1,
-      justifyContent: "center"
+      textAlignVertical: "center"
     },
     checkBox: {
       width: 20,
