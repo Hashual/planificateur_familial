@@ -1,21 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Text, ActivityIndicator, Pressable, Button, Modal, TextInput, Alert } from 'react-native';
-import { createTaskList, getMockData} from '@/mockapi/mockData';
-import { MockData} from '@/mockapi/types';
-import { useFonts } from 'expo-font';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Link } from 'expo-router';
-import { ThemedButton } from '@/components/ThemedButton';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  ActivityIndicator,
+  Modal,
+  TextInput,
+  Alert,
+} from "react-native";
+import { createTaskList, getMockData } from "@/mockapi/mockData";
+import { MockData } from "@/mockapi/types";
+import { useFonts } from "expo-font";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ThemedButton } from "@/components/ThemedButton";
+import ListItem from "@/components/ListItem";
 
 export default function ToDoLists() {
-
   const [fontsLoaded] = useFonts({
-    Pacifico: require('@/assets/fonts/Pacifico.ttf'), 
+    Pacifico: require("@/assets/fonts/Pacifico.ttf"),
   });
 
   const [toDoData, setToDoData] = useState<MockData>({ toDoList: [] });
   const [isModalVisible, setModalVisible] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   const loadToDoData = async () => {
     try {
@@ -36,19 +44,28 @@ export default function ToDoLists() {
 
   const handleAddTaskList = async () => {
     const newTaskListName = inputValue.trim();
-    
+
     if (newTaskListName) {
       try {
         await createTaskList(newTaskListName);
-        setInputValue('');
+        setInputValue("");
         await loadToDoData();
         closeModal();
       } catch (error) {
-        console.error("Erreur lors de la création de la liste de tâches :", error);
-        Alert.alert("Erreur", "Il y a eu un problème lors de la création de la liste.");
+        console.error(
+          "Erreur lors de la création de la liste de tâches :",
+          error
+        );
+        Alert.alert(
+          "Erreur",
+          "Il y a eu un problème lors de la création de la liste."
+        );
       }
     } else {
-      Alert.alert("Entrée invalide", "Le nom de la liste ne peut pas être vide.");
+      Alert.alert(
+        "Entrée invalide",
+        "Le nom de la liste ne peut pas être vide."
+      );
     }
   };
 
@@ -58,10 +75,10 @@ export default function ToDoLists() {
 
   if (!fontsLoaded) {
     return (
-      <SafeAreaView style={[styles.container, {justifyContent: 'center'}]}>
+      <SafeAreaView style={[styles.container, { justifyContent: "center" }]}>
         <ActivityIndicator size="large" />
       </SafeAreaView>
-    )
+    );
   }
 
   return (
@@ -69,26 +86,20 @@ export default function ToDoLists() {
       <Text style={styles.title}>To-Do List</Text>
       <FlatList
         data={toDoData.toDoList}
-        style={{overflow: 'visible'}}
+        style={{ overflow: "visible" }}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item: list }) => (
-          <Link href={{pathname: "/todolist/[id]", params: {id: list.id}}} asChild>
-            <Pressable style={styles.shadowElement}>
-              <View style={[styles.category, styles.shadowElement]}>
-                <Text style={styles.categoryTitle}>{list.name}</Text>
-              </View>
-            </Pressable>
-          </Link>
+          <ListItem id={list.id} name={list.name} />
         )}
       />
       <ThemedButton
-                title="Ajouter une liste"
-                addButton={true}
-                onPress={openModal}
-                type="primary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
-              />
+        title="Ajouter une liste"
+        addButton={true}
+        onPress={openModal}
+        type="primary"
+        lightColor="#F5C754"
+        darkColor="#F5C754"
+      />
 
       <Modal
         visible={isModalVisible}
@@ -116,7 +127,6 @@ export default function ToDoLists() {
               />
               <ThemedButton
                 title="Ajouter"
-                
                 onPress={handleAddTaskList}
                 type="primary"
                 lightColor="#F5C754"
@@ -134,15 +144,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#F7FAFA',
+    backgroundColor: "#F7FAFA",
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    color: '#141C24',
-    textAlign: 'center',
-    fontFamily: 'Pacifico'
+    color: "#141C24",
+    textAlign: "center",
+    fontFamily: "Pacifico",
   },
   category: {
     marginBottom: 15,
@@ -150,24 +160,24 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     borderRadius: 10,
     backgroundColor: "#E3E8F2",
-    overflow: 'hidden'
+    overflow: "hidden",
   },
   categoryTitle: {
     fontSize: 16,
     marginBottom: 10,
-    color: '#141C24',
+    color: "#141C24",
   },
   input: {
-    borderColor: '#F5C754',
+    borderColor: "#F5C754",
     borderWidth: 1,
     width: "90%",
     padding: 10,
     marginTop: 10,
     borderRadius: 5,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   shadowElement: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
@@ -176,26 +186,26 @@ const styles = StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: '80%',
+    width: "80%",
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   modalTitle: {
     fontSize: 20,
     marginBottom: 15,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   modalButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
     marginTop: 15,
   },
 });
