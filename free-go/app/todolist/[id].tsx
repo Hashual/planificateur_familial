@@ -163,6 +163,7 @@ export default function ToDoList() {
             <TextInput
               style={styles.input}
               placeholder="Nom de la tâche"
+              placeholderTextColor="#666"
               value={inputValue}
               onChangeText={setInputValue}
             />

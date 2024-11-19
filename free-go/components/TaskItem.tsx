@@ -46,7 +46,7 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
             >
               <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
                 <Text style={getCheckBoxStyle(task)}>✓</Text>
-                <View style={{ flexShrink: 1, maxWidth: "85%" }}>
+                <View style={{ flexShrink: 1, width: "85%" }}>
                   <Text style={getTaskStyle(task)}>{task.name}</Text>
                   {task.completedDate ? (
                     <Text style={styles.dueDateStatus}>
@@ -56,8 +56,8 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
                   ) : remainingDays != null ? (
                     <Text style={styles.dueDateStatus}>
                       {remainingDays >= 0
-                        ? `${remainingDays} jour${remainingDays !== 1 ? 's' : ''} restants`
-                        : `Retard de ${Math.abs(remainingDays)} jour${Math.abs(remainingDays) !== 1 ? 's' : ''}`}
+                        ? `${remainingDays} jour${remainingDays > 1 ? 's restants' : ' restant'}`
+                        : `Retard de ${Math.abs(remainingDays)} jour${Math.abs(remainingDays) > 1 ? 's' : ''}`}
                     </Text>
                   ) : null}
                 </View>
@@ -65,6 +65,7 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
             </TouchableOpacity>
             <TouchableOpacity
             onPress={() => handleDeleteTask(listId, task.id)}
+            style={styles.deleteButtonContainer}
             >
             <Text style={styles.deleteButton}>✕</Text>
             </TouchableOpacity>
@@ -99,10 +100,16 @@ const styles = StyleSheet.create({
     overdueTask: {
       color: "#d32f2f",
     },
+    deleteButtonContainer: {
+      flex: 1,
+      width: 30,
+      justifyContent: "center",
+      alignItems: "center"
+    },
     deleteButton: {
       color: '#d32f2f',
-      flex: 1,
-      textAlignVertical: "center"
+      fontSize: 20,
+      fontWeight: '900',
     },
     checkBox: {
       width: 20,
