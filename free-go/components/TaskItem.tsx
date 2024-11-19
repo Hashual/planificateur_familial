@@ -103,8 +103,9 @@ const styles = StyleSheet.create({
     deleteButtonContainer: {
       flex: 1,
       width: 30,
+      maxWidth: 30,
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
     },
     deleteButton: {
       color: '#d32f2f',
