@@ -8,8 +8,9 @@ import {
   Modal,
   TextInput,
   Alert,
+  Platform,
 } from "react-native";
-import { createTaskList, getMockData } from "@/mockapi/mockData";
+import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
 import { MockData } from "@/mockapi/types";
 import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -69,6 +70,33 @@ export default function ToDoLists() {
     }
   };
 
+  const handleDeleteTaskList = async (id: number) => {
+    try {
+      if (Platform.OS === "web") {
+        const confirmed = confirm("Êtes-vous sûr de vouloir supprimer la liste ?");
+        if (confirmed) {
+          await deleteTaskList(id);
+          await loadToDoData();
+        }
+      } else {
+        Alert.alert("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", [
+          { text: "Annuler", style: "cancel" },
+          {
+            text: "Supprimer",
+            style: "destructive",
+            onPress: async () => {
+              await deleteTaskList(id);
+              await loadToDoData();
+            },
+          },
+        ]);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression de la liste de tâches :", error);
+      Alert.alert("Erreur", "Il y a eu un problème lors de la suppression de la liste.");
+    }
+  };
+
   useEffect(() => {
     loadToDoData();
   }, []);
@@ -86,10 +114,10 @@ export default function ToDoLists() {
       <Text style={styles.title}>To-Do List</Text>
       <FlatList
         data={toDoData.toDoList}
-        style={{ overflow: "visible" }}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item: list }) => (
-          <ListItem id={list.id} name={list.name} />
+          
+          <ListItem id={list.id} name={list.name} taskNumber={list.tasks.length} handleDeleteTaskList={async () => handleDeleteTaskList(list.id)} />
         )}
       />
       <ThemedButton
@@ -209,3 +237,4 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
 });
+

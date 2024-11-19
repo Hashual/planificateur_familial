@@ -123,3 +123,19 @@ export const createTaskList = async (listName: string): Promise<MockData> => {
   return data;
 };
 
+export const deleteTaskList = async (id: number): Promise<MockData> => {
+  try {
+    const data = await getMockData();
+
+    const updatedToDoList = data.toDoList.filter((list) => list.id !== id);
+    data.toDoList = updatedToDoList;
+    await saveMockData(data);
+    return data;
+    
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la liste de tâches:", error);
+    throw new Error("Impossible de supprimer la liste.");
+  }
+};
+
+
