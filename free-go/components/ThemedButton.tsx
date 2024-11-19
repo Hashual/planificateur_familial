@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
   },
   shadowElement: {
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
 
-    elevation: 5,
+    elevation: 2,
   },
   text: {
     fontSize: 16,

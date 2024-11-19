@@ -69,10 +69,11 @@ export default function ToDoLists() {
       <Text style={styles.title}>To-Do List</Text>
       <FlatList
         data={toDoData.toDoList}
+        style={{overflow: 'visible'}}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item: list }) => (
           <Link href={{pathname: "/todolist/[id]", params: {id: list.id}}} asChild>
-            <Pressable>
+            <Pressable style={styles.shadowElement}>
               <View style={[styles.category, styles.shadowElement]}>
                 <Text style={styles.categoryTitle}>{list.name}</Text>
               </View>
@@ -101,6 +102,7 @@ export default function ToDoLists() {
             <TextInput
               style={styles.input}
               placeholder="Nom de la liste"
+              placeholderTextColor="#666"
               value={inputValue}
               onChangeText={setInputValue}
             />
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Pacifico'
   },
   category: {
-    marginBottom: 10,
+    marginBottom: 15,
     paddingHorizontal: 10,
     paddingTop: 5,
     borderRadius: 10,
@@ -166,11 +168,11 @@ const styles = StyleSheet.create({
   },
   shadowElement: {
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
     shadowRadius: 3,
 
-    elevation: 2,
+    elevation: 3,
   },
   modalOverlay: {
     flex: 1,
