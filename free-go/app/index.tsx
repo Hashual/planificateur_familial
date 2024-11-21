@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedButton } from '@/components/ThemedButton';
 
 export default function Index() {
   const router = useRouter();
@@ -9,9 +10,12 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.text}>Bienvenue dans l'application de gestion de tâches !</Text>
-      <Button
+      <ThemedButton
         title="Aller à la To-Do List"
         onPress={() => router.push("/todolists")} 
+        type="primary"
+        lightColor="#F5C754"
+        darkColor="#F5C754"
       />
     </SafeAreaView>
   );
