@@ -13,9 +13,9 @@ const createTodoList = async (title: string, description: string): Promise<numbe
     return result.insertId;
 }
 
-const updateTodoList = async (id: number, title: string, description: string): Promise<number> => {
+const updateTodoList = async (id: number, title: string, description: string): Promise<boolean> => {
     const result : ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE todoList SET title = ?, description = ? WHERE id = ?", [title, description, id]);
-    return result.affectedRows;
+    return result.affectedRows > 0;
 }
 
 const deleteTodoList = async (id: number): Promise<void> => {
@@ -26,8 +26,8 @@ const getAllTodoLists = async (): Promise<TodoList[]> => {
     return await SqlQuery<RowDataPacket[]>("SELECT * FROM todoList") as TodoList[];
 }
 
-const getTodoListById = async (id: number): Promise<TodoList> => {
-    return (await SqlQuery<RowDataPacket[]>(`SELECT * FROM todoList WHERE id = ${id}`))[0] as TodoList;
+const getTodoListById = async (id: number): Promise<TodoList | undefined> => {
+    return (await SqlQuery<RowDataPacket[]>(`SELECT * FROM todoList WHERE id = ${id}`))[0] as TodoList | undefined;
 }
 
 export {createTodoList, updateTodoList, deleteTodoList, getAllTodoLists, getTodoListById};
