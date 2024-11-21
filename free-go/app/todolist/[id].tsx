@@ -1,4 +1,4 @@
-import TaskItem from "@/components/TaskItem";
+import TaskItem from "@/components/todolist/TaskItem";
 import { ThemedButton } from "@/components/ThemedButton";
 import {
   addTask,
