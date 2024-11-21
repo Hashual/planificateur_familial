@@ -1,3 +1,4 @@
+import { TimeDurations } from "@/constants/TimeDuration";
 import { Task } from "@/mockapi/types";
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
@@ -27,16 +28,15 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
         return styles.checkBox;
     }
 
-    const daysLeft = (dueDate: Date): number => {
+    const timesLeft = (dueDate: Date): number => {
       const date = new Date(dueDate);
       const now = new Date();
-      const timeDifference = date.getTime() - now.getTime();
-      return Math.floor(timeDifference / (1000 * 3600 * 24));
+      return date.getTime() - now.getTime();
     };
 
     let remainingDays: number | null = null;
     if (task.dueDate) {
-      remainingDays = daysLeft(task.dueDate);
+      remainingDays = Math.trunc(timesLeft(task.dueDate) / TimeDurations.day);
     }
 
     return (
@@ -55,7 +55,7 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
                     </Text>
                   ) : remainingDays != null ? (
                     <Text style={styles.dueDateStatus}>
-                      {remainingDays >= 0
+                        {remainingDays >= 0
                         ? `${remainingDays} jour${remainingDays > 1 ? 's restants' : ' restant'}`
                         : `Retard de ${Math.abs(remainingDays)} jour${Math.abs(remainingDays) > 1 ? 's' : ''}`}
                     </Text>
