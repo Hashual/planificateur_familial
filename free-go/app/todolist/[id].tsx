@@ -240,6 +240,9 @@ export default function ToDoList() {
                 mode="time"
                 onConfirm={handleTimeConfirm}
                 onCancel={hideTimePicker}
+                cancelTextIOS={"Annuler"}
+                confirmTextIOS={"Confirmer"}
+                locale="fr"
               />
               </>
             )}
