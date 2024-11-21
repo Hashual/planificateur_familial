@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.reflectionGray,
     opacity: 0.5,
     borderRadius: 3,
-    left: '30%',
+    left: '29%',
     bottom: '5%',
   },
 });

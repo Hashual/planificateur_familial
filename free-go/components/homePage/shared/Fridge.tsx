@@ -2,18 +2,18 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { COLORS } from '../../../constants/Colors';
 
-interface FridgeDoorProps {
+interface Fridge {
   children: React.ReactNode;
 }
 
-const FridgeDoor: React.FC<FridgeDoorProps> = ({ children }) => {
+const Fridge: React.FC<Fridge> = ({ children }) => {
   return <View style={styles.door}>{children}</View>;
 };
 
 const styles = StyleSheet.create({
   door: {
-    width: '50%',
-    height: '90%',
+    width: '85%',
+    height: '95%',
     backgroundColor: COLORS.fridgeYellow,
     borderRadius: 30,
     alignItems: 'center',
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FridgeDoor;
+export default Fridge;
