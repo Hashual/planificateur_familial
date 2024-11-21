@@ -15,7 +15,7 @@ import { MockData } from "@/mockapi/types";
 import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedButton } from "@/components/ThemedButton";
-import ListItem from "@/components/ListItem";
+import ListItem from "@/components/todolist/ListItem";
 
 export default function ToDoLists() {
   const [fontsLoaded] = useFonts({
