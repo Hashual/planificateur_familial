@@ -27,8 +27,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 export default function ToDoList() {
   const params = useLocalSearchParams();
   const listId = Number(params.id);
-  const [toDoData, setToDoData] = useState<{ toDoList: any[] }>({
-    toDoList: [],
+  const [toDoData, setToDoData] = useState<{ toDoLists: any[] }>({
+    toDoLists: [],
   });
   const [list, setList] = useState<any | undefined>(undefined);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -52,7 +52,7 @@ export default function ToDoList() {
     try {
       const data = await getMockData();
       setToDoData(data);
-      setList(data.toDoList.find((list) => list.id === listId));
+      setList(data.toDoLists.find((list) => list.id === listId));
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -62,7 +62,7 @@ export default function ToDoList() {
     try {
       const updatedData = await deleteTask(listId, taskId);
       setToDoData(updatedData);
-      setList(updatedData.toDoList.find((list) => list.id === listId));
+      setList(updatedData.toDoLists.find((list) => list.id === listId));
     } catch (error) {
       console.error("Error deleting task:", error);
     }
@@ -94,7 +94,7 @@ export default function ToDoList() {
         const updatedData = await addTask(listId, newTask);
         closeModal();
         setToDoData(updatedData);
-        setList(updatedData.toDoList.find((list) => list.id === listId));
+        setList(updatedData.toDoLists.find((list) => list.id === listId));
       } catch (error) {
         console.error("Error adding task:", error);
       }
@@ -103,7 +103,7 @@ export default function ToDoList() {
 
   const handleCompleteTask = async (listId: number, taskId: number) => {
     try {
-      const taskList = toDoData.toDoList.find((list) => list.id === listId);
+      const taskList = toDoData.toDoLists.find((list) => list.id === listId);
       const task = taskList?.tasks.find(
         (task: { id: number }) => task.id === taskId
       );
@@ -115,7 +115,7 @@ export default function ToDoList() {
       };
       const updatedData = await updateTask(listId, updatedTask);
       setToDoData(updatedData);
-      setList(updatedData.toDoList.find((list) => list.id === listId));
+      setList(updatedData.toDoLists.find((list) => list.id === listId));
     } catch (error) {
       console.error("Error completing task:", error);
     }
