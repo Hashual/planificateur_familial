@@ -10,12 +10,12 @@ import {
   Alert,
   Platform,
 } from "react-native";
-import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
+import { createShoppingList, createTaskList, deleteShoppingList, deleteTaskList, getMockData } from "@/mockapi/mockData";
 import { MockData } from "@/mockapi/types";
 import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedButton } from "@/components/ThemedButton";
-import ListItem from "@/components/todolist/ListItem";
+import ListItem from "@/components/ListItem";
 
 export default function ShoppingLists() {
   const [fontsLoaded] = useFonts({
@@ -24,7 +24,7 @@ export default function ShoppingLists() {
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+  const [shoppingListNameInputValue, setShoppingListNameInputValue] = useState("");
 
   const loadMockData = async () => {
     try {
@@ -43,18 +43,18 @@ export default function ShoppingLists() {
     setModalVisible(false);
   };
 
-  const handleAddTaskList = async () => {
-    const newTaskListName = inputValue.trim();
+  const handleAddShoppingList = async () => {
+    const newShoppingListName = shoppingListNameInputValue.trim();
 
-    if (newTaskListName) {
+    if (newShoppingListName) {
       try {
-        await createTaskList(newTaskListName);
-        setInputValue("");
+        await createShoppingList(newShoppingListName);
+        setShoppingListNameInputValue("");
         await loadMockData();
         closeModal();
       } catch (error) {
         console.error(
-          "Erreur lors de la création de la liste de tâches :",
+          "Erreur lors de la création de la liste de courses :",
           error
         );
         Alert.alert(
@@ -70,12 +70,12 @@ export default function ShoppingLists() {
     }
   };
 
-  const handleDeleteTaskList = async (id: number) => {
+  const handleDeleteShoppingList = async (id: number) => {
     try {
       if (Platform.OS === "web") {
         const confirmed = confirm("Êtes-vous sûr de vouloir supprimer la liste ?");
         if (confirmed) {
-          await deleteTaskList(id);
+          await deleteShoppingList(id);
           await loadMockData();
         }
       } else {
@@ -85,14 +85,14 @@ export default function ShoppingLists() {
             text: "Supprimer",
             style: "destructive",
             onPress: async () => {
-              await deleteTaskList(id);
+              await deleteShoppingList(id);
               await loadMockData();
             },
           },
         ]);
       }
     } catch (error) {
-      console.error("Erreur lors de la suppression de la liste de tâches :", error);
+      console.error("Erreur lors de la suppression de la liste de courses :", error);
       Alert.alert("Erreur", "Il y a eu un problème lors de la suppression de la liste.");
     }
   };
@@ -111,13 +111,13 @@ export default function ShoppingLists() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>To-Do List</Text>
+      <Text style={styles.title}>Listes de courses</Text>
       <FlatList
-        data={mockData.toDoLists}
+        data={mockData.shoppingLists}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item: list }) => (
           
-          <ListItem id={list.id} name={list.name} taskNumber={list.tasks.length} handleDeleteTaskList={async () => handleDeleteTaskList(list.id)} />
+          <ListItem id={list.id} name={list.name} totalItems={list.articles.length} handleDeleteList={async () => handleDeleteShoppingList(list.id)} itemName={"article"} listIcon={"basket-outline"} pathName={"/shoppinglist/[id]"} />
         )}
       />
       <ThemedButton
@@ -142,8 +142,8 @@ export default function ShoppingLists() {
               style={styles.input}
               placeholder="Nom de la liste"
               placeholderTextColor="#666"
-              value={inputValue}
-              onChangeText={setInputValue}
+              value={shoppingListNameInputValue}
+              onChangeText={setShoppingListNameInputValue}
             />
             <View style={styles.modalButtons}>
               <ThemedButton
@@ -155,7 +155,7 @@ export default function ShoppingLists() {
               />
               <ThemedButton
                 title="Ajouter"
-                onPress={handleAddTaskList}
+                onPress={handleAddShoppingList}
                 type="primary"
                 lightColor="#F5C754"
                 darkColor="#F5C754"
