@@ -16,7 +16,7 @@ export type Article = {
   id: number;
   name: string;
   description?: string;
-  category: string;
+  category?: string;
   quantity: number;
   isChecked: boolean;
 };
