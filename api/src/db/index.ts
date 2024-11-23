@@ -1,13 +1,14 @@
+import { readdirSync, readFileSync } from 'fs';
 import { createConnection, QueryError, QueryResult } from 'mysql2';
-import dotenv from 'dotenv';
+import { join } from 'path';
 
-dotenv.config();
+console.log(process.env);
 
 export const connection = createConnection({
-	host: process.env.DB_HOST,
-	user: process.env.DB_USER,
-	password: process.env.DB_PASSWORD,
-	database: process.env.DB_NAME,
+	host: process.env.SQL_HOST,
+	user: process.env.SQL_USER,
+	password: process.env.SQL_PASSWORD,
+	database: process.env.SQL_DATABASE,
 	charset: "utf8mb4"
 })
 
@@ -30,3 +31,12 @@ export const SqlQuery = <T extends QueryResult>(sql: string, values?: any) => {
 		})
 	})
 }
+
+export const RunScripts = async () => {
+	const scriptsFolder = join(__dirname, 'scripts');
+	
+	for await (const file of readdirSync(scriptsFolder)) {
+		const script = readFileSync(join(scriptsFolder, file)).toString();
+		await SqlQuery(script);
+	}
+}	
