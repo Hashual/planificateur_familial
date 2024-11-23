@@ -13,13 +13,13 @@ import FridgeBottom from '../components/homePage/shared/FridgeBottom';
 const HomePage: React.FC = () => {
   return (
     <View style={styles.container}>
-      {/* <Fridge>
+      <Fridge>
         <DoorText />
         <Handle>
           <HandleReflection />
         </Handle>
         <DoorReflection />
-      </Fridge>  */}
+      </Fridge> 
 
       
 
@@ -28,9 +28,9 @@ const HomePage: React.FC = () => {
         <FridgeBottom/>
       </Fridge> */}
 
-      <Fridge>
+      {/* <Fridge>
         <FridgeBottom/>
-      </Fridge>
+      </Fridge> */}
 
     </View>
   );
