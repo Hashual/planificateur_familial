@@ -11,8 +11,16 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
       <Text style={styles.text}>Bienvenue dans l'application de gestion de tâches !</Text>
       <ThemedButton
-        title="Aller à la To-Do List"
+        title="Aller à la To-Do Liste"
         onPress={() => router.push("/todolists")} 
+        type="primary"
+        lightColor="#F5C754"
+        darkColor="#F5C754"
+        style={{marginBottom: 30}}
+      />
+      <ThemedButton
+        title="Aller à la liste des courses"
+        onPress={() => router.push("/shoppinglists")} 
         type="primary"
         lightColor="#F5C754"
         darkColor="#F5C754"

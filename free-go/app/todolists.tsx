@@ -22,14 +22,14 @@ export default function ToDoLists() {
     Pacifico: require("@/assets/fonts/Pacifico.ttf"),
   });
 
-  const [toDoData, setToDoData] = useState<MockData>({ toDoList: [] });
+  const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
-  const loadToDoData = async () => {
+  const loadMockData = async () => {
     try {
       const data = await getMockData();
-      setToDoData(data);
+      setMockData(data);
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -50,7 +50,7 @@ export default function ToDoLists() {
       try {
         await createTaskList(newTaskListName);
         setInputValue("");
-        await loadToDoData();
+        await loadMockData();
         closeModal();
       } catch (error) {
         console.error(
@@ -76,7 +76,7 @@ export default function ToDoLists() {
         const confirmed = confirm("Êtes-vous sûr de vouloir supprimer la liste ?");
         if (confirmed) {
           await deleteTaskList(id);
-          await loadToDoData();
+          await loadMockData();
         }
       } else {
         Alert.alert("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", [
@@ -86,7 +86,7 @@ export default function ToDoLists() {
             style: "destructive",
             onPress: async () => {
               await deleteTaskList(id);
-              await loadToDoData();
+              await loadMockData();
             },
           },
         ]);
@@ -98,7 +98,7 @@ export default function ToDoLists() {
   };
 
   useEffect(() => {
-    loadToDoData();
+    loadMockData();
   }, []);
 
   if (!fontsLoaded) {
@@ -113,7 +113,7 @@ export default function ToDoLists() {
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>To-Do List</Text>
       <FlatList
-        data={toDoData.toDoList}
+        data={mockData.toDoLists}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item: list }) => (
           

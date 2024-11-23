@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
-import { MockData, Task, TaskList } from "@/mockapi/types";
+import { MockData, Task, ToDoList } from "@/mockapi/types";
 
 const mockDataPath = FileSystem.documentDirectory + "mockData.json";
 
@@ -41,15 +41,15 @@ export const getMockData = async (): Promise<MockData> => {
   const data = await FileSystem.readAsStringAsync(mockDataPath);
   try {
     const parsedData = JSON.parse(data);
-    if (parsedData && parsedData.toDoList) {
+    if (parsedData && parsedData.toDoLists) {
       return parsedData as MockData;
     } else {
       console.error("Les données lues ne sont pas au bon format:", parsedData);
-      return { toDoList: [] };
+      return { toDoLists: [], shoppingLists: [] };
     }
   } catch (error) {
     console.error("Erreur lors du parsing JSON:", error);
-    return { toDoList: [] };
+    return { toDoLists: [], shoppingLists: [] };
   }
 };
 
@@ -67,7 +67,7 @@ const saveMockData = async (data: MockData): Promise<void> => {
 
 export const addTask = async (listId: number, newTask: Task): Promise<MockData> => {
   const data = await getMockData();
-  const taskList = data.toDoList.find((list) => list.id === listId);
+  const taskList = data.toDoLists.find((list) => list.id === listId);
 
   if (!taskList) throw new Error("List not found");
 
@@ -78,7 +78,7 @@ export const addTask = async (listId: number, newTask: Task): Promise<MockData> 
 
 export const deleteTask = async (listId: number, taskId: number): Promise<MockData> => {
   const data = await getMockData();
-  const taskList = data.toDoList.find((list) => list.id === listId);
+  const taskList = data.toDoLists.find((list) => list.id === listId);
 
   if (!taskList) throw new Error("List not found"); 
 
@@ -90,7 +90,7 @@ export const deleteTask = async (listId: number, taskId: number): Promise<MockDa
 export const updateTask = async (listId: number, updatedTask: Task): Promise<MockData> => {
   const data = await getMockData();
   
-  const taskList = data.toDoList.find((list) => list.id === listId);
+  const taskList = data.toDoLists.find((list) => list.id === listId);
 
   if (!taskList) throw new Error("List not found");
 
@@ -109,14 +109,14 @@ export const updateTask = async (listId: number, updatedTask: Task): Promise<Moc
 export const createTaskList = async (listName: string): Promise<MockData> => {
   const data = await getMockData();
 
-  const newList: TaskList = {
-    id: data.toDoList.length ? Math.max(...data.toDoList.map(list => list.id)) + 1 : 1, 
+  const newList: ToDoList = {
+    id: data.toDoLists.length ? Math.max(...data.toDoLists.map(list => list.id)) + 1 : 1, 
     name: listName,
     completed: false,
     tasks: []
   };
 
-  data.toDoList.push(newList);
+  data.toDoLists.push(newList);
 
   await saveMockData(data);
 
@@ -127,8 +127,8 @@ export const deleteTaskList = async (id: number): Promise<MockData> => {
   try {
     const data = await getMockData();
 
-    const updatedToDoList = data.toDoList.filter((list) => list.id !== id);
-    data.toDoList = updatedToDoList;
+    const updatedToDoList = data.toDoLists.filter((list) => list.id !== id);
+    data.toDoLists = updatedToDoList;
     await saveMockData(data);
     return data;
     
