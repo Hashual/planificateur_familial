@@ -5,29 +5,32 @@ import { Pressable, Text, View, StyleSheet, Platform, Alert } from "react-native
 type Props = {
     id: number,
     name: string,
-    taskNumber: number | 0,
-    handleDeleteTaskList: (id : number) => {},
+    itemName: string,
+    totalItems: number | 0,
+    listIcon: keyof typeof MaterialCommunityIcons.glyphMap,
+    pathName: "/todolist/[id]" | "/shoppinglist/[id]",
+    handleDeleteList: (id : number) => {},
 }
 
-export default function ListItem({ id, name, taskNumber, handleDeleteTaskList }: Props) {
+export default function ListItem({ id, name, itemName, totalItems, listIcon, pathName, handleDeleteList }: Props) {
       
     return (
       <Link
-        href={{ pathname: "/todolist/[id]", params: { id: id } }}
+        href={{ pathname: pathName, params: { id: id } }}
         asChild
       >
         <Pressable 
-            onLongPress={async () => handleDeleteTaskList(id)}
+            onLongPress={async () => handleDeleteList(id)}
             style={styles.category}
         >
             <View style={styles.logoContainer}>
-            <MaterialCommunityIcons name="format-list-bulleted" size={24} color="#141C24" />
+            <MaterialCommunityIcons name={listIcon} size={24} color="#141C24" />
             </View>
 
             <View style={styles.textContainer}>
             <Text style={styles.categoryTitle}>{name}</Text>
             <Text style={styles.taskNumber}>
-                {taskNumber} {taskNumber <= 1 ? "tâche" : "tâches"}
+                {totalItems} {totalItems <= 1 ? `${itemName}` : `${itemName}s`}
             </Text>
             </View>
 
