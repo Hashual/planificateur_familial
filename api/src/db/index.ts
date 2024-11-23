@@ -2,8 +2,6 @@ import { readdirSync, readFileSync } from 'fs';
 import { createConnection, QueryError, QueryResult } from 'mysql2';
 import { join } from 'path';
 
-console.log(process.env);
-
 export const connection = createConnection({
 	host: process.env.SQL_HOST,
 	user: process.env.SQL_USER,
