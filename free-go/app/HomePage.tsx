@@ -7,7 +7,7 @@ import DoorReflection from '../components/homePage/doorPage/DoorReflection';
 import Fridge from '../components/homePage/shared/Fridge';
 import FridgeDoor from '../components/homePage/openDoorPage/FridgeDoor';
 import DoorShelf from '../components/homePage/openDoorPage/DoorShelf'; 
-import FridgeBottom from '@/components/homePage/openDoorPage/FridgeBottom';
+import FridgeBottom from '@/components/homePage/openDoorPage/FridgeBottomWithOpenDoor';
 
 
 const HomePage: React.FC = () => {
