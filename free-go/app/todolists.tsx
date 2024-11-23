@@ -15,7 +15,7 @@ import { MockData } from "@/mockapi/types";
 import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedButton } from "@/components/ThemedButton";
-import ListItem from "@/components/todolist/ListItem";
+import ListItem from "@/components/ListItem";
 
 export default function ToDoLists() {
   const [fontsLoaded] = useFonts({
@@ -24,7 +24,7 @@ export default function ToDoLists() {
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+  const [toDoListNameInputValue, setToDoListNameInputValue] = useState("");
 
   const loadMockData = async () => {
     try {
@@ -44,12 +44,12 @@ export default function ToDoLists() {
   };
 
   const handleAddTaskList = async () => {
-    const newTaskListName = inputValue.trim();
+    const newTaskListName = toDoListNameInputValue.trim();
 
     if (newTaskListName) {
       try {
         await createTaskList(newTaskListName);
-        setInputValue("");
+        setToDoListNameInputValue("");
         await loadMockData();
         closeModal();
       } catch (error) {
@@ -117,7 +117,7 @@ export default function ToDoLists() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item: list }) => (
           
-          <ListItem id={list.id} name={list.name} taskNumber={list.tasks.length} handleDeleteTaskList={async () => handleDeleteTaskList(list.id)} />
+          <ListItem id={list.id} name={list.name} itemName="tâche" totalItems={list.tasks.length} handleDeleteList={async () => handleDeleteTaskList(list.id)} listIcon={"format-list-bulleted"} pathName={"/todolist/[id]"} />
         )}
       />
       <ThemedButton
@@ -142,8 +142,8 @@ export default function ToDoLists() {
               style={styles.input}
               placeholder="Nom de la liste"
               placeholderTextColor="#666"
-              value={inputValue}
-              onChangeText={setInputValue}
+              value={toDoListNameInputValue}
+              onChangeText={setToDoListNameInputValue}
             />
             <View style={styles.modalButtons}>
               <ThemedButton
