@@ -8,13 +8,12 @@ const HandleReflection: React.FC = () => {
 
 const styles = StyleSheet.create({
   reflection: {
+    margin: 'auto',
     width: 40,
     height: 5,
     backgroundColor: COLORS.reflectionGray,
     opacity: 0.5,
     borderRadius: 3,
-    left: '29%',
-    bottom: '5%',
   },
 });
 
