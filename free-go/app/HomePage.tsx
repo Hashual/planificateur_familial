@@ -15,21 +15,22 @@ const HomePage: React.FC = () => {
     <View style={styles.container}>
       {/* <Fridge>
         <DoorText />
-        <Handle />
-        <HandleReflection />
+        <Handle>
+          <HandleReflection />
+        </Handle>
         <DoorReflection />
-      </Fridge> */}
+      </Fridge>  */}
 
       
 
-      <Fridge>
+      {/* <Fridge>
         <FridgeDoor/>
         <FridgeBottom/>
-      </Fridge>
-
-      {/* <Fridge>
-        <FridgeBottom/>
       </Fridge> */}
+
+      <Fridge>
+        <FridgeBottom/>
+      </Fridge>
 
     </View>
   );

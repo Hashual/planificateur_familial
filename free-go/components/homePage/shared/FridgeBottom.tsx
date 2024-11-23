@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     height: '95%',
     backgroundColor: '#FFD700', // Jaune pour l'extérieur
     borderRadius: 20, // Coins arrondis
-    paddingRight: 5,
+    
     
   },
   innerContainer: {
