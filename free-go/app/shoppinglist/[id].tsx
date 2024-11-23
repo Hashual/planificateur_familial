@@ -1,14 +1,18 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, FlatList, Modal, View, TextInput, Button } from "react-native";
+import { Text, StyleSheet, FlatList, Modal, View, TextInput, Button, ActivityIndicator } from "react-native";
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
 import { ThemedButton } from "@/components/ThemedButton";
+import { useFonts } from "expo-font";
 
 export default function ShoppingList() {
 const params = useLocalSearchParams();
+const [fontsLoaded] = useFonts({
+    Pacifico: require("@/assets/fonts/Pacifico.ttf"),
+  });
   const listId = Number(params.id);
   const [shoppingData, setShoppingData] = useState<{ shoppingLists: any[] }>({
     shoppingLists: [],
@@ -110,6 +114,14 @@ const params = useLocalSearchParams();
     );
   }
 
+  if (!fontsLoaded) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.categoryTitle}>{list.name}</Text>
@@ -203,10 +215,11 @@ const styles = StyleSheet.create({
       backgroundColor: "#F7FAFA",
     },
     categoryTitle: {
-      fontSize: 20,
+      fontSize: 30,
       fontWeight: "bold",
       marginBottom: 10,
       color: "#141C24",
+      fontFamily: "Pacifico",
     },
     input: {
       width: "85%",
