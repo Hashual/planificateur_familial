@@ -4,18 +4,31 @@ import DoorText from '../components/homePage/doorPage/DoorText';
 import Handle from '../components/homePage/doorPage/Handle';
 import HandleReflection from '../components/homePage/doorPage/HandleReflection';
 import DoorReflection from '../components/homePage/doorPage/DoorReflection';
-import FridgeDoor from '../components/homePage/shared/FridgeDoor';
+import Fridge from '../components/homePage/shared/Fridge';
+import FridgeDoor from '../components/homePage/openDoorPage/FridgeDoor';
+import DoorShelf from '../components/homePage/openDoorPage/DoorShelf'; 
+import FridgeBottom from '@/components/homePage/openDoorPage/FridgeBottom';
 
 
 const HomePage: React.FC = () => {
   return (
     <View style={styles.container}>
-      <FridgeDoor>
+      {/* <Fridge>
         <DoorText />
         <Handle />
         <HandleReflection />
         <DoorReflection />
-      </FridgeDoor>
+      </Fridge> */}
+
+      
+
+      <Fridge>
+        <FridgeDoor/>
+        <FridgeBottom/>
+      </Fridge>
+
+      
+
     </View>
   );
 };
@@ -26,6 +39,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     alignItems: 'center',
     justifyContent: 'center',
+    display: 'flex'
+
   },
 });
 
