@@ -14,7 +14,7 @@ const FridgeDoor = () => {
 
 const styles = StyleSheet.create({
   door: {
-    width: '30%', // Largeur de la porte (relative au frigo)
+    width: '35%', // Largeur de la porte (relative au frigo)
     height: '100%', // Hauteur de la porte (relative au frigo)
     backgroundColor: COLORS.fridgeYellow,//'#0000FF', 
     borderRadius: 30, // Coins arrondis pour le design

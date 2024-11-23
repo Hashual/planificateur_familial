@@ -21,16 +21,17 @@ const InsideDoor = () => {
 const styles = StyleSheet.create({
   insideContainer: {
     flex: 1,
+    paddingLeft: 10,
+    paddingRight: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
   inside: {
-    marginLeft:20,
-    width: '90%', // Largeur relative pour s'adapter à la porte
-    height: '90%', // Hauteur relative pour s'adapter à la porte
+    width: '95%', // Largeur relative pour s'adapter à la porte
+    height: '95%', // Hauteur relative pour s'adapter à la porte
     backgroundColor: '#FFFFFF', // Couleur blanche
     borderRadius: 20, // Coins légèrement arrondis
-    transform: [{ skewX: '-0deg' }, { skewY: '-1deg' }], // Déformation horizontale et verticale
+    transform: [{ skewX: '-0deg' }, { skewY: '-5deg' }], // Déformation horizontale et verticale
   },
   shelfContainer: {
     flex: 1,
