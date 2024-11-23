@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system";
 import { Platform } from "react-native";
-import { MockData, Task, ToDoList } from "@/mockapi/types";
+import { Article, MockData, ShoppingList, Task, ToDoList } from "@/mockapi/types";
 
 const mockDataPath = FileSystem.documentDirectory + "mockData.json";
 
@@ -64,6 +64,79 @@ const saveMockData = async (data: MockData): Promise<void> => {
     );
   }
 };
+
+export const addArticle = async (listId: number, newArticle: Article): Promise<MockData> => {
+  const data = await getMockData();
+  const shoppingList = data.shoppingLists.find((list) => list.id === listId);
+
+  if (!shoppingList) throw new Error("List not found");
+
+  shoppingList.articles.push(newArticle);
+  await saveMockData(data);
+  return data;
+};
+
+export const deleteArticle = async (listId: number, articleId: number): Promise<MockData> => {
+  const data = await getMockData();
+  const shoppingList = data.shoppingLists.find((list) => list.id === listId);
+
+  if (!shoppingList) throw new Error("List not found"); 
+
+  shoppingList.articles = shoppingList.articles.filter((article) => article.id !== articleId);
+  await saveMockData(data);
+  return data;
+};
+
+export const updateArticle = async (listId: number, updatedArticle: Article): Promise<MockData> => {
+  const data = await getMockData();
+  
+  const shoppingList = data.shoppingLists.find((list) => list.id === listId);
+
+  if (!shoppingList) throw new Error("List not found");
+
+  const articleIndex = shoppingList.articles.findIndex((article) => article.id === updatedArticle.id);
+
+  if (articleIndex === -1) {
+    throw new Error("Task not found");
+  }
+
+  shoppingList.articles[articleIndex] = { ...shoppingList.articles[articleIndex], ...updatedArticle };
+
+  await saveMockData(data);
+  return data;
+};
+
+export const createShoppingList = async (listName: string): Promise<MockData> => {
+  const data = await getMockData();
+
+  const newList: ShoppingList = {
+    id: data.shoppingLists.length ? Math.max(...data.shoppingLists.map(list => list.id)) + 1 : 1, 
+    name: listName,
+    articles: []
+  };
+
+  data.shoppingLists.push(newList);
+
+  await saveMockData(data);
+
+  return data;
+};
+
+export const deleteShoppingList = async (id: number): Promise<MockData> => {
+  try {
+    const data = await getMockData();
+
+    const updatedShoppingList = data.shoppingLists.filter((list) => list.id !== id);
+    data.shoppingLists = updatedShoppingList;
+    await saveMockData(data);
+    return data;
+    
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la liste de courses:", error);
+    throw new Error("Impossible de supprimer la liste.");
+  }
+};
+
 
 export const addTask = async (listId: number, newTask: Task): Promise<MockData> => {
   const data = await getMockData();
