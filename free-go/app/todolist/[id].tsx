@@ -19,17 +19,23 @@ import {
   Platform,
   Pressable,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFonts } from "expo-font";
 
 export default function ToDoList() {
   const params = useLocalSearchParams();
+  const [fontsLoaded] = useFonts({
+    Pacifico: require("@/assets/fonts/Pacifico.ttf"),
+  });
   const listId = Number(params.id);
   const [toDoData, setToDoData] = useState<{ toDoLists: any[] }>({
     toDoLists: [],
   });
+
   const [list, setList] = useState<any | undefined>(undefined);
   const [isModalVisible, setModalVisible] = useState(false);
   const [taskNameInput, settaskNameInput] = useState("");
@@ -150,6 +156,14 @@ export default function ToDoList() {
     return (
       <SafeAreaView style={styles.container}>
         <Text>Chargement ou liste introuvable... {listId}</Text>
+      </SafeAreaView>
+    );
+  }
+
+  if (!fontsLoaded) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ActivityIndicator size="large" />
       </SafeAreaView>
     );
   }
@@ -277,10 +291,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#F7FAFA",
   },
   categoryTitle: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
     marginBottom: 10,
     color: "#141C24",
+    fontFamily: "Pacifico"
   },
   input: {
     width: "85%",
