@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllTodoLists, getTodoListById } from '../models/todo/todoList';
+import { createTodoList, getAllTodoLists, getTodoListById } from '../models/todo/todoList';
 import { handler } from '../utils/handler';
 import { z } from 'zod';
 
@@ -39,5 +39,18 @@ router.get('/:listId', handler({
         res.status(200).json({ code: 200, message: 'Success', data: todoList });
     }
 }));
+
+router.post('/', handler({
+	body: z.object({
+		title: z.string()
+	}),
+	handler: async (req, res) => {
+		const { title } = req.body;
+		const todoListId = await createTodoList(title);
+		const todoList = await getTodoListById(todoListId)!;
+
+		res.status(200).json({ code: 200, message: 'Created', data: todoList });
+	}
+}))
 
 export default router;

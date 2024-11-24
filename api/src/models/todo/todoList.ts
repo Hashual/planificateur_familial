@@ -10,7 +10,7 @@ type TodoList = {
 }
 
 export const createTodoList = async (title: string): Promise<number> => {
-    const result : ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO todoList (title) VALUES (?, ?)", [title]);
+    const result : ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO todoList (title) VALUES (?)", [title]);
     return result.insertId;
 }
 
