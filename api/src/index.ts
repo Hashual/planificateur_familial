@@ -15,6 +15,7 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
 		res.status(400).json({ code: 400, message: 'Bad Request', errors: err.errors });
 		return;
 	} else  {
+		console.log(err);
 		res.status(500).json({ code: 500, message: 'Internal Server Error' });
 	}
 })
