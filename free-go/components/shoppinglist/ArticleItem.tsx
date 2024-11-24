@@ -27,10 +27,11 @@ export default function ArticleItem({ article, listId, handleDeleteArticle, hand
         <View style={styles.articleItem}>
             <TouchableOpacity
             onPress={() => handleCompleteArticle(listId, article.id)}
+            style={{padding: 10}}
             >
-              <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
+              <View style={styles.rowWithGap}>
                 <Text style={getCheckBoxStyle(article)}>✓</Text>
-                <View style={{ flexShrink: 1, width: "85%" }}>
+                <View style={styles.shrinkableItem}>
                   <Text style={getTaskStyle(article)}>{article.quantity === 1 ? article.name : `${article.name} (${article.quantity})`}</Text>
                 </View>
               </View>
@@ -57,7 +58,6 @@ const styles = StyleSheet.create({
     articleItem: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 10,
       marginVertical: 5,
       backgroundColor: '#ffffff',
       borderRadius: 10,
@@ -93,5 +93,14 @@ const styles = StyleSheet.create({
     },
     checkBoxChecked: {
       backgroundColor: "#F5C754"
+    },
+    rowWithGap: {
+      flexDirection: "row",
+      gap: 10,
+      alignItems: "center",
+    },
+    shrinkableItem: {
+      flexShrink: 1,
+      width: "85%",
     },
   });
