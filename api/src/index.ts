@@ -20,7 +20,9 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
 })
 
 app.use((req, res) => {
-	res.status(404).send({ code: 404, message: 'Not Found' });
+	if (!res.headersSent) {
+		res.status(404).send({ code: 404, message: 'Not Found' });
+	}
 })
 
 app.listen(3000, () => {
