@@ -102,6 +102,16 @@ const [fontsLoaded] = useFonts({
     setNumberOfArticle(1);
   };
 
+  const sortArticlesByIsChecked = (articles: Article[]): Article[] =>  {
+    return [...articles].sort((a, b) => {
+      if (a.isChecked === b.isChecked) {
+        return 0;
+      }
+      return a.isChecked ? 1 : -1; 
+    });
+  }
+  
+
   useFocusEffect(
     useCallback(() => {
       loadShoppingData();
@@ -132,7 +142,7 @@ const [fontsLoaded] = useFonts({
       />
       <Text style={styles.categoryTitle}>{list.name}</Text>
       <FlatList
-        data={list.articles}
+        data={sortArticlesByIsChecked(list.articles)}
         keyExtractor={(article) => article.id.toString()}
         renderItem={({ item: article }) => (
           <ArticleItem
