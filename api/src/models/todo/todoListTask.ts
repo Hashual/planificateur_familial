@@ -25,7 +25,7 @@ export const deleteTodoListTask = async(id: number): Promise<void> => {
     await SqlQuery<QueryResult>("DELETE FROM todoListTask WHERE id = ?", [id]);
 }
 
-export const getListTasks = async(todoListId: number): Promise<TodoListTask[]> => {
+export const getTodoListTasks = async(todoListId: number): Promise<TodoListTask[]> => {
     const result : RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT * FROM todoListTask WHERE todoListId = ?", [todoListId]);
     return result.map((row: RowDataPacket) => {
         return {
