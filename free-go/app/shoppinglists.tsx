@@ -9,6 +9,7 @@ import {
   TextInput,
   Alert,
   Platform,
+  StatusBar,
 } from "react-native";
 import { createShoppingList, createTaskList, deleteShoppingList, deleteTaskList, getMockData } from "@/mockapi/mockData";
 import { MockData } from "@/mockapi/types";
@@ -111,6 +112,10 @@ export default function ShoppingLists() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle={isModalVisible ? 'light-content' : 'dark-content'}
+        backgroundColor={isModalVisible ? '#000000' : '#ffffff'}
+      />
       <Text style={styles.title}>Listes de courses</Text>
       <FlatList
         data={mockData.shoppingLists}

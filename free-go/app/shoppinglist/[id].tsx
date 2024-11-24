@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, FlatList, Modal, View, TextInput, Button, ActivityIndicator } from "react-native";
+import { Text, StyleSheet, FlatList, Modal, View, TextInput, Button, ActivityIndicator, StatusBar } from "react-native";
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
@@ -124,6 +124,10 @@ const [fontsLoaded] = useFonts({
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle={isModalVisible ? 'light-content' : 'dark-content'}
+        backgroundColor={isModalVisible ? '#000000' : '#ffffff'}
+      />
       <Text style={styles.categoryTitle}>{list.name}</Text>
       <FlatList
         data={list.articles}
