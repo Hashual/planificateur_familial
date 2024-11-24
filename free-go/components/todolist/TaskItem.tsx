@@ -34,10 +34,27 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
       return date.getTime() - now.getTime();
     };
 
-    let remainingDays: number | null = null;
-    if (task.dueDate) {
-      remainingDays = Math.trunc(timesLeft(task.dueDate) / TimeDurations.day);
-    }
+    const getTimeStatus = (remainingTime: number): string => {
+      const formatTime = (value: number, unit: string, isOverdue: boolean): string => {
+        const plural = value > 1 ? 's' : '';
+        return isOverdue
+          ? `Retard de ${value} ${unit}${plural}`
+          : `${value} ${unit}${plural} restant${plural}`;
+      };
+    
+      const isOverdue = remainingTime < 0;
+      const time = Math.abs(remainingTime);
+    
+      const days = Math.floor(time / TimeDurations.day);
+      const hours = Math.floor((time % TimeDurations.day) / TimeDurations.hour);
+      const minutes = Math.floor((time % TimeDurations.hour) / TimeDurations.minute);
+    
+      if (days >= 1) return formatTime(days, 'jour', isOverdue);
+      if (hours >= 1) return formatTime(hours, 'heure', isOverdue);
+      if (minutes >= 1) return formatTime(minutes, 'minute', isOverdue);
+      return isOverdue ? "Retard de moins d'une minute" : "Moins d'une minute restante";
+    };
+    
 
     return (
         <View style={styles.taskItem}>
@@ -53,11 +70,9 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
                       Complété le {new Date(task.completedDate).toLocaleDateString()} à{' '}
                       {new Date(task.completedDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}
                     </Text>
-                  ) : remainingDays != null ? (
+                  ) : task.dueDate != null ? (
                     <Text style={styles.dueDateStatus}>
-                        {remainingDays >= 0
-                        ? `${remainingDays} jour${remainingDays > 1 ? 's restants' : ' restant'}`
-                        : `Retard de ${Math.abs(remainingDays)} jour${Math.abs(remainingDays) > 1 ? 's' : ''}`}
+                        {getTimeStatus(timesLeft(task.dueDate))}
                     </Text>
                   ) : null}
                 </View>
