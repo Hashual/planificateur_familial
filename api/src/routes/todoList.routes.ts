@@ -6,9 +6,9 @@ import { z } from 'zod';
 const router = Router();
 
 router.get('/', async (req, res) => {
-	const todoList = await getAllTodoLists();
+    const todoList = await getAllTodoLists();
 
-	res.status(200).json({ code: 200, message: 'Success', data: todoList });
+    res.status(200).json({ code: 200, message: 'Success', data: todoList });
 });
 
 router.all('/:listId*', handler({
@@ -26,5 +26,18 @@ router.all('/:listId*', handler({
     }
 }));
 
+router.get('/:listId', handler({
+    params: {
+        listId: z.coerce.number().int()
+    },
+    handler: async (req, res) => {
+		if (res.headersSent) { return; }
+
+        const { listId } = req.params;
+        const todoList = await getTodoListById(listId)!;
+
+        res.status(200).json({ code: 200, message: 'Success', data: todoList });
+    }
+}));
 
 export default router;
