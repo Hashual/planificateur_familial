@@ -7,7 +7,7 @@ export const COLORS = {
 
     fridgeYellow: '#FFD700', // couleur jaune du frigo
     handleGray: '#C0C0C0',   // couleur pour la poignée
-    reflectionGray: '#D3D3D3', // couleur pour le reflet
+    reflectionWhite: '#FFFFFF', // couleur pour le reflet
     textColor: '#4A4A4A',     // couleur pour le texte
   
 };
