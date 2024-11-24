@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     margin: 'auto',
     width: 40,
     height: 5,
-    backgroundColor: COLORS.reflectionGray,
+    backgroundColor: COLORS.reflectionWhite,
     opacity: 0.5,
     borderRadius: 3,
   },
