@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createTodoList, getAllTodoLists, getTodoListById } from '../models/todo/todoList';
+import { createTodoList, deleteTodoList, getAllTodoLists, getTodoListById } from '../models/todo/todoList';
 import { handler } from '../utils/handler';
 import { z } from 'zod';
 import { getTodoListTasks } from '../models/todo/todoListTask';
@@ -44,5 +44,24 @@ router.get('/:listId', handler({
 		res.status(200).json({ code: 200, message: 'Success', data: { ...todoList, tasks } });
 	}
 }));
+
+router.delete('/:listId', handler({
+	params: z.object({
+		listId: z.coerce.number().int()
+	}),
+	handler: async (req, res) => {
+		const { listId } = req.params;
+		const todoList = await getTodoListById(listId);
+
+		if (!todoList) {
+			res.status(404).json({ code: 404, message: 'Not Found' });
+			return;
+		}
+
+		await deleteTodoList(listId);
+
+		res.status(200).json({ code: 200, message: 'Success' });
+	}
+}))
 
 export default router;
