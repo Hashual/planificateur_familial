@@ -71,7 +71,7 @@ export const getTodoListById = async(id: number): Promise<TodoList | undefined> 
         id: row.id,
         title: row.title,
         tasksInProgressAmount: row.tasksInProgressAmount,
-        createdAt: row.createdAt,
-        updatedAt: row.updatedAt
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
     }
 }
