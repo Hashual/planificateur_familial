@@ -9,6 +9,7 @@ import {
   TextInput,
   Alert,
   Platform,
+  StatusBar,
 } from "react-native";
 import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
 import { MockData } from "@/mockapi/types";
@@ -111,6 +112,10 @@ export default function ToDoLists() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle={isModalVisible ? 'light-content' : 'dark-content'}
+        backgroundColor={isModalVisible ? '#000000' : '#ffffff'}
+      />
       <Text style={styles.title}>To-Do List</Text>
       <FlatList
         data={mockData.toDoLists}

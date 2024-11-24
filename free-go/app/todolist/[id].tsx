@@ -20,6 +20,7 @@ import {
   Pressable,
   Alert,
   ActivityIndicator,
+  StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -170,6 +171,10 @@ export default function ToDoList() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle={isModalVisible ||isDatePickerVisible || isTimePickerVisible ? 'light-content' : 'dark-content'}
+        backgroundColor={isModalVisible ||isDatePickerVisible || isTimePickerVisible ? '#000000' : '#ffffff'}
+      />
       <Text style={styles.categoryTitle}>{list.name}</Text>
       <FlatList
         data={list.tasks}
