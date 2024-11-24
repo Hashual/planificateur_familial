@@ -3,6 +3,7 @@ import { createTodoList, deleteTodoList, getAllTodoLists, getTodoListById } from
 import { handler } from '../utils/handler';
 import { z } from 'zod';
 import { getTodoListTasks } from '../models/todo/todoListTask';
+import todoListTasksRoutes from './todoListTasks.routes';
 
 const router = Router();
 
@@ -22,7 +23,7 @@ router.post('/', handler({
 		const todoListId = await createTodoList(title);
 		const todoList = await getTodoListById(todoListId)!;
 
-		res.status(200).json({ code: 200, message: 'Created', data: todoList });
+		res.status(200).json({ code: 200, message: 'Success', data: todoList });
 	}
 }))
 
@@ -63,5 +64,7 @@ router.delete('/:listId', handler({
 		res.status(200).json({ code: 200, message: 'Success' });
 	}
 }))
+
+router.use('/:listId/tasks', todoListTasksRoutes);
 
 export default router;
