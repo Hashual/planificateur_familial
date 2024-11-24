@@ -1,5 +1,5 @@
-import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, StyleSheet, FlatList, Modal, View, TextInput, Button, ActivityIndicator, StatusBar } from "react-native";
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
@@ -102,9 +102,11 @@ const [fontsLoaded] = useFonts({
     setNumberOfArticle(1);
   };
 
-  useEffect(() => {
-    loadShoppingData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadShoppingData();
+    }, [])
+  );
 
   if (!list) {
     return (
@@ -169,7 +171,7 @@ const [fontsLoaded] = useFonts({
 
             <View style={[styles.input]}> 
                 
-                <Text style={{flex: 1, textAlignVertical:"center"}}>Quantité : {numberOfArticle}</Text>
+                <Text style={styles.modalQuantity}>Quantité : {numberOfArticle}</Text>
                 <View style={{flexDirection: "row"}}>
                     <ThemedButton
                         title="-"
@@ -260,4 +262,9 @@ const styles = StyleSheet.create({
       width: "100%",
       marginTop: 15,
     },
+    modalQuantity: {
+      flex: 1, 
+      textAlignVertical:"center", 
+      alignSelf: "center",
+    }
   });

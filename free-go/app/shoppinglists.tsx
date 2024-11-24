@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -17,6 +17,7 @@ import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedButton } from "@/components/ThemedButton";
 import ListItem from "@/components/ListItem";
+import { useFocusEffect } from "expo-router";
 
 export default function ShoppingLists() {
   const [fontsLoaded] = useFonts({
@@ -98,9 +99,12 @@ export default function ShoppingLists() {
     }
   };
 
-  useEffect(() => {
-    loadMockData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadMockData();
+    }, [])
+  );
+  
 
   if (!fontsLoaded) {
     return (

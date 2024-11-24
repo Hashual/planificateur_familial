@@ -7,8 +7,8 @@ import {
   updateTask,
 } from "@/mockapi/mockData";
 import { Task } from "@/mockapi/types";
-import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
   TextInput,
@@ -149,9 +149,11 @@ export default function ToDoList() {
     setSelectedTime(null);
   };
 
-  useEffect(() => {
-    loadToDoData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadToDoData();
+    }, [])
+  );
 
   if (!list) {
     return (
