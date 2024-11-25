@@ -4,11 +4,11 @@
     "slug": "free-go",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./images/freeGo.jpg",
+    "icon": "./assets/images/freeGo.jpg",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "",
+      "image": "./assets/images/freeGo.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.hashual.freego"
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +33,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7e1a9bb5-d29c-480a-90d4-dbd03d090c81"
+      }
     }
   }
 }
