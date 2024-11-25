@@ -236,13 +236,13 @@ export default function ToDoList() {
             ) : (
               <>
               <View style={[styles.input, {flexDirection: "row", justifyContent: "space-between"}]}>
-                  {selectedDate ? <Text>{selectedDate.toLocaleDateString()}</Text> : <Text style={{color: "#666"}}>Date</Text>}
+                  {selectedDate ? <Text>{selectedDate.toLocaleDateString()}</Text> : <Text style={{color: "#666"}}>Date (optionnel)</Text>}
                   <Pressable onPress={showDatePicker}>
                       <MaterialCommunityIcons name="calendar-edit" size={20} color="#141C24" />
                   </Pressable>
               </View>
               <View style={[styles.input, {flexDirection: "row", justifyContent: "space-between"}]}>
-                  {selectedTime ? <Text>{selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}</Text> : <Text style={{color: "#666"}}>Heure</Text>}
+                  {selectedTime ? <Text>{selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}</Text> : <Text style={{color: "#666"}}>Heure (optionnel)</Text>}
                   <Pressable onPress={showTimePicker}>
                       <MaterialCommunityIcons name="clock-edit-outline" size={20} color="#141C24" />
                   </Pressable>
