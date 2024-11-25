@@ -4,7 +4,7 @@
     "slug": "free-go",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "",
+    "icon": "./images/freeGo.jpg",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
