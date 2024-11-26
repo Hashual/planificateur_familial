@@ -123,10 +123,21 @@ export default function ToDoLists() {
       <FlatList
         data={mockData.toDoLists}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item: list }) => (
-          
-          <ListItem id={list.id} name={list.name} itemName="tâche" totalItems={list.tasks.length} handleDeleteList={async () => handleDeleteTaskList(list.id)} listIcon={"format-list-bulleted"} pathName={"/todolist/[id]"} />
-        )}
+        renderItem={({ item: list }) => {
+          const completedTasksCount = list.tasks.filter((task) => task.completedDate).length;
+          return (
+            <ListItem 
+              id={list.id} 
+              name={list.name} 
+              itemName="tâche" 
+              totalItems={list.tasks.length}
+              nbTaskCompleted={completedTasksCount} 
+              handleDeleteList={async () => handleDeleteTaskList(list.id)} 
+              listIcon={"format-list-bulleted"} 
+              pathName={"/todolist/[id]"} 
+            />
+          )
+        }}
       />
       <ThemedButton
         title="Ajouter une liste"

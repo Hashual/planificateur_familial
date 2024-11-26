@@ -1,18 +1,20 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import { Pressable, Text, View, StyleSheet, Platform, Alert } from "react-native";
+import ProgressBar from "./todolist/ProgressBar";
 
 type Props = {
     id: number,
     name: string,
     itemName: string,
     totalItems: number | 0,
+    nbTaskCompleted?: number,
     listIcon: keyof typeof MaterialCommunityIcons.glyphMap,
     pathName: "/todolist/[id]" | "/shoppinglist/[id]",
     handleDeleteList: (id : number) => {},
 }
 
-export default function ListItem({ id, name, itemName, totalItems, listIcon, pathName, handleDeleteList }: Props) {
+export default function ListItem({ id, name, itemName, totalItems, nbTaskCompleted, listIcon, pathName, handleDeleteList }: Props) {
       
     return (
       <Link
@@ -28,10 +30,13 @@ export default function ListItem({ id, name, itemName, totalItems, listIcon, pat
             </View>
 
             <View style={styles.textContainer}>
-            <Text style={styles.categoryTitle}>{name}</Text>
-            <Text style={styles.taskNumber}>
-                {totalItems} {totalItems <= 1 ? `${itemName}` : `${itemName}s`}
-            </Text>
+              <Text style={styles.categoryTitle}>{name}</Text>
+              <Text style={styles.taskNumber}>
+                  {totalItems} {totalItems <= 1 ? `${itemName}` : `${itemName}s`}
+              </Text>
+              {pathName === "/todolist/[id]" ? (
+                <ProgressBar nbTask={totalItems} nbTaskCompleted={nbTaskCompleted ?? 0}/>
+              ) : null}
             </View>
 
             <MaterialCommunityIcons name="chevron-right" size={30} color="#141C24" />
