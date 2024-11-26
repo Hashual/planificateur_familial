@@ -67,7 +67,7 @@ export default function ToDoLists() {
     } else {
       Alert.alert(
         "Entrée invalide",
-        "Le nom de la liste ne peut pas être vide."
+        "Veuillez d'abord donner un nom à votre liste."
       );
     }
   };

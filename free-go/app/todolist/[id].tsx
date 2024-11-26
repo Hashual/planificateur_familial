@@ -106,7 +106,7 @@ export default function ToDoList() {
         console.error("Error adding task:", error);
       }
     } else {
-      Alert.alert("Attention", "Veuillez d'abord donner un nom à votre tâche.");
+      Alert.alert("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
     }
   };
 
