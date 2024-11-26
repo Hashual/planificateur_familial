@@ -105,6 +105,8 @@ export default function ToDoList() {
       } catch (error) {
         console.error("Error adding task:", error);
       }
+    } else {
+      Alert.alert("Attention", "Veuillez d'abord donner un nom à votre tâche.");
     }
   };
 
@@ -210,7 +212,7 @@ export default function ToDoList() {
             <Text style={styles.modalTitle}>Ajouter une nouvelle tâche</Text>
             <TextInput
               style={styles.input}
-              placeholder="Nom de la tâche *"
+              placeholder="Nom de la tâche"
               placeholderTextColor="#666"
               value={taskNameInput}
               onChangeText={settaskNameInput}
