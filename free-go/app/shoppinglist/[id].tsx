@@ -1,7 +1,7 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, FlatList, Modal, View, TextInput, Button, ActivityIndicator, StatusBar } from "react-native";
+import { Text, StyleSheet, FlatList, Modal, View, TextInput, Button, ActivityIndicator, StatusBar, Alert } from "react-native";
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
@@ -68,6 +68,8 @@ const [fontsLoaded] = useFonts({
       } catch (error) {
         console.error("Error adding article:", error);
       }
+    } else {
+      Alert.alert("Entrée invalide", "Veuillez d'abord donner un nom à votre article.");
     }
   };
 
@@ -173,7 +175,7 @@ const [fontsLoaded] = useFonts({
             <Text style={styles.modalTitle}>Ajouter un nouvel article</Text>
             <TextInput
               style={styles.input}
-              placeholder="Nom de l'article *"
+              placeholder="Nom de l'article"
               placeholderTextColor="#666"
               value={articleNameInput}
               onChangeText={setArticleNameInput}
