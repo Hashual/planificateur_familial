@@ -22,8 +22,19 @@ const [fontsLoaded] = useFonts({
   const [articleNameInput, setArticleNameInput] = useState("");
   const [numberOfArticle, setNumberOfArticle] = useState(1);
 
+  const handleInputChange = (text: string) => {
+    const numericValue = parseInt(text, 10);
+    if (!isNaN(numericValue) && numericValue>0) {
+      setNumberOfArticle(numericValue);
+    } else {
+      setNumberOfArticle(1);
+    }
+  };
+
   const handleIncrement = () => {
-    setNumberOfArticle((prevNumber) => prevNumber + 1);
+    if (numberOfArticle<999999) {
+      setNumberOfArticle((prevNumber) => prevNumber + 1);
+    }
   }
 
   const handleDecrement = () => {
@@ -183,14 +194,24 @@ const [fontsLoaded] = useFonts({
 
             <View style={[styles.input]}> 
                 
-                <Text style={styles.modalQuantity}>Quantité : {numberOfArticle}</Text>
-                <View style={{flexDirection: "row"}}>
+                <View style={styles.quantity}>
+                  <Text>Quantité : </Text>
+                  <TextInput
+                    value={numberOfArticle.toString()}
+                    onChangeText={(text) => handleInputChange(text)}
+                    keyboardType="numeric"
+                    maxLength={6}
+                    style={styles.textInput}
+                  />
+                </View>
+                <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                     <ThemedButton
                         title="-"
                         onPress={handleDecrement}
                         type="primary"
                         lightColor="#F5C754"
                         darkColor="#F5C754"
+                        style={{paddingHorizontal: 18}}
                     />
                         <ThemedButton
                         title="+"
@@ -198,7 +219,7 @@ const [fontsLoaded] = useFonts({
                         type="primary"
                         lightColor="#F5C754"
                         darkColor="#F5C754"
-                        style={{marginLeft:10}}
+                        style={{marginLeft:10,paddingHorizontal: 17}}
                     />
                 </View>
             </View>
@@ -274,9 +295,17 @@ const styles = StyleSheet.create({
       width: "100%",
       marginTop: 15,
     },
-    modalQuantity: {
-      flex: 1, 
-      textAlignVertical:"center", 
-      alignSelf: "center",
-    }
+    quantity: {
+      flex: 1,
+      flexDirection: "row",
+      alignItems: "center", 
+      justifyContent: "flex-start",
+      paddingRight: 2,
+    },
+    textInput: {
+      padding: 0,
+      margin: 0,
+      height: "auto",
+      width: "auto"
+    },
   });
