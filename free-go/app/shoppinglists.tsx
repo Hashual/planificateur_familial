@@ -131,7 +131,7 @@ export default function ShoppingLists() {
       />
       <ThemedButton
         title="Ajouter une liste"
-        addButton={true}
+        icon="plus"
         onPress={openModal}
         type="primary"
         lightColor="#F5C754"
