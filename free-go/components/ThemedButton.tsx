@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export type ThemedButtonProps = {
   title: string;
-  addButton?: boolean;
+  icon?: keyof typeof MaterialCommunityIcons.glyphMap,
   onPress: () => void;
   lightColor?: string;
   darkColor?: string;
@@ -16,7 +16,7 @@ export type ThemedButtonProps = {
 
 export function ThemedButton({
   title,
-  addButton,
+  icon,
   onPress,
   lightColor,
   darkColor,
@@ -71,9 +71,9 @@ export function ThemedButton({
         ]}
       >
         <View style={styles.buttonContent}>
-        {addButton && (
+        {icon && (
           <View style={styles.iconContainer}>
-            <MaterialCommunityIcons name="plus" size={20} color="#141C24" />
+            <MaterialCommunityIcons name={icon} size={20} color="#141C24" />
           </View>
         )}
         <Text style={[textStyles, { color: textColor }]}>{title}</Text>
