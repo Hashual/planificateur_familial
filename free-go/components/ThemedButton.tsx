@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable, Text, StyleSheet, ViewStyle, TextStyle, Image, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, Text, StyleSheet, ViewStyle, TextStyle, Image, View, Animated, Easing } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -42,8 +42,34 @@ export function ThemedButton({
     textStyle,
   ];
 
+  const [scale] = useState(new Animated.Value(1)); 
+
+  const onPressIn = () => {
+    Animated.timing(scale, {
+      toValue: 0.9,
+      duration: 50,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  };
+  
+  const onPressOut = () => {
+    Animated.timing(scale, {
+      toValue: 1,
+      duration: 50,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  };
+
   return (
-    <Pressable onPress={onPress} style={buttonStyles}>
+    <Pressable onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut} >
+      <Animated.View
+        style={[
+          buttonStyles,
+          { transform: [{ scale }] },
+        ]}
+      >
         <View style={styles.buttonContent}>
         {addButton && (
           <View style={styles.iconContainer}>
@@ -52,6 +78,7 @@ export function ThemedButton({
         )}
         <Text style={[textStyles, { color: textColor }]}>{title}</Text>
       </View>
+      </Animated.View>
     </Pressable>
   );
 }
