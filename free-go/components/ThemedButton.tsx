@@ -46,8 +46,8 @@ export function ThemedButton({
 
   const onPressIn = () => {
     Animated.timing(scale, {
-      toValue: 0.9,
-      duration: 50,
+      toValue: 0.8,
+      duration: 80,
       easing: Easing.linear,
       useNativeDriver: true,
     }).start();
@@ -56,7 +56,7 @@ export function ThemedButton({
   const onPressOut = () => {
     Animated.timing(scale, {
       toValue: 1,
-      duration: 50,
+      duration: 80,
       easing: Easing.linear,
       useNativeDriver: true,
     }).start();
