@@ -141,7 +141,7 @@ export default function ToDoLists() {
       />
       <ThemedButton
         title="Ajouter une liste"
-        addButton={true}
+        icon="plus"
         onPress={openModal}
         type="primary"
         lightColor="#F5C754"
