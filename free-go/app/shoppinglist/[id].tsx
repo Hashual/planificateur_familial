@@ -168,7 +168,7 @@ const [fontsLoaded] = useFonts({
       />
       <ThemedButton
         title={"Ajouter un article"}
-        addButton
+        icon="plus"
         onPress={openModal}
         type="primary"
         lightColor="#F5C754"
