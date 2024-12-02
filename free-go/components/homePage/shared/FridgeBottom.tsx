@@ -7,7 +7,7 @@ const FridgeBottom = () => {
     <View style={styles.container}>
       <View style={styles.outerBorder}>
         <View style={styles.innerContainer}>
-          <FridgeShelves /> {/* Composant pour les étagères */}
+          <FridgeShelves />
         </View>
       </View>
     </View>
