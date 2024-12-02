@@ -16,12 +16,9 @@ import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedSt
 import LoadFont from "@/utils/LoadFont";
 
 export default function ShoppingLists() {
-  const loadedError = LoadFont([
-    {
-      name: "Pacifico",
-      path: "@/assets/fonts/Pacifico.ttf"
-    }
-  ]);
+  const loadedError = LoadFont({
+    "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
+  })
   if (loadedError) { return loadedError; }
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
