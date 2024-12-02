@@ -19,7 +19,7 @@ export default function ShoppingLists() {
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
-  const [shoppingListNameInputValue, setShoppingListNameInputValue] = useState("");
+  const [nameInputValue, setNameInputValue] = useState("");
 
   const loadMockData = async () => {
     try {
@@ -39,12 +39,12 @@ export default function ShoppingLists() {
   };
 
   const handleAddShoppingList = async () => {
-    const newShoppingListName = shoppingListNameInputValue.trim();
+    const newShoppingListName = nameInputValue.trim();
 
     if (newShoppingListName) {
       try {
         await createShoppingList(newShoppingListName);
-        setShoppingListNameInputValue("");
+        setNameInputValue("");
         await loadMockData();
         closeModal();
       } catch (error) {
@@ -119,8 +119,8 @@ export default function ShoppingLists() {
       <AppListModal
         isModalVisible={isModalVisible}
         closeModal={closeModal}
-        shoppingListNameInputValue={shoppingListNameInputValue}
-        setShoppingListNameInputValue={setShoppingListNameInputValue}
+        shoppingListNameInputValue={nameInputValue}
+        setShoppingListNameInputValue={setNameInputValue}
         handleAddShoppingList={handleAddShoppingList}
       />
     </SafeAreaView>
