@@ -9,7 +9,8 @@ import { MockData } from "@/mockapi/types";
 
 import { ThemedButton } from "@/components/ThemedButton";
 import ListItem from "@/components/ListItem";
-import AppListModal from "@/components/shoppinglist/modals/AddListModal";
+import AppListModal from "@/components/modals/AddListModal";
+import Confirmation from "@/utils/alerts/Confirmation";
 
 export default function ShoppingLists() {
   const [fontsLoaded] = useFonts({
@@ -65,30 +66,15 @@ export default function ShoppingLists() {
   };
 
   const handleDeleteShoppingList = async (id: number) => {
-    try {
-      if (Platform.OS === "web") {
-        const confirmed = confirm("Êtes-vous sûr de vouloir supprimer la liste ?");
-        if (confirmed) {
-          await deleteShoppingList(id);
-          await loadMockData();
-        }
-      } else {
-        Alert.alert("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", [
-          { text: "Annuler", style: "cancel" },
-          {
-            text: "Supprimer",
-            style: "destructive",
-            onPress: async () => {
-              await deleteShoppingList(id);
-              await loadMockData();
-            },
-          },
-        ]);
+    Confirmation("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", async () => {
+      try {
+        await deleteShoppingList(id);
+        await loadMockData();
+      } catch (error) {
+        console.error("Erreur lors de la suppression de la liste de courses :", error);
+        Alert.alert("Erreur", "Il y a eu un problème lors de la suppression de la liste.");
       }
-    } catch (error) {
-      console.error("Erreur lors de la suppression de la liste de courses :", error);
-      Alert.alert("Erreur", "Il y a eu un problème lors de la suppression de la liste.");
-    }
+    })
   };
 
   useFocusEffect(
