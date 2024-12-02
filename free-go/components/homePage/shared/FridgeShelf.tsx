@@ -4,7 +4,6 @@ import { View, StyleSheet } from 'react-native';
 const FridgeShelves = () => {
   return (
     <View style={styles.shelfContainer}>
-      {/* Les différentes étagères */}
       <View style={styles.shelf} />
       <View style={styles.shelf} />
       <View style={styles.shelf} />

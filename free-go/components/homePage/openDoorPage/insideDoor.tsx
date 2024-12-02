@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/ThemedButton';
 import { useRouter } from 'expo-router';
@@ -15,28 +15,30 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
     <View style={styles.insideContainer}>
       <View style={styles.inside}>
         <View style={styles.shelfContainer}>
-          <DoorShelfs /> {/* Première étagère */}
-          <ThemedButton
-            title="To-Do"
-            onPress={() => router.push('/todolists')} // Redirige vers la To-Do Liste
-            type="primary"
-            lightColor="#F5C754"
-            darkColor="#F5C754"
-            style={styles.button}
-          />
-          <DoorShelfs /> {/* Deuxième étagère */}
-          <ThemedButton
-            title="Liste des courses"
-            onPress={() => router.push('/shoppinglists')} // Redirige vers la Liste des Courses
-            type="primary"
-            lightColor="#F5C754"
-            darkColor="#F5C754"
-            style={styles.button}
-          />
-          <DoorShelfs /> {/* Troisième étagère */}
-          <DoorShelfs /> {/* Quatrième étagère */}
+          <ScrollView style={styles.scrollView}>
+            <DoorShelfs />
+            <ThemedButton
+              title="To-Do"
+              onPress={() => router.push('/todolists')}
+              type="primary"
+              lightColor="#F5C754"
+              darkColor="#F5C754"
+              style={styles.button}
+            />
+            <DoorShelfs />
+            <ThemedButton
+              title="Liste des courses"
+              onPress={() => router.push('/shoppinglists')}
+              type="primary"
+              lightColor="#F5C754"
+              darkColor="#F5C754"
+              style={styles.button}
+            />
+            <DoorShelfs />
+            <DoorShelfs />
+          </ScrollView>
         </View>
-        {children && <View style={styles.childrenContainer}>{children}</View>}
+        {children ? <View style={styles.childrenContainer}>{children}</View> : null}
       </View>
     </View>
   );
@@ -73,6 +75,9 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  scrollView: {
+    width: '100%',
   },
 });
 
