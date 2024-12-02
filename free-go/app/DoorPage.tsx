@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import {StyleSheet, TouchableOpacity } from 'react-native';
 import Fridge from '../components/homePage/shared/Fridge';
 import DoorText from '../components/homePage/doorPage/DoorText';
 import Handle from '../components/homePage/doorPage/Handle';
