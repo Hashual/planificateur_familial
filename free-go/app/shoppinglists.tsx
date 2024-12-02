@@ -13,6 +13,7 @@ import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
 import { Colors } from "@/constants/Colors";
+import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 
 export default function ShoppingLists() {
   const [fontsLoaded] = useFonts({
@@ -85,9 +86,8 @@ export default function ShoppingLists() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle={isModalVisible ? 'light-content' : 'dark-content'}
-        backgroundColor={isModalVisible ? '#000000' : '#ffffff'}
+      <ThemedStatusBar
+        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
       <Text style={styles.title}>Listes de courses</Text>
       <FlatList
