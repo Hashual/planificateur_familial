@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {StyleSheet, View, FlatList, Text, ActivityIndicator, Modal, TextInput, Alert, Platform, StatusBar} from "react-native";
+import {StyleSheet, FlatList, Text} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "expo-router";
 
@@ -12,6 +12,8 @@ import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import Confirmation from "@/utils/alerts/Confirmation";
 import AppListModal from "@/components/modals/AddListModal";
+import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import { Colors } from "@/constants/Colors";
 
 export default function ToDoLists() {
   const loadedError = LoadFont({
@@ -76,9 +78,8 @@ export default function ToDoLists() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle={isModalVisible ? 'light-content' : 'dark-content'}
-        backgroundColor={isModalVisible ? '#000000' : '#ffffff'}
+      <ThemedStatusBar
+        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
       <Text style={styles.title}>To-Do List</Text>
       <FlatList
@@ -105,16 +106,14 @@ export default function ToDoLists() {
         icon="plus"
         onPress={openModal}
         type="primary"
-        lightColor="#F5C754"
-        darkColor="#F5C754"
       />
 
       <AppListModal
         isModalVisible={isModalVisible}
         closeModal={closeModal}
-        shoppingListNameInputValue={toDoListNameInputValue}
-        setShoppingListNameInputValue={setToDoListNameInputValue}
-        handleAddShoppingList={handleAddTaskList}
+        listNameInput={toDoListNameInputValue}
+        setListNameInput={setToDoListNameInputValue}
+        handleAddList={handleAddTaskList}
       />
 
     </SafeAreaView>
@@ -125,69 +124,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#F7FAFA",
+    backgroundColor: Colors.light.background,
   },
   title: {
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#141C24",
+    color: Colors.light.text,
     textAlign: "center",
     fontFamily: "Pacifico",
-  },
-  category: {
-    marginBottom: 15,
-    paddingHorizontal: 10,
-    paddingTop: 5,
-    borderRadius: 10,
-    backgroundColor: "#E3E8F2",
-    overflow: "hidden",
-  },
-  categoryTitle: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: "#141C24",
-  },
-  input: {
-    borderColor: "#F5C754",
-    borderWidth: 1,
-    width: "90%",
-    padding: 10,
-    marginTop: 10,
-    borderRadius: 5,
-    backgroundColor: "#fff",
-  },
-  shadowElement: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-
-    elevation: 3,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    width: "80%",
-    padding: 20,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: 20,
-    marginBottom: 15,
-    fontWeight: "bold",
-  },
-  modalButtons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginTop: 15,
-  },
+  }
 });
 
