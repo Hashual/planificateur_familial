@@ -12,6 +12,7 @@ import ListItem from "@/components/ListItem";
 import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
+import { Colors } from "@/constants/Colors";
 
 export default function ShoppingLists() {
   const [fontsLoaded] = useFonts({
@@ -102,8 +103,8 @@ export default function ShoppingLists() {
         icon="plus"
         onPress={openModal}
         type="primary"
-        lightColor="#F5C754"
-        darkColor="#F5C754"
+        lightColor={Colors.light.primary}
+        darkColor={Colors.dark.primary}
       />
 
       <AppListModal
