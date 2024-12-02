@@ -11,21 +11,21 @@ type shoppingListArticles = {
     isCompleted: boolean;
 }
 
-const createShoppingListArticle = async (shoppingListId: number, title: string, dueDate: Date | null | undefined): Promise<number> => {
+export const createShoppingListArticle = async (shoppingListId: number, title: string, dueDate: Date | null | undefined): Promise<number> => {
     const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO shoppingListArticle (title, dueDate, shoppingListId) VALUES (?, ?, ?)", [title, dueDate, shoppingListId]);
     return result.insertId;
 }
 
-const updateShoppingListArticle = async (id: number, title: string, dueDate: Date | null | undefined, isCompleted: boolean): Promise<boolean> => {
+export const updateShoppingListArticle = async (id: number, title: string, dueDate: Date | null | undefined, isCompleted: boolean): Promise<boolean> => {
     const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE shoppingListArticle SET title = ?, dueDate = ?, isCompleted = ? WHERE id = ?", [title, dueDate, isCompleted, id]);
     return result.affectedRows > 0;
 }
 
-const deleteShoppingListArticle = async (id: number): Promise<void> => {
+export const deleteShoppingListArticle = async (id: number): Promise<void> => {
     await SqlQuery<QueryResult>("DELETE FROM shoppingListArticle WHERE id = ?", [id]);
 }
 
-const getShoppingListArticles = async (shoppingListId: number): Promise<shoppingListArticles[]> => {
+export const getShoppingListArticles = async (shoppingListId: number): Promise<shoppingListArticles[]> => {
     const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT * FROM shoppingListArticle WHERE shoppingListId = ?", [shoppingListId]);
     return result.map((row: RowDataPacket) => {
         return {
@@ -40,7 +40,7 @@ const getShoppingListArticles = async (shoppingListId: number): Promise<shopping
     }) as shoppingListArticles[];
 }
 
-const getShoppingListArticleById = async (id: number): Promise<shoppingListArticles | null> => {
+export const getShoppingListArticleById = async (id: number): Promise<shoppingListArticles | null> => {
     const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT * FROM shoppingListArticle WHERE id = ?", [id]);
     if (result.length === 0) {
         return null;
@@ -57,7 +57,7 @@ const getShoppingListArticleById = async (id: number): Promise<shoppingListArtic
     } as shoppingListArticles;
 }
 
-const getArticlesAmount = async (shoppingListId: number, isCompleted: boolean): Promise<number> => {
+export const getArticlesAmount = async (shoppingListId: number, isCompleted: boolean): Promise<number> => {
     const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT COUNT(*) AS amount FROM shoppingListArticle WHERE shoppingListId = ? AND isCompleted = ?", [shoppingListId, isCompleted]);
     return result[0].amount;
 }
