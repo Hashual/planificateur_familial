@@ -103,4 +103,4 @@ const styles = StyleSheet.create({
       flexShrink: 1,
       width: "85%",
     },
-  });
+});
