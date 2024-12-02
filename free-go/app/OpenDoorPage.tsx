@@ -14,12 +14,14 @@ const OpenDoorPage: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleFridgeClick}>
+      
         <Fridge>
           <FridgeDoor />
+          <TouchableOpacity onPress={handleFridgeClick} style={styles.fridgeBottom}>
           <FridgeBottom />
+          </TouchableOpacity>
         </Fridge>
-      </TouchableOpacity>
+      
     </View>
   );
 };
@@ -31,9 +33,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  button: {
-    marginTop: 10,
-  },
+  fridgeBottom:{
+    flex: 1,
+
+  }
 });
 
 export default OpenDoorPage;
