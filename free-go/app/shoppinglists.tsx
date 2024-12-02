@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, FlatList, Text, ActivityIndicator } from "react-native";
+import { StyleSheet, FlatList, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
 import { useFocusEffect } from "expo-router";
 
 import { createShoppingList, deleteShoppingList, getMockData } from "@/mockapi/mockData";
@@ -14,11 +13,16 @@ import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
 import { Colors } from "@/constants/Colors";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import LoadFont from "@/utils/LoadFont";
 
 export default function ShoppingLists() {
-  const [fontsLoaded] = useFonts({
-    Pacifico: require("@/assets/fonts/Pacifico.ttf"),
-  });
+  const loadedError = LoadFont([
+    {
+      name: "Pacifico",
+      path: "@/assets/fonts/Pacifico.ttf"
+    }
+  ]);
+  if (loadedError) { return loadedError; }
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
@@ -74,15 +78,6 @@ export default function ShoppingLists() {
       loadMockData();
     }, [])
   );
-  
-
-  if (!fontsLoaded) {
-    return (
-      <SafeAreaView style={[styles.container, { justifyContent: "center" }]}>
-        <ActivityIndicator size="large" />
-      </SafeAreaView>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.container}>
