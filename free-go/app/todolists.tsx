@@ -1,28 +1,23 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  Text,
-  ActivityIndicator,
-  Modal,
-  TextInput,
-  Alert,
-  Platform,
-  StatusBar,
-} from "react-native";
-import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
-import { MockData } from "@/mockapi/types";
-import { useFonts } from "expo-font";
+import React, { useState, useCallback } from "react";
+import {StyleSheet, View, FlatList, Text, ActivityIndicator, Modal, TextInput, Alert, Platform, StatusBar} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ThemedButton } from "@/components/ThemedButton";
-import ListItem from "@/components/ListItem";
 import { useFocusEffect } from "expo-router";
 
+import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
+import { MockData } from "@/mockapi/types";
+
+import { ThemedButton } from "@/components/ThemedButton";
+import ListItem from "@/components/ListItem";
+import LoadFont from "@/utils/LoadFont";
+import Error from "@/utils/alerts/Error";
+import Confirmation from "@/utils/alerts/Confirmation";
+import AppListModal from "@/components/modals/AddListModal";
+
 export default function ToDoLists() {
-  const [fontsLoaded] = useFonts({
-    Pacifico: require("@/assets/fonts/Pacifico.ttf"),
-  });
+  const loadedError = LoadFont({
+    "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
+  })
+  if (loadedError) { return loadedError; }
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
@@ -55,48 +50,22 @@ export default function ToDoLists() {
         await loadMockData();
         closeModal();
       } catch (error) {
-        console.error(
-          "Erreur lors de la création de la liste de tâches :",
-          error
-        );
-        Alert.alert(
-          "Erreur",
-          "Il y a eu un problème lors de la création de la liste."
-        );
+        Error("Erreur", "Il y a eu un problème lors de la création de la liste.", error);
       }
     } else {
-      Alert.alert(
-        "Entrée invalide",
-        "Veuillez d'abord donner un nom à votre liste."
-      );
+      Error("Entrée invalide", "Veuillez d'abord donner un nom à votre liste.");
     }
   };
 
   const handleDeleteTaskList = async (id: number) => {
-    try {
-      if (Platform.OS === "web") {
-        const confirmed = confirm("Êtes-vous sûr de vouloir supprimer la liste ?");
-        if (confirmed) {
-          await deleteTaskList(id);
-          await loadMockData();
-        }
-      } else {
-        Alert.alert("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", [
-          { text: "Annuler", style: "cancel" },
-          {
-            text: "Supprimer",
-            style: "destructive",
-            onPress: async () => {
-              await deleteTaskList(id);
-              await loadMockData();
-            },
-          },
-        ]);
+    Confirmation("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", async () => {
+      try {
+        await deleteTaskList(id);
+        await loadMockData();
+      } catch (error) {
+        Error("Erreur", "Il y a eu un problème lors de la suppression de la liste.", error);
       }
-    } catch (error) {
-      console.error("Erreur lors de la suppression de la liste de tâches :", error);
-      Alert.alert("Erreur", "Il y a eu un problème lors de la suppression de la liste.");
-    }
+    })
   };
 
   useFocusEffect(
@@ -104,14 +73,6 @@ export default function ToDoLists() {
       loadMockData();
     }, [])
   );
-
-  if (!fontsLoaded) {
-    return (
-      <SafeAreaView style={[styles.container, { justifyContent: "center" }]}>
-        <ActivityIndicator size="large" />
-      </SafeAreaView>
-    );
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -148,41 +109,14 @@ export default function ToDoLists() {
         darkColor="#F5C754"
       />
 
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={closeModal}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Ajouter une nouvelle liste</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Nom de la liste"
-              placeholderTextColor="#666"
-              value={toDoListNameInputValue}
-              onChangeText={setToDoListNameInputValue}
-            />
-            <View style={styles.modalButtons}>
-              <ThemedButton
-                title="Annuler"
-                onPress={closeModal}
-                type="secondary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
-              />
-              <ThemedButton
-                title="Ajouter"
-                onPress={handleAddTaskList}
-                type="primary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <AppListModal
+        isModalVisible={isModalVisible}
+        closeModal={closeModal}
+        shoppingListNameInputValue={toDoListNameInputValue}
+        setShoppingListNameInputValue={setToDoListNameInputValue}
+        handleAddShoppingList={handleAddTaskList}
+      />
+
     </SafeAreaView>
   );
 }
