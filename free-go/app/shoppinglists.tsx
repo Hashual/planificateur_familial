@@ -11,6 +11,7 @@ import { ThemedButton } from "@/components/ThemedButton";
 import ListItem from "@/components/ListItem";
 import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
+import Error from "@/utils/alerts/Error";
 
 export default function ShoppingLists() {
   const [fontsLoaded] = useFonts({
@@ -26,7 +27,7 @@ export default function ShoppingLists() {
       const data = await getMockData();
       setMockData(data);
     } catch (error) {
-      console.error("Error loading data:", error);
+      Error("Erreur", "Il y a eu un problème lors du chargement des données.", error);
     }
   };
 
@@ -48,20 +49,10 @@ export default function ShoppingLists() {
         await loadMockData();
         closeModal();
       } catch (error) {
-        console.error(
-          "Erreur lors de la création de la liste de courses :",
-          error
-        );
-        Alert.alert(
-          "Erreur",
-          "Il y a eu un problème lors de la création de la liste."
-        );
+        Error("Erreur", "Il y a eu un problème lors de la création de la liste.", error);
       }
     } else {
-      Alert.alert(
-        "Entrée invalide",
-        "Veuillez d'abord donner un nom à votre liste."
-      );
+      Error("Entrée invalide", "Veuillez d'abord donner un nom à votre liste.");
     }
   };
 
@@ -71,8 +62,7 @@ export default function ShoppingLists() {
         await deleteShoppingList(id);
         await loadMockData();
       } catch (error) {
-        console.error("Erreur lors de la suppression de la liste de courses :", error);
-        Alert.alert("Erreur", "Il y a eu un problème lors de la suppression de la liste.");
+        Error("Erreur", "Il y a eu un problème lors de la suppression de la liste.", error);
       }
     })
   };
