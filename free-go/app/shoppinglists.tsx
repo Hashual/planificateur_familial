@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, FlatList, Text, ActivityIndicator, Alert, Platform, StatusBar } from "react-native";
+import { StyleSheet, FlatList, Text, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { useFocusEffect } from "expo-router";
