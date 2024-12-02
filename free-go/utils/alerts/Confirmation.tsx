@@ -10,13 +10,14 @@ export default function Confirmation(
 		if (confirmed) {
 			onConfirm();
 		}
+	} else {
+		Alert.alert(title, message, [
+			{ text: "Annuler", style: "cancel" },
+			{
+				text: "Confirmer",
+				style: "destructive",
+				onPress: onConfirm
+			}
+		])
 	}
-	Alert.alert(title, message, [
-		{ text: "Annuler", style: "cancel" },
-		{
-			text: "Confirmer",
-			style: "destructive",
-			onPress: onConfirm
-		}
-	])
 }
