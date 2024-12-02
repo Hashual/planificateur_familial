@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { Image, View, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/ThemedButton';
 import { useRouter } from 'expo-router';
@@ -16,26 +16,32 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
       <View style={styles.inside}>
         <View style={styles.shelfContainer}>
           <ScrollView style={styles.scrollView}>
-            <DoorShelfs />
             <ThemedButton
               title="To-Do"
               onPress={() => router.push('/todolists')}
               type="primary"
               lightColor="#F5C754"
               darkColor="#F5C754"
+              textStyle={{ fontSize: 10 }}
               style={styles.button}
+              imageSource={require('@/assets/images/toDoList.png')}
+              imageSize={30}
             />
             <DoorShelfs />
             <ThemedButton
-              title="Liste des courses"
+              title="Liste de course"
               onPress={() => router.push('/shoppinglists')}
               type="primary"
               lightColor="#F5C754"
               darkColor="#F5C754"
+              textStyle={{ fontSize: 10 }}
               style={styles.button}
+              imageSource={require('@/assets/images/shoppingList.png')}
+              imageSize={30}
+
             />
             <DoorShelfs />
-            <DoorShelfs />
+            
           </ScrollView>
         </View>
         {children ? <View style={styles.childrenContainer}>{children}</View> : null}
@@ -67,7 +73,7 @@ const styles = StyleSheet.create({
   button: {
     marginVertical: 10, // Espacement entre les boutons
     alignSelf: 'center',
-    width: '80%', // Largeur ajustée pour un bon alignement
+    width: '80%', // Largeur ajustée pour un bon alignement    
   },
   childrenContainer: {
     position: 'absolute', // Permet de superposer les enfants sans affecter les étagères
@@ -78,6 +84,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
+    paddingTop: StatusBar.currentHeight,
   },
 });
 
