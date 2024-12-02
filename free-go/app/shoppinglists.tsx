@@ -1,23 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  Text,
-  ActivityIndicator,
-  Modal,
-  TextInput,
-  Alert,
-  Platform,
-  StatusBar,
-} from "react-native";
-import { createShoppingList, createTaskList, deleteShoppingList, deleteTaskList, getMockData } from "@/mockapi/mockData";
-import { MockData } from "@/mockapi/types";
-import { useFonts } from "expo-font";
+import React, { useState, useCallback } from "react";
+import { StyleSheet, View, FlatList, Text, ActivityIndicator, Modal, TextInput, Alert, Platform, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useFonts } from "expo-font";
+import { useFocusEffect } from "expo-router";
+
+import { createShoppingList, deleteShoppingList, getMockData } from "@/mockapi/mockData";
+import { MockData } from "@/mockapi/types";
+
 import { ThemedButton } from "@/components/ThemedButton";
 import ListItem from "@/components/ListItem";
-import { useFocusEffect } from "expo-router";
 
 export default function ShoppingLists() {
   const [fontsLoaded] = useFonts({
