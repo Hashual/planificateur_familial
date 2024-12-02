@@ -1,7 +1,6 @@
-import HomePage from "./HomePage";
-import 'expo-router/entry';
+import { Stack } from 'expo-router';
+import HomePage from './HomePage';
 
-
-export default function Index() {
-  return HomePage({});
+export default function App() {
+  return <HomePage />;
 }
