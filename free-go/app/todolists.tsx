@@ -93,7 +93,7 @@ export default function ToDoLists() {
               name={list.name} 
               itemName="tâche" 
               totalItems={list.tasks.length}
-              nbTaskCompleted={completedTasksCount} 
+              completedItems={completedTasksCount} 
               handleDeleteList={async () => handleDeleteTaskList(list.id)} 
               listIcon={"format-list-bulleted"} 
               pathName={"/todolist/[id]"} 
@@ -107,7 +107,6 @@ export default function ToDoLists() {
         onPress={openModal}
         type="primary"
       />
-
       <AppListModal
         isModalVisible={isModalVisible}
         closeModal={closeModal}
@@ -115,7 +114,6 @@ export default function ToDoLists() {
         setListNameInput={setToDoListNameInputValue}
         handleAddList={handleAddTaskList}
       />
-
     </SafeAreaView>
   );
 }
@@ -135,4 +133,3 @@ const styles = StyleSheet.create({
     fontFamily: "Pacifico",
   }
 });
-

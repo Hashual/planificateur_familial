@@ -6,15 +6,15 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-na
 
 
 type ProgressBarProps = {
-    nbTask: number,
-    nbTaskCompleted: number,
+    nbItems: number,
+    nbItemsCompleted: number,
 };
 
-export default function ProgressBar({ nbTask, nbTaskCompleted}: ProgressBarProps) {
+export default function ProgressBar({ nbItems, nbItemsCompleted}: ProgressBarProps) {
 
-    const sharedValue = useSharedValue(nbTaskCompleted);
+    const sharedValue = useSharedValue(nbItemsCompleted);
     const barInnerStyle = useAnimatedStyle(() => {
-        if (nbTask===nbTaskCompleted) {
+        if (nbItems===nbItemsCompleted) {
             return {
                 flex: sharedValue.value,
                 backgroundColor: "#149414",
@@ -27,13 +27,13 @@ export default function ProgressBar({ nbTask, nbTaskCompleted}: ProgressBarProps
     })
     const barBackgroundStyle = useAnimatedStyle(() => {
         return {
-            flex: nbTask - sharedValue.value,
+            flex: nbItems - sharedValue.value,
         }
     })
 
     useEffect(() => {
-        sharedValue.value = withSpring(nbTaskCompleted);
-    }, [nbTaskCompleted]);
+        sharedValue.value = withSpring(nbItemsCompleted);
+    }, [nbItemsCompleted]);
     
     return (
         <View style={styles.bar}>
