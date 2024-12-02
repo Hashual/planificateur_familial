@@ -87,7 +87,17 @@ export default function ShoppingLists() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item: list }) => (
           
-          <ListItem id={list.id} name={list.name} totalItems={list.articles.length} handleDeleteList={async () => handleDeleteShoppingList(list.id)} itemName={"article"} listIcon={"basket-outline"} pathName={"/shoppinglist/[id]"} />
+          <ListItem
+            id={list.id}
+            name={list.name}
+            totalItems={list.articles.length}
+            handleDeleteList={async () => {
+              handleDeleteShoppingList(list.id)
+            }}
+            itemName={"article"}
+            listIcon={"basket-outline"}
+            pathName={"/shoppinglist/[id]"} 
+          />
         )}
       />
       <ThemedButton
