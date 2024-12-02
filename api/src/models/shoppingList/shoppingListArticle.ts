@@ -1,7 +1,7 @@
 import { SqlQuery } from "../../db";
 import { QueryResult, ResultSetHeader, RowDataPacket } from "mysql2";
 
-type shoppingList = {
+type shoppingListArticles = {
     id: number;
     title: string;
     dueDate: Date;
@@ -25,7 +25,7 @@ const deleteShoppingListArticle = async (id: number): Promise<void> => {
     await SqlQuery<QueryResult>("DELETE FROM shoppingListArticle WHERE id = ?", [id]);
 }
 
-const getShoppingListArticles = async (shoppingListId: number): Promise<shoppingList[]> => {
+const getShoppingListArticles = async (shoppingListId: number): Promise<shoppingListArticles[]> => {
     const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT * FROM shoppingListArticle WHERE shoppingListId = ?", [shoppingListId]);
     return result.map((row: RowDataPacket) => {
         return {
@@ -37,10 +37,10 @@ const getShoppingListArticles = async (shoppingListId: number): Promise<shopping
             shoppingListId: row.shoppingListId,
             isCompleted: row.isCompleted
         }
-    }) as shoppingList[];
+    }) as shoppingListArticles[];
 }
 
-const getShoppingListArticleById = async (id: number): Promise<shoppingList | null> => {
+const getShoppingListArticleById = async (id: number): Promise<shoppingListArticles | null> => {
     const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT * FROM shoppingListArticle WHERE id = ?", [id]);
     if (result.length === 0) {
         return null;
@@ -54,7 +54,7 @@ const getShoppingListArticleById = async (id: number): Promise<shoppingList | nu
         updatedAt: new Date(row.updatedAt),
         shoppingListId: row.shoppingListId,
         isCompleted: row.isCompleted
-    } as shoppingList;
+    } as shoppingListArticles;
 }
 
 const getArticlesAmount = async (shoppingListId: number, isCompleted: boolean): Promise<number> => {
