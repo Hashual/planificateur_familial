@@ -1,22 +1,21 @@
 import { ThemedButton } from "@/components/ThemedButton";
-import { Modal, Text, View, StyleSheet } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { Modal, Text, View, StyleSheet, TextInput } from "react-native";
 
 type AddListModalProps = {
 	isModalVisible: boolean;
 	closeModal: () => void;
-	shoppingListNameInputValue: string;
-	setShoppingListNameInputValue: (value: string) => void;
-	handleAddShoppingList: () => void;
+	listNameInput: string;
+	setListNameInput: (value: string) => void;
+	handleAddList: () => void;
 };
 
 export default function AddListModal(
 	{
 		isModalVisible,
 		closeModal,
-		shoppingListNameInputValue,
-		setShoppingListNameInputValue,
-		handleAddShoppingList
+		listNameInput,
+		setListNameInput,
+		handleAddList
 	}: AddListModalProps
 ) {
 	return (
@@ -33,8 +32,8 @@ export default function AddListModal(
 				style={styles.input}
 				placeholder="Nom de la liste"
 				placeholderTextColor="#666"
-				value={shoppingListNameInputValue}
-				onChangeText={setShoppingListNameInputValue}
+				value={listNameInput}
+				onChangeText={setListNameInput}
 				/>
 				<View style={styles.modalButtons}>
 				<ThemedButton
@@ -46,7 +45,7 @@ export default function AddListModal(
 				/>
 				<ThemedButton
 					title="Ajouter"
-					onPress={handleAddShoppingList}
+					onPress={handleAddList}
 					type="primary"
 					lightColor="#F5C754"
 					darkColor="#F5C754"
