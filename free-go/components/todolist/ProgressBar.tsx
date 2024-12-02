@@ -5,12 +5,12 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 
-type TaskItemProps = {
+type ProgressBarProps = {
     nbTask: number,
     nbTaskCompleted: number,
 };
 
-export default function TaskItem({ nbTask, nbTaskCompleted}: TaskItemProps) {
+export default function ProgressBar({ nbTask, nbTaskCompleted}: ProgressBarProps) {
 
     const sharedValue = useSharedValue(nbTaskCompleted);
     const barInnerStyle = useAnimatedStyle(() => {
