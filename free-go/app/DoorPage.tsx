@@ -15,26 +15,22 @@ const DoorPage: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={handleClick}>
+      <TouchableOpacity onPress={handleClick} style={styles.container}>
         <Fridge>
           <DoorText />
           <Handle>
             <HandleReflection />
           </Handle>
-          <DoorReflection />
+          <DoorReflection/>
         </Fridge>
       </TouchableOpacity>
-    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFF',
-    justifyContent: 'center',
-    alignItems: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
   },
 });
 
