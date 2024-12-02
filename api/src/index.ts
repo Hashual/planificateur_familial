@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 
 import * as todoListRoutes from './routes/todoList.routes';
+import * as shoppingListRoutes from './routes/shoppingList.routes';
 
 import { RunScripts } from './db';
 import { ZodError } from 'zod';
@@ -9,12 +10,13 @@ const app = express();
 
 app.use(express.json());
 app.use('/todo-list', todoListRoutes.default);
+app.use('/shopping-list', shoppingListRoutes.default);
 
 app.use((err: Error, req: Request, res: Response, next: Function) => {
 	if (err instanceof ZodError) {
 		res.status(400).json({ code: 400, message: 'Bad Request', errors: err.errors });
 		return;
-	} else  {
+	} else {
 		console.log(err);
 		res.status(500).json({ code: 500, message: 'Internal Server Error' });
 	}
