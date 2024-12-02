@@ -85,20 +85,24 @@ export default function ShoppingLists() {
       <FlatList
         data={mockData.shoppingLists}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item: list }) => (
-          
-          <ListItem
-            id={list.id}
-            name={list.name}
-            totalItems={list.articles.length}
-            handleDeleteList={async () => {
-              handleDeleteShoppingList(list.id)
-            }}
-            itemName={"article"}
-            listIcon={"basket-outline"}
-            pathName={"/shoppinglist/[id]"} 
-          />
-        )}
+        renderItem={({ item: list }) => {
+          const completedTasksCount = list.articles.filter((article) => article.isChecked).length;
+
+          return (
+            <ListItem
+              id={list.id}
+              name={list.name}
+              totalItems={list.articles.length}
+              completedItems={completedTasksCount}
+              handleDeleteList={async () => {
+                handleDeleteShoppingList(list.id)
+              }}
+              itemName={"article"}
+              listIcon={"basket-outline"}
+              pathName={"/shoppinglist/[id]"} 
+            />
+          )
+        }}
       />
       <ThemedButton
         title="Ajouter une liste"
