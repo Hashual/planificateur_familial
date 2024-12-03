@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { COLORS } from '../../../constants/Colors';
+import { Colors } from '../../../constants/Colors';
 
 interface HandleProps { 
   children?: React.ReactNode;
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     top: '45%', // Ajuste pour qu'elle soit environ au centre verticalement
     width: 60,
     height: 13,
-    backgroundColor: COLORS.handleGray, // Couleur de la poignée
+    backgroundColor: Colors.handleGray, // Couleur de la poignée
     borderRadius: 5, // Coins arrondis pour la poignée
   },
 });
