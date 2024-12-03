@@ -1,48 +1,34 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, FlatList, Modal, View, TextInput, ActivityIndicator, StatusBar, Alert } from "react-native";
+import { Text, StyleSheet, FlatList, ActivityIndicator, StatusBar, Alert } from "react-native";
+
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
+
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
 import { ThemedButton } from "@/components/ThemedButton";
-import { useFonts } from "expo-font";
 import AddArticleModal from "@/components/modals/AddArticleModal";
+import LoadFont from "@/utils/LoadFont";
+import Error from "@/utils/alerts/Error";
 
 export default function ShoppingList() {
-const params = useLocalSearchParams();
-const [fontsLoaded] = useFonts({
-    Pacifico: require("@/assets/fonts/Pacifico.ttf"),
-  });
+  const loadedError = LoadFont({
+    "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
+  })
+  if (loadedError) { return loadedError; }
+
+  const params = useLocalSearchParams();
+
   const listId = Number(params.id);
   const [shoppingData, setShoppingData] = useState<{ shoppingLists: any[] }>({
     shoppingLists: [],
   });
   const [list, setList] = useState<any | undefined>(undefined);
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [articleNameInput, setArticleNameInput] = useState("");
   const [numberOfArticle, setNumberOfArticle] = useState(1);
-
-  const handleInputChange = (text: string) => {
-    const numericValue = parseInt(text, 10);
-    if (!isNaN(numericValue) && numericValue>0) {
-      setNumberOfArticle(numericValue);
-    } else {
-      setNumberOfArticle(1);
-    }
-  };
-
-  const handleIncrement = () => {
-    if (numberOfArticle<999999) {
-      setNumberOfArticle((prevNumber) => prevNumber + 1);
-    }
-  }
-
-  const handleDecrement = () => {
-    if (numberOfArticle>1) {
-        setNumberOfArticle((prevNumber) => prevNumber - 1);
-    }
-  }
   
   const loadShoppingData = async () => {
     try {
@@ -50,7 +36,7 @@ const [fontsLoaded] = useFonts({
       setShoppingData(data);
       setList(data.shoppingLists.find((list) => list.id === listId));
     } catch (error) {
-      console.error("Error loading data:", error);
+      Error("Erreur", "Erreur de chargement des données", error);
     }
   };
 
@@ -60,16 +46,16 @@ const [fontsLoaded] = useFonts({
       setShoppingData(updatedData);
       setList(updatedData.shoppingLists.find((list) => list.id === listId));
     } catch (error) {
-      console.error("Error deleting article:", error);
+      Error("Erreur","Erreur lors de la suppression de l'article", error);
     }
   };
 
-  const handleAddArticle = async (listId: number, newArticleName: string, numberOfArticle: number) => {
-    if (newArticleName.trim()) {
+  const handleAddArticle = async () => {
+    if (articleNameInput.trim()) {
       try {
         const newArticle: Article = {
           id: Date.now(),
-          name: newArticleName,
+          name: articleNameInput,
           quantity: numberOfArticle,
           isChecked: false,
         };
@@ -78,10 +64,10 @@ const [fontsLoaded] = useFonts({
         setShoppingData(updatedData);
         setList(updatedData.shoppingLists.find((list) => list.id === listId));
       } catch (error) {
-        console.error("Error adding article:", error);
+        Error("Erreur", "Erreur lors de l'ajout de l'article", error);
       }
     } else {
-      Alert.alert("Entrée invalide", "Veuillez d'abord donner un nom à votre article.");
+      Error("Entrée invalide", "Veuillez d'abord donner un nom à votre article.");
     }
   };
 
@@ -91,7 +77,10 @@ const [fontsLoaded] = useFonts({
       const article = shoppingList?.articles.find(
         (article: { id: number }) => article.id === articleId
       );
-      if (!article) throw new Error("Article not found");
+      if (!article) {
+        Error("Erreur", "Article not found");
+        return;
+      }
 
       const updatedArticle = {
         ...article,
@@ -101,7 +90,7 @@ const [fontsLoaded] = useFonts({
       setShoppingData(updatedData);
       setList(updatedData.shoppingLists.find((list) => list.id === listId));
     } catch (error) {
-      console.error("Error completing article:", error);
+      Error("Erreur","Impossible de valider l'achat de l'article", error);
     }
   };
 
@@ -136,14 +125,6 @@ const [fontsLoaded] = useFonts({
     return (
       <SafeAreaView style={styles.container}>
         <Text>Chargement ou liste introuvable... {listId}</Text>
-      </SafeAreaView>
-    );
-  }
-
-  if (!fontsLoaded) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <ActivityIndicator size="large" />
       </SafeAreaView>
     );
   }
