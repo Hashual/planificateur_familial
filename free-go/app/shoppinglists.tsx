@@ -85,36 +85,38 @@ export default function ShoppingLists() {
       <FlatList
         data={mockData.shoppingLists}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item: list }) => (
-          
-          <ListItem
-            id={list.id}
-            name={list.name}
-            totalItems={list.articles.length}
-            handleDeleteList={async () => {
-              handleDeleteShoppingList(list.id)
-            }}
-            itemName={"article"}
-            listIcon={"basket-outline"}
-            pathName={"/shoppinglist/[id]"} 
-          />
-        )}
+        renderItem={({ item: list }) => {
+          const completedTasksCount = list.articles.filter((article) => article.isChecked).length;
+
+          return (
+            <ListItem
+              id={list.id}
+              name={list.name}
+              totalItems={list.articles.length}
+              completedItems={completedTasksCount}
+              handleDeleteList={async () => {
+                handleDeleteShoppingList(list.id)
+              }}
+              itemName={"article"}
+              listIcon={"basket-outline"}
+              pathName={"/shoppinglist/[id]"} 
+            />
+          )
+        }}
       />
       <ThemedButton
         title="Ajouter une liste"
         icon="plus"
         onPress={openModal}
         type="primary"
-        lightColor={Colors.light.primary}
-        darkColor={Colors.dark.primary}
       />
 
       <AppListModal
         isModalVisible={isModalVisible}
         closeModal={closeModal}
-        shoppingListNameInputValue={nameInputValue}
-        setShoppingListNameInputValue={setNameInputValue}
-        handleAddShoppingList={handleAddShoppingList}
+        listNameInput={nameInputValue}
+        setListNameInput={setNameInputValue}
+        handleAddList={handleAddShoppingList}
       />
     </SafeAreaView>
   );
@@ -124,35 +126,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#F7FAFA",
+    backgroundColor: Colors.light.background,
   },
   title: {
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#141C24",
+    color: Colors.light.text,
     textAlign: "center",
     fontFamily: "Pacifico",
-  },
-  category: {
-    marginBottom: 15,
-    paddingHorizontal: 10,
-    paddingTop: 5,
-    borderRadius: 10,
-    backgroundColor: "#E3E8F2",
-    overflow: "hidden",
-  },
-  categoryTitle: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: "#141C24",
-  },
-  shadowElement: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 3,
   }
 });
 

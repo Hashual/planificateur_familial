@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, Text, StyleSheet, ViewStyle, TextStyle, Image, View, Animated, Easing } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 export type ThemedButtonProps = {
   title?: string;
@@ -28,7 +29,7 @@ export function ThemedButton({
   style,
   textStyle,
 }: ThemedButtonProps) {
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  const backgroundColor = useThemeColor({ light: lightColor ?? Colors.light.primary, dark: darkColor ?? Colors.dark.primary }, 'background');
   const textColor = useThemeColor({ light: '#141C24', dark: '#141C24' }, 'text');
 
   const buttonStyles = [
