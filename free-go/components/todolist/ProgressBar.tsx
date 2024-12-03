@@ -5,16 +5,16 @@ import { StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 
-type TaskItemProps = {
-    nbTask: number,
-    nbTaskCompleted: number,
+type ProgressBarProps = {
+    nbItems: number,
+    nbItemsCompleted: number,
 };
 
-export default function TaskItem({ nbTask, nbTaskCompleted}: TaskItemProps) {
+export default function ProgressBar({ nbItems, nbItemsCompleted}: ProgressBarProps) {
 
-    const sharedValue = useSharedValue(nbTaskCompleted);
+    const sharedValue = useSharedValue(nbItemsCompleted);
     const barInnerStyle = useAnimatedStyle(() => {
-        if (nbTask===nbTaskCompleted) {
+        if (nbItems===nbItemsCompleted) {
             return {
                 flex: sharedValue.value,
                 backgroundColor: "#149414",
@@ -27,13 +27,13 @@ export default function TaskItem({ nbTask, nbTaskCompleted}: TaskItemProps) {
     })
     const barBackgroundStyle = useAnimatedStyle(() => {
         return {
-            flex: nbTask - sharedValue.value,
+            flex: nbItems - sharedValue.value,
         }
     })
 
     useEffect(() => {
-        sharedValue.value = withSpring(nbTaskCompleted);
-    }, [nbTaskCompleted]);
+        sharedValue.value = withSpring(nbItemsCompleted);
+    }, [nbItemsCompleted]);
     
     return (
         <View style={styles.bar}>

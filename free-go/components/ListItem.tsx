@@ -8,13 +8,13 @@ type Props = {
     name: string,
     itemName: string,
     totalItems: number | 0,
-    nbTaskCompleted?: number,
+    completedItems?: number,
     listIcon: keyof typeof MaterialCommunityIcons.glyphMap,
     pathName: "/todolist/[id]" | "/shoppinglist/[id]",
     handleDeleteList: (id : number) => {},
 }
 
-export default function ListItem({ id, name, itemName, totalItems, nbTaskCompleted, listIcon, pathName, handleDeleteList }: Props) {
+export default function ListItem({ id, name, itemName, totalItems, completedItems, listIcon, pathName, handleDeleteList }: Props) {
       
     return (
       <Link
@@ -34,9 +34,7 @@ export default function ListItem({ id, name, itemName, totalItems, nbTaskComplet
               <Text style={styles.taskNumber}>
                   {totalItems} {totalItems <= 1 ? `${itemName}` : `${itemName}s`}
               </Text>
-              {pathName === "/todolist/[id]" ? (
-                <ProgressBar nbTask={totalItems} nbTaskCompleted={nbTaskCompleted ?? 0}/>
-              ) : null}
+              <ProgressBar nbItems={totalItems} nbItemsCompleted={completedItems ?? 0}/>
             </View>
 
             <MaterialCommunityIcons name="chevron-right" size={30} color="#141C24" />
@@ -54,6 +52,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 1,
         backgroundColor: "#f9f9f9",
         borderRadius: 8,
+
+        //Shadow
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
