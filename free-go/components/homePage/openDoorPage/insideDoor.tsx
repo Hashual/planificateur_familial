@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, StyleSheet, ScrollView, StatusBar } from 'react-native';
+import { View, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/ThemedButton';
 import { useRouter } from 'expo-router';
@@ -24,6 +24,8 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               darkColor="#F5C754"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
+              icon='check'
+              onTop={true}
             />
             <DoorShelfs />
             <ThemedButton
@@ -34,7 +36,8 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               darkColor="#F5C754"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
-
+              icon='basket'
+              onTop={true}
             />
             <DoorShelfs />
             

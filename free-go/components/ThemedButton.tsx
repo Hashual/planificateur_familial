@@ -7,6 +7,7 @@ export type ThemedButtonProps = {
   title?: string;
   icon?: keyof typeof MaterialCommunityIcons.glyphMap;
   addButton?: boolean;
+  onTop?: boolean;
   onPress: () => void;
   lightColor?: string;
   darkColor?: string;
@@ -19,6 +20,7 @@ export function ThemedButton({
   title,
   icon,
   addButton,
+  onTop,
   onPress,
   lightColor,
   darkColor,
@@ -71,10 +73,11 @@ export function ThemedButton({
           buttonStyles,
           { transform: [{ scale }] },
         ]}
-      >
-        <View style={styles.buttonContent}>
+      > 
+        
+        <View style={ !onTop ? styles.buttonContentNextTo : styles.buttonContentOnTop}>
         {icon && (
-          <View style={styles.iconContainer}>
+          <View style={ !onTop ? styles.iconContainerNextTo : styles.iconContainerOnTop}>
             <MaterialCommunityIcons name={icon} size={20} color="#141C24" />
           </View>
         )}
@@ -123,12 +126,18 @@ const styles = StyleSheet.create({
   image: {
     resizeMode: 'contain', // Conserve les proportions de l'image
   },
-  buttonContent: {
+  buttonContentNextTo: {
     alignItems: 'center', // Aligne le contenu verticalement
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  iconContainer: {
+  buttonContentOnTop:{
+    alignItems: 'center', // Aligne le contenu verticalement
+    justifyContent: 'center',
+    flexDirection: 'column',
+
+  },
+  iconContainerNextTo: {
     borderRadius: 50,
     width: 25,
     height: 25,
@@ -139,4 +148,15 @@ const styles = StyleSheet.create({
     borderColor: '#141C24',
     marginRight: 10,
   },
+  iconContainerOnTop: {
+    borderRadius: 50,
+    width: 25,
+    height: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: '#141C24',
+    marginBottom: 5,
+  },  
 });
