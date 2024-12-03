@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { COLORS } from '../../../constants/Colors';
+import { Colors } from '../../../constants/Colors';
 
 const DoorReflection: React.FC = () => {
   return <View style={styles.reflection} />;
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   reflection: {
     width: '100%',
     height: 10,
-    backgroundColor: COLORS.reflectionWhite,
+    backgroundColor: Colors.reflectionWhite,
     opacity: 0.5,
     borderRadius: 5,
     position: 'absolute',

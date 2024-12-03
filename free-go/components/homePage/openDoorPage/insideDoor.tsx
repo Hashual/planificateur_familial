@@ -24,8 +24,6 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               darkColor="#F5C754"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
-              imageSource={require('@/assets/images/toDoList.png')}
-              imageSize={30}
             />
             <DoorShelfs />
             <ThemedButton
@@ -36,8 +34,6 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               darkColor="#F5C754"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
-              imageSource={require('@/assets/images/shoppingList.png')}
-              imageSize={30}
 
             />
             <DoorShelfs />

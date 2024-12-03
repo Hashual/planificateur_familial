@@ -4,7 +4,8 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export type ThemedButtonProps = {
-  title?: string; // Texte facultatif
+  title?: string;
+  icon?: keyof typeof MaterialCommunityIcons.glyphMap;
   addButton?: boolean;
   onPress: () => void;
   lightColor?: string;

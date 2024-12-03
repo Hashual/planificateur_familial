@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
-import { COLORS } from '../../../constants/Colors';
+import { Colors } from '../../../constants/Colors';
 import { useFonts } from 'expo-font';
 
 const DoorText: React.FC = () => {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Pacifico',
     fontSize: 36,
     fontWeight: 'bold',
-    color: COLORS.textColor,
+    color: Colors.textColor,
   },
 });
 
