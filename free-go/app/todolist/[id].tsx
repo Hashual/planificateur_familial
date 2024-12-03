@@ -1,37 +1,22 @@
 import TaskItem from "@/components/todolist/TaskItem";
 import { ThemedButton } from "@/components/ThemedButton";
-import {
-  addTask,
-  deleteTask,
-  getMockData,
-  updateTask,
-} from "@/mockapi/mockData";
+import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData";
 import { Task } from "@/mockapi/types";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import {
-  FlatList,
-  TextInput,
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  Platform,
-  Pressable,
-  Alert,
-  ActivityIndicator,
-  StatusBar,
-} from "react-native";
+import { FlatList, TextInput, View, Text, StyleSheet, Modal, Platform, Pressable, Alert, ActivityIndicator, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useFonts } from "expo-font";
+import LoadFont from "@/utils/LoadFont";
 
 export default function ToDoList() {
+  const loadedError = LoadFont({
+    "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
+  })
+  if (loadedError) { return loadedError; }
+
   const params = useLocalSearchParams();
-  const [fontsLoaded] = useFonts({
-    Pacifico: require("@/assets/fonts/Pacifico.ttf"),
-  });
   const listId = Number(params.id);
   const [toDoData, setToDoData] = useState<{ toDoLists: any[] }>({
     toDoLists: [],
@@ -161,14 +146,6 @@ export default function ToDoList() {
     return (
       <SafeAreaView style={styles.container}>
         <Text>Chargement ou liste introuvable... {listId}</Text>
-      </SafeAreaView>
-    );
-  }
-
-  if (!fontsLoaded) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <ActivityIndicator size="large" />
       </SafeAreaView>
     );
   }
