@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
-    marginTop: 5, // Ajoute un espace entre l'image et le texte
+    
   },
   secondary: {
     backgroundColor: '#E3E8F2',
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
   },
   outlinedText: {
     color: '#141C24',
+    
   },
   image: {
     resizeMode: 'contain', // Conserve les proportions de l'image
@@ -125,6 +126,7 @@ const styles = StyleSheet.create({
   buttonContent: {
     alignItems: 'center', // Aligne le contenu verticalement
     justifyContent: 'center',
+    flexDirection: 'row',
   },
   iconContainer: {
     borderRadius: 50,
@@ -132,9 +134,9 @@ const styles = StyleSheet.create({
     height: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 5,
     borderStyle: 'solid',
     borderWidth: 2,
     borderColor: '#141C24',
+    marginRight: 10,
   },
 });

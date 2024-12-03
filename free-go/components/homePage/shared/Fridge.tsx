@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { COLORS } from '../../../constants/Colors';
+import { Colors } from '../../../constants/Colors';
 
 interface Fridge {
   children: React.ReactNode;
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   door: {
     width: '90%',
     height: '95%',
-    backgroundColor: COLORS.fridgeYellow,
+    backgroundColor: Colors.fridgeYellow,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
