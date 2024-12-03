@@ -4,8 +4,8 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export type ThemedButtonProps = {
-  title: string;
-  icon?: keyof typeof MaterialCommunityIcons.glyphMap,
+  title?: string; // Texte facultatif
+  addButton?: boolean;
   onPress: () => void;
   lightColor?: string;
   darkColor?: string;
@@ -17,6 +17,7 @@ export type ThemedButtonProps = {
 export function ThemedButton({
   title,
   icon,
+  addButton,
   onPress,
   lightColor,
   darkColor,
@@ -33,7 +34,7 @@ export function ThemedButton({
     type === 'secondary' && styles.secondary,
     type === 'outlined' && styles.outlined,
     styles.shadowElement,
-    style, 
+    style,
   ];
 
   const textStyles = [
@@ -76,7 +77,9 @@ export function ThemedButton({
             <MaterialCommunityIcons name={icon} size={20} color="#141C24" />
           </View>
         )}
-        <Text style={[textStyles, { color: textColor }]}>{title}</Text>
+
+        {/* Affiche le texte si title est défini */}
+        {title && <Text style={[textStyles, { color: textColor }]}>{title}</Text>}
       </View>
       </Animated.View>
     </Pressable>
@@ -96,13 +99,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-
     elevation: 2,
   },
   text: {
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
+    marginTop: 5, // Ajoute un espace entre l'image et le texte
   },
   secondary: {
     backgroundColor: '#E3E8F2',
@@ -116,13 +119,11 @@ const styles = StyleSheet.create({
     color: '#141C24',
   },
   image: {
-    width: 20,
-    height: 20,
-    marginRight: 8,
+    resizeMode: 'contain', // Conserve les proportions de l'image
   },
   buttonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center', // Aligne le contenu verticalement
+    justifyContent: 'center',
   },
   iconContainer: {
     borderRadius: 50,
@@ -130,9 +131,9 @@ const styles = StyleSheet.create({
     height: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
-    borderStyle: "solid",
+    marginBottom: 5,
+    borderStyle: 'solid',
     borderWidth: 2,
-    borderColor: "#141C24"
+    borderColor: '#141C24',
   },
 });
