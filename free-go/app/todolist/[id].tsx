@@ -54,7 +54,7 @@ export default function ToDoList() {
     }
   };
 
-  const handleDeleteTask = async (listId: number, taskId: number) => {
+  const handleDeleteTask = async (taskId: number) => {
     try {
       const updatedData = await deleteTask(listId, taskId);
       setToDoData(updatedData);
@@ -78,28 +78,30 @@ export default function ToDoList() {
     }
   };
 
-  const handleAddTask = async (listId: number, newTaskName: string) => {
-    if (newTaskName.trim()) {
-      try {
-        const newTask: Task = {
-          id: Date.now(),
-          name: newTaskName,
-          dueDate: createDate(),
-          completedDate: null,
-        };
-        const updatedData = await addTask(listId, newTask);
-        closeModal();
-        setToDoData(updatedData);
-        setList(updatedData.toDoLists.find((list) => list.id === listId));
-      } catch (error) {
-        Error("Erreur", "Erreur lors de l'ajout de la tâche", error);
-      }
-    } else {
+  const handleAddTask = async () => {
+    if (!taskNameInput.trim()) {
       Error("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
+      return;
     }
+
+    try {
+      const newTask: Task = {
+        id: Date.now(),
+        name: taskNameInput,
+        dueDate: createDate(),
+        completedDate: null,
+      };
+      const updatedData = await addTask(listId, newTask);
+      closeModal();
+      setToDoData(updatedData);
+      setList(updatedData.toDoLists.find((list) => list.id === listId));
+    } catch (error) {
+      Error("Erreur", "Erreur lors de l'ajout de la tâche", error);
+    }
+
   };
 
-  const handleCompleteTask = async (listId: number, taskId: number) => {
+  const handleCompleteTask = async (taskId: number) => {
     try {
       const taskList = toDoData.toDoLists.find((list) => list.id === listId);
       const task = taskList?.tasks.find(
@@ -180,8 +182,6 @@ export default function ToDoList() {
         icon="plus"
         onPress={openModal}
         type="primary"
-        lightColor="#F5C754"
-        darkColor="#F5C754"
       />
 
       <Modal
@@ -263,7 +263,7 @@ export default function ToDoList() {
               />
               <ThemedButton
                 title="Ajouter"
-                onPress={() => handleAddTask(listId, taskNameInput)}
+                onPress={handleAddTask}
                 type="primary"
                 lightColor="#F5C754"
                 darkColor="#F5C754"
