@@ -1,14 +1,17 @@
-import TaskItem from "@/components/todolist/TaskItem";
-import { ThemedButton } from "@/components/ThemedButton";
-import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData";
-import { Task } from "@/mockapi/types";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
-import { FlatList, TextInput, View, Text, StyleSheet, Modal, Platform, Pressable, Alert, ActivityIndicator, StatusBar } from "react-native";
+import { useCallback, useState } from "react";
+import { FlatList, TextInput, View, Text, StyleSheet, Modal, Platform, Pressable, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData";
+import { Task } from "@/mockapi/types";
+
+import TaskItem from "@/components/todolist/TaskItem";
+import { ThemedButton } from "@/components/ThemedButton";
 import LoadFont from "@/utils/LoadFont";
+import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 
 export default function ToDoList() {
   const loadedError = LoadFont({
@@ -152,9 +155,8 @@ export default function ToDoList() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle={isModalVisible ||isDatePickerVisible || isTimePickerVisible ? 'light-content' : 'dark-content'}
-        backgroundColor={isModalVisible ||isDatePickerVisible || isTimePickerVisible ? '#000000' : '#ffffff'}
+      <ThemedStatusBar
+        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
       <Text style={styles.categoryTitle}>{list.name}</Text>
       <FlatList
