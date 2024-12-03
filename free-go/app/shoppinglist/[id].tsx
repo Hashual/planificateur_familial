@@ -1,12 +1,13 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, FlatList, Modal, View, TextInput, Button, ActivityIndicator, StatusBar, Alert } from "react-native";
+import { Text, StyleSheet, FlatList, Modal, View, TextInput, ActivityIndicator, StatusBar, Alert } from "react-native";
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
 import { ThemedButton } from "@/components/ThemedButton";
 import { useFonts } from "expo-font";
+import AddArticleModal from "@/components/modals/AddArticleModal";
 
 export default function ShoppingList() {
 const params = useLocalSearchParams();
@@ -175,74 +176,16 @@ const [fontsLoaded] = useFonts({
         darkColor="#F5C754"
       />
 
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={closeModal}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Ajouter un nouvel article</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Nom de l'article"
-              placeholderTextColor="#666"
-              value={articleNameInput}
-              onChangeText={setArticleNameInput}
-            />
+      <AddArticleModal 
+        isModalVisible={isModalVisible} 
+        closeModal={closeModal} 
+        articleNameInput={articleNameInput} 
+        setArticleNameInput={setArticleNameInput} 
+        numberOfArticle={numberOfArticle} 
+        setNumberOfArticle={setNumberOfArticle} 
+        handleAddArticle={handleAddArticle} 
+      />
 
-            <View style={[styles.input]}> 
-                
-                <View style={styles.quantity}>
-                  <Text>Quantité : </Text>
-                  <TextInput
-                    value={numberOfArticle.toString()}
-                    onChangeText={(text) => handleInputChange(text)}
-                    keyboardType="numeric"
-                    maxLength={6}
-                    style={styles.textInput}
-                  />
-                </View>
-                <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                    <ThemedButton
-                        title="-"
-                        onPress={handleDecrement}
-                        type="primary"
-                        lightColor="#F5C754"
-                        darkColor="#F5C754"
-                        style={{paddingHorizontal: 18}}
-                    />
-                        <ThemedButton
-                        title="+"
-                        onPress={handleIncrement}
-                        type="primary"
-                        lightColor="#F5C754"
-                        darkColor="#F5C754"
-                        style={{marginLeft:10,paddingHorizontal: 17}}
-                    />
-                </View>
-            </View>
-            
-            <View style={styles.modalButtons}>
-              <ThemedButton
-                title="Annuler"
-                onPress={closeModal}
-                type="secondary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
-              />
-              <ThemedButton
-                title="Ajouter"
-                onPress={() => handleAddArticle(listId, articleNameInput, numberOfArticle)}
-                type="primary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 }
