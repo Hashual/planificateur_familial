@@ -1,9 +1,7 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList, TextInput, View, Text, StyleSheet, Modal, Platform, Pressable } from "react-native";
+import { FlatList, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData";
 import { Task } from "@/mockapi/types";
@@ -26,7 +24,6 @@ export default function ToDoList() {
   const [toDoData, setToDoData] = useState<{ toDoLists: any[] }>({
     toDoLists: [],
   });
-
   const [list, setList] = useState<any | undefined>(undefined);
   const [isModalVisible, setModalVisible] = useState(false);
   const [taskNameInput, setTaskNameInput] = useState("");
@@ -113,8 +110,6 @@ export default function ToDoList() {
     }
   };
 
-  
-
   const openModal = () => {
     setModalVisible(true);
   };
@@ -191,39 +186,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#141C24",
     fontFamily: "Pacifico"
-  },
-  input: {
-    width: "85%",
-    borderColor: "#F5C754",
-    borderWidth: 1,
-    padding: 10,
-    marginTop: 10,
-    borderRadius: 5,
-    backgroundColor: "#fff",
-    boxSizing: "border-box" as "border-box",
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    width: "80%",
-    padding: 20,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: 20,
-    marginBottom: 15,
-    fontWeight: "bold",
-  },
-  modalButtons: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginTop: 15,
-  },
+  }
 });
