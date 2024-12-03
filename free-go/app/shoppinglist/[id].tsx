@@ -11,6 +11,7 @@ import { ThemedButton } from "@/components/ThemedButton";
 import AddArticleModal from "@/components/modals/AddArticleModal";
 import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
+import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 
 export default function ShoppingList() {
   const loadedError = LoadFont({
@@ -131,9 +132,8 @@ export default function ShoppingList() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle={isModalVisible ? 'light-content' : 'dark-content'}
-        backgroundColor={isModalVisible ? '#000000' : '#ffffff'}
+      <ThemedStatusBar
+        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
       <Text style={styles.categoryTitle}>{list.name}</Text>
       <FlatList
