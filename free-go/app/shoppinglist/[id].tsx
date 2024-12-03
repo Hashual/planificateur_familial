@@ -1,7 +1,7 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, FlatList, ActivityIndicator, StatusBar, Alert } from "react-native";
+import { Text, StyleSheet, FlatList } from "react-native";
 
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
@@ -52,37 +52,40 @@ export default function ShoppingList() {
   };
 
   const handleAddArticle = async () => {
-    if (articleNameInput.trim()) {
-      try {
-        const newArticle: Article = {
-          id: Date.now(),
-          name: articleNameInput,
-          quantity: numberOfArticle,
-          isChecked: false,
-        };
-        const updatedData = await addArticle(listId, newArticle);
-        closeModal();
-        setShoppingData(updatedData);
-        setList(updatedData.shoppingLists.find((list) => list.id === listId));
-      } catch (error) {
-        Error("Erreur", "Erreur lors de l'ajout de l'article", error);
-      }
-    } else {
+    if (!articleNameInput.trim()) {
       Error("Entrée invalide", "Veuillez d'abord donner un nom à votre article.");
+      return;
+    }
+    if (numberOfArticle < 1 || numberOfArticle > 999999) {
+      Error("Entrée invalide", "Veuillez sélectionner un nombre d'articles entre 1 et 999999.");
+      return;
+    }
+    try {
+      const newArticle: Article = {
+        id: Date.now(), // Génération d'id à simplifier (à modif avec l'api)
+        name: articleNameInput,
+        quantity: numberOfArticle,
+        isChecked: false,
+      };
+      const updatedData = await addArticle(listId, newArticle);
+      closeModal();
+      setShoppingData(updatedData);
+      setList(updatedData.shoppingLists.find((list) => list.id === listId));
+    } catch (error) {
+      Error("Erreur", "Erreur lors de l'ajout de l'article", error);
     }
   };
 
-  const handlePurchaseArticle = async (listId: number, articleId: number) => {
+  const handlePurchaseArticle = async (articleId: number) => {
     try {
       const shoppingList = shoppingData.shoppingLists.find((list) => list.id === listId);
       const article = shoppingList?.articles.find(
         (article: { id: number }) => article.id === articleId
       );
       if (!article) {
-        Error("Erreur", "Article not found");
+        Error("Erreur", "L'article n'existe pas ou n'est pas trouvé");
         return;
       }
-
       const updatedArticle = {
         ...article,
         isChecked: article.isChecked ? false : true,
@@ -115,7 +118,6 @@ export default function ShoppingList() {
     });
   }
   
-
   useFocusEffect(
     useCallback(() => {
       loadShoppingData();
@@ -153,8 +155,6 @@ export default function ShoppingList() {
         icon="plus"
         onPress={openModal}
         type="primary"
-        lightColor="#F5C754"
-        darkColor="#F5C754"
       />
 
       <AddArticleModal 
@@ -183,53 +183,5 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       color: "#141C24",
       fontFamily: "Pacifico",
-    },
-    input: {
-      width: "85%",
-      borderColor: "#F5C754",
-      borderWidth: 1,
-      padding: 10,
-      marginTop: 10,
-      borderRadius: 5,
-      backgroundColor: "#fff",
-      flexDirection: "row",
-      boxSizing: "border-box" as "border-box",
-    },
-    modalOverlay: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    modalContent: {
-      width: "80%",
-      padding: 20,
-      backgroundColor: "#fff",
-      borderRadius: 10,
-      alignItems: "center",
-    },
-    modalTitle: {
-      fontSize: 20,
-      marginBottom: 15,
-      fontWeight: "bold",
-    },
-    modalButtons: {
-      flexDirection: "row",
-      justifyContent: "space-around",
-      width: "100%",
-      marginTop: 15,
-    },
-    quantity: {
-      flex: 1,
-      flexDirection: "row",
-      alignItems: "center", 
-      justifyContent: "flex-start",
-      paddingRight: 2,
-    },
-    textInput: {
-      padding: 0,
-      margin: 0,
-      height: "auto",
-      width: "auto"
-    },
+    }
   });

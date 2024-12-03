@@ -6,9 +6,9 @@ type AddArticleModalProps = {
 	closeModal: () => void;
 	articleNameInput: string;
 	setArticleNameInput: (value: string) => void;
-    numberOfArticle: number;
-    setNumberOfArticle: (value: number | ((prevNumber: number) => number)) => void;
-	handleAddArticle: (listId: number, newArticleName: string, numberOfArticle: number) => void;
+  numberOfArticle: number;
+  setNumberOfArticle: (value: number | ((prevNumber: number) => number)) => void;
+	handleAddArticle: () => void;
 };
 
 export default function AddArticleModal({
@@ -97,7 +97,7 @@ export default function AddArticleModal({
               />
               <ThemedButton
                 title="Ajouter"
-                onPress={() => handleAddArticle(1, articleNameInput, numberOfArticle)}
+                onPress={handleAddArticle}
                 type="primary"
               />
             </View>
