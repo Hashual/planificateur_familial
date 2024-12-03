@@ -13,6 +13,7 @@ import { ThemedButton } from "@/components/ThemedButton";
 import LoadFont from "@/utils/LoadFont";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
+import AddTaskModal from "@/components/modals/AddTaskModal";
 
 export default function ToDoList() {
   const loadedError = LoadFont({
@@ -28,22 +29,10 @@ export default function ToDoList() {
 
   const [list, setList] = useState<any | undefined>(undefined);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [taskNameInput, settaskNameInput] = useState("");
-  const [isDatePickerVisible, setDatePickerVisible] = useState(false);
-  const [isTimePickerVisible, setTimePickerVisible] = useState(false);
+  const [taskNameInput, setTaskNameInput] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
-  const showDatePicker = () => setDatePickerVisible(true);
-  const hideDatePicker = () => setDatePickerVisible(false);
-  const showTimePicker = () => {
-    if (!selectedDate) {
-      Error("Attention", "Veuillez d'abord sélectionner une date.");
-      return;
-    }
-    setTimePickerVisible(true);
-  };
-  const hideTimePicker = () => setTimePickerVisible(false);
-
+  
   const loadToDoData = async () => {
     try {
       const data = await getMockData();
@@ -124,15 +113,7 @@ export default function ToDoList() {
     }
   };
 
-  const handleDateConfirm = (date: Date) => {
-    setSelectedDate(date);
-    hideDatePicker();
-  };
-
-  const handleTimeConfirm = (time: Date) => {
-    setSelectedTime(time);
-    hideTimePicker();
-  };
+  
 
   const openModal = () => {
     setModalVisible(true);
@@ -140,7 +121,7 @@ export default function ToDoList() {
 
   const closeModal = () => {
     setModalVisible(false);
-    settaskNameInput("");
+    setTaskNameInput("");
     setSelectedDate(null);
     setSelectedTime(null);
   };
@@ -184,94 +165,16 @@ export default function ToDoList() {
         type="primary"
       />
 
-      <Modal
-        visible={isModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={closeModal}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Ajouter une nouvelle tâche</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Nom de la tâche"
-              placeholderTextColor="#666"
-              value={taskNameInput}
-              onChangeText={settaskNameInput}
-            />
-            {Platform.OS === "web" ? (
-              <>
-                <input
-                  type="date"
-                  style={styles.input}
-                  onChange={(e) => setSelectedDate(new Date(e.target.value))}
-                />
-                <input
-                    type="time"
-                    style={styles.input}
-                    onChange={(e) => {
-                      const [hours, minutes] = e.target.value.split(":");
-                      const time = new Date();
-                      time.setHours(Number(hours), Number(minutes));
-                      setSelectedTime(time);
-                    }}
-                  />
-                </>
-            ) : (
-              <>
-              <Pressable onPress={showDatePicker}>
-                <View style={[styles.input, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    {selectedDate ? <Text>{selectedDate.toLocaleDateString()}</Text> : <Text style={{color: "#666"}}>Date (optionnel)</Text>}
-                    <MaterialCommunityIcons name="calendar-edit" size={20} color="#141C24" />
-                </View>
-              </Pressable>
-              <Pressable onPress={showTimePicker}>
-                <View style={[styles.input, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    {selectedTime ? <Text>{selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}</Text> : <Text style={{color: "#666"}}>Heure (optionnel)</Text>}
-                        <MaterialCommunityIcons name="clock-edit-outline" size={20} color="#141C24" />
-                </View>
-              </Pressable>
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleDateConfirm}
-                onCancel={hideDatePicker}
-                cancelTextIOS={"Annuler"}
-                confirmTextIOS={"Confirmer"}
-                locale="fr"
-              />
-              <DateTimePickerModal
-                isVisible={isTimePickerVisible}
-                mode="time"
-                onConfirm={handleTimeConfirm}
-                onCancel={hideTimePicker}
-                cancelTextIOS={"Annuler"}
-                confirmTextIOS={"Confirmer"}
-                locale="fr"
-              />
-              </>
-            )}
-            
-            <View style={styles.modalButtons}>
-              <ThemedButton
-                title="Annuler"
-                onPress={closeModal}
-                type="secondary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
-              />
-              <ThemedButton
-                title="Ajouter"
-                onPress={handleAddTask}
-                type="primary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <AddTaskModal 
+        isModalVisible={isModalVisible} 
+        closeModal={closeModal} 
+        taskNameInput={taskNameInput} 
+        setTaskNameInput={setTaskNameInput} 
+        selectedDate={selectedDate} 
+        setSelectedDate={setSelectedDate} 
+        selectedTime={selectedTime} 
+        setSelectedTime={setSelectedTime} 
+        handleAddTask={handleAddTask} />
     </SafeAreaView>
   );
 }
