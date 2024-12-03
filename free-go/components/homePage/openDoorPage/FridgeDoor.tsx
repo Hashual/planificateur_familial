@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import InsideDoor from './InsideDoor';
-import { Colors } from '../../../constants/Colors';
+import InsideDoor from '@/components/homePage/openDoorPage/insideDoor';
+import { Colors } from '@/constants/Colors';
 
 
 const FridgeDoor = () => {
