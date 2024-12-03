@@ -1,6 +1,6 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList, TextInput, View, Text, StyleSheet, Modal, Platform, Pressable, Alert } from "react-native";
+import { FlatList, TextInput, View, Text, StyleSheet, Modal, Platform, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -12,6 +12,7 @@ import TaskItem from "@/components/todolist/TaskItem";
 import { ThemedButton } from "@/components/ThemedButton";
 import LoadFont from "@/utils/LoadFont";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import Error from "@/utils/alerts/Error";
 
 export default function ToDoList() {
   const loadedError = LoadFont({
@@ -36,7 +37,7 @@ export default function ToDoList() {
   const hideDatePicker = () => setDatePickerVisible(false);
   const showTimePicker = () => {
     if (!selectedDate) {
-      Alert.alert("Attention", "Veuillez d'abord sélectionner une date.");
+      Error("Attention", "Veuillez d'abord sélectionner une date.");
       return;
     }
     setTimePickerVisible(true);
@@ -49,7 +50,7 @@ export default function ToDoList() {
       setToDoData(data);
       setList(data.toDoLists.find((list) => list.id === listId));
     } catch (error) {
-      console.error("Error loading data:", error);
+      Error("Erreur", "Erreur de chargement des données", error);
     }
   };
 
@@ -59,7 +60,7 @@ export default function ToDoList() {
       setToDoData(updatedData);
       setList(updatedData.toDoLists.find((list) => list.id === listId));
     } catch (error) {
-      console.error("Error deleting task:", error);
+      Error("Erreur", "Erreur lors de la suppression de la tâche", error);
     }
   };
 
@@ -91,10 +92,10 @@ export default function ToDoList() {
         setToDoData(updatedData);
         setList(updatedData.toDoLists.find((list) => list.id === listId));
       } catch (error) {
-        console.error("Error adding task:", error);
+        Error("Erreur", "Erreur lors de l'ajout de la tâche", error);
       }
     } else {
-      Alert.alert("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
+      Error("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
     }
   };
 
@@ -104,7 +105,10 @@ export default function ToDoList() {
       const task = taskList?.tasks.find(
         (task: { id: number }) => task.id === taskId
       );
-      if (!task) throw new Error("Task not found");
+      if (!task) {
+        Error("Erreur", "La tâche n'existe pas ou n'est pas trouvée");
+        return;
+      }
 
       const updatedTask = {
         ...task,
@@ -114,7 +118,7 @@ export default function ToDoList() {
       setToDoData(updatedData);
       setList(updatedData.toDoLists.find((list) => list.id === listId));
     } catch (error) {
-      console.error("Error completing task:", error);
+      Error("Erreur", "Erreur lors de la complétion d'une tâche", error);
     }
   };
 
