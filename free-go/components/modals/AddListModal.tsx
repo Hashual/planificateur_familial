@@ -1,4 +1,4 @@
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { Modal, Text, View, StyleSheet, TextInput } from "react-native";
 
 type AddListModalProps = {

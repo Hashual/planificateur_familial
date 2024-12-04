@@ -6,13 +6,13 @@ import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi
 import { Article } from "@/mockapi/types";
 
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import AddArticleModal from "@/components/modals/AddArticleModal";
 import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
-import { ThemedText } from "@/components/ThemedText";
-import { RootView } from "@/components/RootView";
+import { ThemedText } from "@/components/utilities/ThemedText";
+import { RootView } from "@/components/utilities/RootView";
 
 export default function ShoppingList() {
   const loadedError = LoadFont({

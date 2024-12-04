@@ -4,7 +4,7 @@ import { Pressable, View, StyleSheet } from "react-native";
 import ProgressBar from "./todolist/ProgressBar";
 import { Shadows } from "@/constants/Shadows";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { ThemedText } from "./ThemedText";
+import { ThemedText } from "./utilities/ThemedText";
 
 type Props = {
     id: number,

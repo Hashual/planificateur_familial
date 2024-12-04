@@ -1,4 +1,4 @@
-import XOR from "@/utils/xor";
+import XOR from "@/utils/XOR";
 import { StatusBar, useColorScheme } from "react-native"
 
 type StatusBarProps = {

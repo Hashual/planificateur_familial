@@ -6,13 +6,13 @@ import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData"
 import { Task } from "@/mockapi/types";
 
 import TaskItem from "@/components/todolist/TaskItem";
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import LoadFont from "@/utils/LoadFont";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
 import AddTaskModal from "@/components/modals/AddTaskModal";
-import { ThemedText } from "@/components/ThemedText";
-import { RootView } from "@/components/RootView";
+import { ThemedText } from "@/components/utilities/ThemedText";
+import { RootView } from "@/components/utilities/RootView";
 
 export default function ToDoList() {
   const loadedError = LoadFont({
