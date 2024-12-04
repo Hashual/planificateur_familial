@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import DoorShelfs from './DoorShelf';
-import { ThemedButton } from '@/components/ThemedButton';
+import { ThemedButton } from '@/components/utilities/ThemedButton';
 import { useRouter } from 'expo-router';
 
 interface InsideDoorProps {

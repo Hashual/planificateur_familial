@@ -1,5 +1,5 @@
 import { Modal, View, TextInput, Text, StyleSheet } from "react-native";
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 
 type AddArticleModalProps = {
 	isModalVisible: boolean;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { Colors } from '../../../constants/Colors';
 import { useFonts } from 'expo-font';
-import { ThemedText } from '@/components/ThemedText';
+import { ThemedText } from '@/components/utilities/ThemedText';
 
 const DoorText: React.FC = () => {
   const [fontsLoaded] = useFonts({

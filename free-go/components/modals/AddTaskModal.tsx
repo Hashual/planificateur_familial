@@ -1,5 +1,5 @@
 import { Modal, View, TextInput, Text, StyleSheet, Platform, Pressable } from "react-native";
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";

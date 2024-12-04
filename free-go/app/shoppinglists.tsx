@@ -5,15 +5,15 @@ import { useFocusEffect } from "expo-router";
 import { createShoppingList, deleteShoppingList, getMockData } from "@/mockapi/mockData";
 import { MockData } from "@/mockapi/types";
 
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
 import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import LoadFont from "@/utils/LoadFont";
-import { ThemedText } from "@/components/ThemedText";
-import { RootView } from "@/components/RootView";
+import { ThemedText } from "@/components/utilities/ThemedText";
+import { RootView } from "@/components/utilities/RootView";
 
 export default function ShoppingLists() {
   const loadedError = LoadFont({
