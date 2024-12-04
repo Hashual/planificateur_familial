@@ -10,25 +10,36 @@ export const Colors = {
     textColor: '#4A4A4A',     // couleur pour le texte
 
     light: {
-      text: '#11181C',
-      background: '#fff',
-      tint: '#0A7EA4',
-      icon: '#687076',
-      tabIconDefault: '#687076',
-      tabIconSelected: '#0A7EA4',
-
-      /* Buttons */
-      primary: '#F5C754'
+      background: "#F7FAFA",
+      backgroundWhite: "#FFF",
+      handleGray: '#C0C0C0',
+      primary: "#FFD700",
+      button: "#F5C754",
+      text: "#11181C",
+      logo: "#11181C",
+      logoBackground: "#9BA1A6",
+      listBackground: "#FFFFFF",
+      taskCompleted: "#BDBDBD",
+      taskLate: "#D32F2F",
+      progressBarCompleted: "#149414",
+      cancelAction: "#D32F2F",
+      modalBackground: "rgba(0, 0, 0, 0.5)",
     },
+  
     dark: {
-      text: '#ECEDEE',
-      background: '#151718',
-      tint: '#FFF',
-      icon: '#9BA1A6',
-      tabIconDefault: '#9BA1A6',
-      tabIconSelected: '#FFF',
-
-      /* Buttons */
-      primary: '#F5C754'
+      background: "#F7FAFA",
+      backgroundWhite: "#FFF",
+      handleGray: '#C0C0C0',
+      primary: "#FFD700",
+      button: "#F5C754",
+      text: "#11181C",
+      logo: "#11181C",
+      logoBackground: "#9BA1A6",
+      listBackground: "#FFFFFF",
+      taskCompleted: "#BDBDBD",
+      taskLate: "#D32F2F",
+      progressBarCompleted: "#149414",
+      cancelAction: "#D32F2F",
+      modalBackground: "rgba(0, 0, 0, 0.5)",
     },
 };
