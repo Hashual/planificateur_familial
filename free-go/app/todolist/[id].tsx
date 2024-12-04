@@ -149,7 +149,7 @@ export default function ToDoList() {
             task={task}
             listId={listId}
             handleDeleteTask={handleDeleteTask}
-            handleCompleteTask={handleCompleteTask}
+            handleCompleteTask={() => handleCompleteTask(task.id)}
           />
         )}
       />
