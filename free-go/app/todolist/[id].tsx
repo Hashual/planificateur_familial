@@ -141,7 +141,7 @@ export default function ToDoList() {
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
-      <ThemedText variant="title" color="text">{list.name}</ThemedText>
+      <ThemedText variant="title" color="primaryText">{list.name}</ThemedText>
       <FlatList
         data={list.tasks}
         keyExtractor={(task) => task.id.toString()}
