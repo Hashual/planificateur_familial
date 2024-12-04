@@ -1,7 +1,10 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import { Pressable, Text, View, StyleSheet, Platform, Alert } from "react-native";
+import { Pressable, View, StyleSheet } from "react-native";
 import ProgressBar from "./todolist/ProgressBar";
+import { Shadows } from "@/constants/Shadows";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { ThemedText } from "./ThemedText";
 
 type Props = {
     id: number,
@@ -15,29 +18,34 @@ type Props = {
 }
 
 export default function ListItem({ id, name, itemName, totalItems, completedItems, listIcon, pathName, handleDeleteList }: Props) {
-      
+    const colors = useThemeColor();
+
+    const dynamicPressableStyle = [styles.category, {
+      backgroundColor: colors.elementBackground,
+      ...Shadows.dp2
+    }]
+
     return (
       <Link
         href={{ pathname: pathName, params: { id: id } }}
         asChild
       >
-        <Pressable 
-            onLongPress={async () => handleDeleteList(id)}
-            style={styles.category}
-        >
-            <View style={styles.logoContainer}>
-            <MaterialCommunityIcons name={listIcon} size={24} color="#141C24" />
+        <Pressable onLongPress={async () => handleDeleteList(id)}>
+          <View style={dynamicPressableStyle}>
+            <View style={[styles.logoContainer, {backgroundColor: colors.logoBackground}]}>
+              <MaterialCommunityIcons name={listIcon} size={24} color={colors.logo} />
             </View>
 
             <View style={styles.textContainer}>
-              <Text style={styles.categoryTitle}>{name}</Text>
-              <Text style={styles.taskNumber}>
-                  {totalItems} {totalItems <= 1 ? `${itemName}` : `${itemName}s`}
-              </Text>
+              <ThemedText variant="subtitle">{name}</ThemedText>
+              <ThemedText variant="smallText" color="secondaryText" style={{marginTop: 4}}>
+                {totalItems} {totalItems <= 1 ? `${itemName}` : `${itemName}s`}
+                </ThemedText>
               <ProgressBar nbItems={totalItems} nbItemsCompleted={completedItems ?? 0}/>
             </View>
 
-            <MaterialCommunityIcons name="chevron-right" size={30} color="#141C24" />
+            <MaterialCommunityIcons name="chevron-right" size={30} color={colors.logo}/>
+            </View>
         </Pressable>
       </Link>
     );
@@ -50,20 +58,11 @@ const styles = StyleSheet.create({
         padding: 16,
         marginVertical: 8,
         marginHorizontal: 1,
-        backgroundColor: "#f9f9f9",
         borderRadius: 8,
-
-        //Shadow
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        elevation: 2,
       },
       logoContainer: {
         width: 40,
         height: 40,
-        backgroundColor: "#e4eaf1",
         borderRadius: 8,
         alignItems: "center",
         justifyContent: "center",
@@ -72,15 +71,5 @@ const styles = StyleSheet.create({
       textContainer: {
         flex: 1,
         flexDirection: "column",
-      },
-      categoryTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: "#141C24",
-      },
-      taskNumber: {
-        fontSize: 14,
-        color: "gray",
-        marginTop: 4,
       },
 });

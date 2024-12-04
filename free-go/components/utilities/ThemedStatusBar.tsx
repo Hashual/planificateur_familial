@@ -6,7 +6,7 @@ type StatusBarProps = {
 }
 
 export default function ThemedStatusBar({isDark}: StatusBarProps) {
-	const scheme = useColorScheme()
+	const scheme = useColorScheme();
 	
 	const barStyle = XOR(isDark, (scheme === "dark")) ? "light-content" : "dark-content";
 
