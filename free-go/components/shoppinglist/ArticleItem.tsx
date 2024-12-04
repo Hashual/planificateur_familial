@@ -1,5 +1,6 @@
 import { Article } from "@/mockapi/types";
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { CheckBox } from "../utilities/CheckBox";
 
 type ArticleItemProps = {
     article: Article;
@@ -16,13 +17,6 @@ export default function ArticleItem({ article, listId, handleDeleteArticle, hand
         return styles.pendingArticle;
       };
 
-    const getCheckBoxStyle = (article: Article) => {
-        if (article.isChecked) {
-          return [styles.checkBox, styles.checkBoxChecked];
-        }
-        return styles.checkBox;
-    }
-
     return (
         <View style={styles.articleItem}>
             <TouchableOpacity
@@ -30,7 +24,7 @@ export default function ArticleItem({ article, listId, handleDeleteArticle, hand
             style={{padding: 10}}
             >
               <View style={styles.rowWithGap}>
-                <Text style={getCheckBoxStyle(article)}>✓</Text>
+                <CheckBox isChecked={article.isChecked}/>
                 <View style={styles.shrinkableItem}>
                   <Text style={getTaskStyle(article)}>{article.quantity === 1 ? article.name : `${article.name} (${article.quantity})`}</Text>
                 </View>
@@ -80,19 +74,6 @@ const styles = StyleSheet.create({
       color: '#d32f2f',
       fontSize: 20,
       fontWeight: '900',
-    },
-    checkBox: {
-      width: 20,
-      height: 20,
-      borderRadius: 9999,
-      borderStyle: "solid",
-      borderColor: "#F5C754",
-      borderWidth: 1,
-      textAlign: "center",
-      color: "#fff",
-    },
-    checkBoxChecked: {
-      backgroundColor: "#F5C754"
     },
     rowWithGap: {
       flexDirection: "row",
