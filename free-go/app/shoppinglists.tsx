@@ -81,7 +81,7 @@ export default function ShoppingLists() {
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
-      <ThemedText variant="title" color="text" align="center">Mes listes de courses</ThemedText>
+      <ThemedText variant="title" color="primaryText" align="center">Mes listes de courses</ThemedText>
       
       <FlatList
         data={mockData.shoppingLists}

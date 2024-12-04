@@ -81,7 +81,7 @@ export default function ToDoLists() {
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
-      <ThemedText variant="title" color="text" align="center">Mes To-Do Lists</ThemedText>
+      <ThemedText variant="title" color="primaryText" align="center">Mes To-Do Lists</ThemedText>
       <FlatList
         data={mockData.toDoLists}
         keyExtractor={(item) => item.id.toString()}

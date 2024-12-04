@@ -21,13 +21,13 @@ export default function ProgressBar({ nbItems, nbItemsCompleted}: ProgressBarPro
         }
         return {
             flex: sharedValue.value,
-            backgroundColor: colors.button,
+            backgroundColor: colors.primary,
         }
     })
     const barBackgroundStyle = useAnimatedStyle(() => {
         return {
             flex: nbItems - sharedValue.value,
-            backgroundColor: colors.button,
+            backgroundColor: colors.primary,
         }
     })
 
