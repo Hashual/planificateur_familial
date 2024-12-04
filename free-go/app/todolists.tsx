@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {StyleSheet, FlatList, Text} from "react-native";
+import {StyleSheet, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "expo-router";
 
@@ -14,6 +14,7 @@ import Confirmation from "@/utils/alerts/Confirmation";
 import AppListModal from "@/components/modals/AddListModal";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import { Colors } from "@/constants/Colors";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function ToDoLists() {
   const loadedError = LoadFont({
@@ -81,7 +82,7 @@ export default function ToDoLists() {
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
-      <Text style={styles.title}>Mes To-Do Lists</Text>
+      <ThemedText variant="title" color="text" align="center">Mes To-Do Lists</ThemedText>
       <FlatList
         data={mockData.toDoLists}
         keyExtractor={(item) => item.id.toString()}
@@ -123,13 +124,5 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: Colors.light.background,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: Colors.light.text,
-    textAlign: "center",
-    fontFamily: "Pacifico",
   }
 });

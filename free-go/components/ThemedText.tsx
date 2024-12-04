@@ -4,12 +4,19 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { Colors } from '@/constants/Colors';
 import LoadFont from '@/utils/LoadFont';
 
+const textAlign = {
+  left: 'left',
+  center: 'center',
+  right: 'right',
+} as const;
+
 export type ThemedTextProps = TextProps & {
   variant?: keyof typeof styles,
-  color?: keyof typeof Colors["light"]
+  color?: keyof typeof Colors["light"],
+  align?: keyof typeof textAlign
 };
 
-export function ThemedText({variant, color, ...rest}: ThemedTextProps) {
+export function ThemedText({variant, color, align, style, ...rest}: ThemedTextProps) {
   const colors = useThemeColor();
   const loadedError = LoadFont({
     "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
@@ -17,7 +24,7 @@ export function ThemedText({variant, color, ...rest}: ThemedTextProps) {
   if (loadedError) { return loadedError; }
 
   return (
-    <Text style={[styles[variant ?? "default"], {color: colors[color ?? "text"]}]}></Text>
+    <Text style={[styles[variant ?? "default"], {color: colors[color ?? "text"]}, {textAlign: align ?? "left"},  style]} {...rest}></Text>
   );
 }
 
@@ -33,7 +40,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    fontFamily: "Pacifico"
+    fontFamily: "Pacifico",
+    marginBottom: 10
   },
   subtitle: {
     fontSize: 20,

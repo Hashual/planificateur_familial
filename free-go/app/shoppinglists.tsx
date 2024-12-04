@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, FlatList, Text } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "expo-router";
 
@@ -14,6 +14,7 @@ import Error from "@/utils/alerts/Error";
 import { Colors } from "@/constants/Colors";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import LoadFont from "@/utils/LoadFont";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function ShoppingLists() {
   const loadedError = LoadFont({
@@ -81,7 +82,8 @@ export default function ShoppingLists() {
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
-      <Text style={styles.title}>Mes listes de courses</Text>
+      <ThemedText variant="title" color="text" align="center">Mes listes de courses</ThemedText>
+      
       <FlatList
         data={mockData.shoppingLists}
         keyExtractor={(item) => item.id.toString()}
@@ -127,14 +129,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: Colors.light.background,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: Colors.light.text,
-    textAlign: "center",
-    fontFamily: "Pacifico",
   }
 });
 

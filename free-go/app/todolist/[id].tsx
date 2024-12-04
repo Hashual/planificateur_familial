@@ -1,6 +1,6 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList, Text, StyleSheet } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData";
@@ -12,6 +12,7 @@ import LoadFont from "@/utils/LoadFont";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
 import AddTaskModal from "@/components/modals/AddTaskModal";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function ToDoList() {
   const loadedError = LoadFont({
@@ -130,7 +131,7 @@ export default function ToDoList() {
   if (!list) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text>Chargement ou liste introuvable... {listId}</Text>
+        <ThemedText>Chargement ou liste introuvable... {listId}</ThemedText>
       </SafeAreaView>
     );
   }
@@ -140,7 +141,7 @@ export default function ToDoList() {
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
-      <Text style={styles.categoryTitle}>{list.name}</Text>
+      <ThemedText variant="title" color="text">{list.name}</ThemedText>
       <FlatList
         data={list.tasks}
         keyExtractor={(task) => task.id.toString()}
@@ -179,12 +180,5 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: "#F7FAFA",
-  },
-  categoryTitle: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#141C24",
-    fontFamily: "Pacifico"
   }
 });
