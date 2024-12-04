@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import FridgeShelves from './FridgeShelf';
+import { Colors } from '@/constants/Colors';
 
 const FridgeBottom = () => {
   return (
@@ -25,14 +26,14 @@ const styles = StyleSheet.create({
   outerBorder: {
     width: '95%',
     height: '95%',
-    backgroundColor: '#FFD700', // Jaune pour l'extérieur
+    backgroundColor: Colors.light.primary, // Jaune pour l'extérieur
     borderRadius: 20, // Coins arrondis
     
     
   },
   innerContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // Blanc pour l'intérieur
+    backgroundColor: Colors.light.backgroundWhite, // Blanc pour l'intérieur
     borderRadius: 15,
     justifyContent: 'space-between', // Espacement uniforme
   },

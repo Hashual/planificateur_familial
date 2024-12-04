@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   door: {
     width: '90%',
     height: '95%',
-    backgroundColor: Colors.fridgeYellow,
+    backgroundColor: Colors.light.primary,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',

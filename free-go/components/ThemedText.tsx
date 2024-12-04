@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   mainTitle: {
-    fontSize: 32,
+    fontSize: 48,
     fontWeight: 'bold',
     fontFamily: "Pacifico"
   },
