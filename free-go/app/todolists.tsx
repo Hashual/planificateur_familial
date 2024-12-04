@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
-import {StyleSheet, FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList } from "react-native";
 import { useFocusEffect } from "expo-router";
 
 import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
@@ -13,8 +12,8 @@ import Error from "@/utils/alerts/Error";
 import Confirmation from "@/utils/alerts/Confirmation";
 import AppListModal from "@/components/modals/AddListModal";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
-import { Colors } from "@/constants/Colors";
 import { ThemedText } from "@/components/ThemedText";
+import { RootView } from "@/components/RootView";
 
 export default function ToDoLists() {
   const loadedError = LoadFont({
@@ -78,7 +77,7 @@ export default function ToDoLists() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <RootView color="background" padding={20}>
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
@@ -115,14 +114,6 @@ export default function ToDoLists() {
         setListNameInput={setToDoListNameInputValue}
         handleAddList={handleAddTaskList}
       />
-    </SafeAreaView>
+    </RootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: Colors.light.background,
-  }
-});

@@ -1,7 +1,6 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList } from "react-native";
 
 import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData";
 import { Task } from "@/mockapi/types";
@@ -13,6 +12,7 @@ import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedSt
 import Error from "@/utils/alerts/Error";
 import AddTaskModal from "@/components/modals/AddTaskModal";
 import { ThemedText } from "@/components/ThemedText";
+import { RootView } from "@/components/RootView";
 
 export default function ToDoList() {
   const loadedError = LoadFont({
@@ -130,14 +130,14 @@ export default function ToDoList() {
 
   if (!list) {
     return (
-      <SafeAreaView style={styles.container}>
+      <RootView color="background" padding={20}>
         <ThemedText>Chargement ou liste introuvable... {listId}</ThemedText>
-      </SafeAreaView>
+      </RootView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <RootView color="background" padding={20}>
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
@@ -171,14 +171,6 @@ export default function ToDoList() {
         selectedTime={selectedTime} 
         setSelectedTime={setSelectedTime} 
         handleAddTask={handleAddTask} />
-    </SafeAreaView>
+    </RootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#F7FAFA",
-  }
-});
