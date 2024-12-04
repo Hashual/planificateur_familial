@@ -81,7 +81,7 @@ export default function ShoppingLists() {
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
-      <Text style={styles.title}>Listes de courses</Text>
+      <Text style={styles.title}>Mes listes de courses</Text>
       <FlatList
         data={mockData.shoppingLists}
         keyExtractor={(item) => item.id.toString()}

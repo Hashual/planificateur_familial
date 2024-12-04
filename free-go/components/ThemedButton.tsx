@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { Pressable, Text, StyleSheet, ViewStyle, TextStyle, Image, View, Animated, Easing } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Shadows } from '@/constants/Shadows';
 import { Colors } from '@/constants/Colors';
 
 export type ThemedButtonProps = {
   title?: string;
   icon?: keyof typeof MaterialCommunityIcons.glyphMap;
-  addButton?: boolean;
   onTop?: boolean;
   onPress: () => void;
-  lightColor?: string;
-  darkColor?: string;
   type?: 'primary' | 'secondary' | 'outlined';
   style?: ViewStyle;
   textStyle?: TextStyle;
@@ -20,24 +18,22 @@ export type ThemedButtonProps = {
 export function ThemedButton({
   title,
   icon,
-  addButton,
   onTop,
   onPress,
-  lightColor,
-  darkColor,
   type = 'primary',
   style,
   textStyle,
 }: ThemedButtonProps) {
-  const backgroundColor = useThemeColor({ light: lightColor ?? Colors.light.primary, dark: darkColor ?? Colors.dark.primary }, 'background');
-  const textColor = useThemeColor({ light: '#141C24', dark: '#141C24' }, 'text');
+  const colors = useThemeColor();
+  const backgroundColor = colors.button;
+  const textColor = colors.text;
 
   const buttonStyles = [
     styles.button,
     type === 'primary' && { backgroundColor: backgroundColor },
     type === 'secondary' && styles.secondary,
     type === 'outlined' && styles.outlined,
-    styles.shadowElement,
+    {...Shadows.dp2 },
     style,
   ];
 
@@ -98,13 +94,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  shadowElement: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
   },
   text: {
     fontSize: 16,
