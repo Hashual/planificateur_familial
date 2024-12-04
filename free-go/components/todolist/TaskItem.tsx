@@ -1,6 +1,7 @@
 import { TimeDurations } from "@/constants/TimeDuration";
 import { Task } from "@/mockapi/types";
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { CheckBox } from "../utilities/CheckBox";
 
 type TaskItemProps = {
     task: Task;
@@ -20,13 +21,6 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
         }
         return styles.pendingTask;
       };
-
-    const getCheckBoxStyle = (task: Task) => {
-        if (task.completedDate) {
-          return [styles.checkBox, styles.checkBoxChecked];
-        }
-        return styles.checkBox;
-    }
 
     const timesLeft = (dueDate: Date): number => {
       const date = new Date(dueDate);
@@ -62,7 +56,7 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
             onPress={() => handleCompleteTask(listId, task.id)}
             >
               <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
-                <Text style={getCheckBoxStyle(task)}>✓</Text>
+                <CheckBox isChecked={task.completedDate ? true : false}/>
                 <View style={{ flexShrink: 1, width: "85%" }}>
                   <Text style={getTaskStyle(task)}>{task.name}</Text>
                   {task.completedDate ? (
@@ -126,19 +120,6 @@ const styles = StyleSheet.create({
       color: '#d32f2f',
       fontSize: 20,
       fontWeight: '900',
-    },
-    checkBox: {
-      width: 20,
-      height: 20,
-      borderRadius: 9999,
-      borderStyle: "solid",
-      borderColor: "#F5C754",
-      borderWidth: 1,
-      textAlign: "center",
-      color: "#fff",
-    },
-    checkBoxChecked: {
-      backgroundColor: "#F5C754"
     },
     dueDateStatus: {
       color: "#9C854A",
