@@ -146,7 +146,7 @@ export default function ShoppingList() {
             article={article}
             listId={listId}
             handleDeleteArticle={handleDeleteArticle}
-            handleCompleteArticle={handlePurchaseArticle}
+            handleCompleteArticle={() => handlePurchaseArticle(article.id)}
           />
         )}
       />
