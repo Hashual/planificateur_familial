@@ -127,15 +127,11 @@ export default function AddArticleModal({
                 title="Annuler"
                 onPress={closeModal}
                 type="secondary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
               />
               <ThemedButton
                 title="Ajouter"
                 onPress={handleAddTask}
                 type="primary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
               />
             </View>
           </View>
