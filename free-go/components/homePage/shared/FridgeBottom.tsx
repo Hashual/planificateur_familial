@@ -26,14 +26,14 @@ const styles = StyleSheet.create({
   outerBorder: {
     width: '95%',
     height: '95%',
-    backgroundColor: Colors.light.primary, // Jaune pour l'extérieur
+    backgroundColor: Colors.light.fridge, // Jaune pour l'extérieur
     borderRadius: 20, // Coins arrondis
     
     
   },
   innerContainer: {
     flex: 1,
-    backgroundColor: Colors.light.backgroundWhite, // Blanc pour l'intérieur
+    backgroundColor: Colors.light.white, // Blanc pour l'intérieur
     borderRadius: 15,
     justifyContent: 'space-between', // Espacement uniforme
   },

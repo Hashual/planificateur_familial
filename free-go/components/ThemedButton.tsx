@@ -25,8 +25,8 @@ export function ThemedButton({
   textStyle,
 }: ThemedButtonProps) {
   const colors = useThemeColor();
-  const backgroundColor = colors.button;
-  const textColor = colors.text;
+  const backgroundColor = colors.primary;
+  const textColor = colors.primaryText;
 
   const buttonStyles = [
     styles.button,
