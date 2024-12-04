@@ -32,6 +32,10 @@ const styles = StyleSheet.create({
   default: {
     fontSize: 16,
   },
+  bold: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   mainTitle: {
     fontSize: 48,
     fontWeight: 'bold',
