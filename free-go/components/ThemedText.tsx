@@ -44,7 +44,10 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   subtitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
   },
+  smallText: {
+    fontSize: 14,
+  }
 });

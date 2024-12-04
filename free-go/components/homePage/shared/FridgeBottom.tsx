@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
-    backgroundColor: Colors.light.white, // Blanc pour l'intérieur
+    backgroundColor: "white", // Blanc pour l'intérieur
     borderRadius: 15,
     justifyContent: 'space-between', // Espacement uniforme
   },

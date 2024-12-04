@@ -6,16 +6,13 @@ export const Colors = {
       handleGray: '#C0C0C0',
       primary: "#F5C754",
       primaryText: "#11181C",
-      secondaryText: "#BDBDBD",
+      secondaryText: "#797e8a",
       danger: "#D32F2F",
       logo: "#11181C",
-      logoBackground: "#9BA1A6",
+      logoBackground: "#e4eaf1",
       listBackground: "#FFFFFF",
       progressBarCompleted: "#149414",
       modalBackground: "rgba(0, 0, 0, 0.5)",
-
-      white: "#FFF",
-      black: "#000",
     },
   
     dark: {
@@ -28,12 +25,9 @@ export const Colors = {
       secondaryText: "#BDBDBD",
       danger: "#D32F2F",
       logo: "#11181C",
-      logoBackground: "#9BA1A6",
+      logoBackground: "#e4eaf1",
       listBackground: "#FFFFFF",
       progressBarCompleted: "#149414",
       modalBackground: "rgba(0, 0, 0, 0.5)",
-
-      white: "#FFF",
-      black: "#000",
     },
 };
