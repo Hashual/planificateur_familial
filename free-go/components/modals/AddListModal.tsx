@@ -40,15 +40,11 @@ export default function AddListModal(
 					title="Annuler"
 					onPress={closeModal}
 					type="secondary"
-					lightColor="#F5C754"
-					darkColor="#F5C754"
 				/>
 				<ThemedButton
 					title="Ajouter"
 					onPress={handleAddList}
 					type="primary"
-					lightColor="#F5C754"
-					darkColor="#F5C754"
 				/>
 				</View>
 			</View>
