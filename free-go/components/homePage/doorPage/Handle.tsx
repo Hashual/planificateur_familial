@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     top: '45%', // Ajuste pour qu'elle soit environ au centre verticalement
     width: 60,
     height: 13,
-    backgroundColor: Colors.handleGray, // Couleur de la poignée
+    backgroundColor: Colors.light.handleGray, // Couleur de la poignée
     borderRadius: 5, // Coins arrondis pour la poignée
   },
 });

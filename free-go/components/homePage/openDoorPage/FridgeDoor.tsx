@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   door: {
     width: '35%', // Largeur de la porte (relative au frigo)
     height: '100%', // Hauteur de la porte (relative au frigo)
-    backgroundColor: Colors.light.primary,//'#0000FF', 
+    backgroundColor: Colors.light.fridge,//'#0000FF', 
     borderRadius: 30, // Coins arrondis pour le design
   },
 });

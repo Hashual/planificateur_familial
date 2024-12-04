@@ -10,11 +10,11 @@ export function CheckBox({size, isChecked}: CheckBoxProps) {
     const colors = useThemeColor();
 
     const dynamicStyle = {
-        borderColor: colors.button,
-        color: colors.backgroundWhite,
+        borderColor: colors.primary,
+        color: colors.elementBackground,
         width: size ?? 20,
         height: size ?? 20,
-        backgroundColor: isChecked ? colors.button : 'transparent',
+        backgroundColor: isChecked ? colors.primary : 'transparent',
     }
 
     return <Text style={[styles.checkBox, dynamicStyle]}>✓</Text>;
