@@ -1,6 +1,5 @@
 import { Colors } from "@/constants/Colors";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { ViewProps } from "react-native";
 import { SafeAreaView, SafeAreaViewProps } from "react-native-safe-area-context";
 
 export type RootViewProps = SafeAreaViewProps & {

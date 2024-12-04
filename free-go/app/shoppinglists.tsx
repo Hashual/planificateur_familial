@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, FlatList } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList } from "react-native";
 import { useFocusEffect } from "expo-router";
 
 import { createShoppingList, deleteShoppingList, getMockData } from "@/mockapi/mockData";
@@ -11,10 +10,10 @@ import ListItem from "@/components/ListItem";
 import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
-import { Colors } from "@/constants/Colors";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import LoadFont from "@/utils/LoadFont";
 import { ThemedText } from "@/components/ThemedText";
+import { RootView } from "@/components/RootView";
 
 export default function ShoppingLists() {
   const loadedError = LoadFont({
@@ -78,7 +77,7 @@ export default function ShoppingLists() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <RootView color="background" padding={20}>
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
@@ -120,15 +119,7 @@ export default function ShoppingLists() {
         setListNameInput={setNameInputValue}
         handleAddList={handleAddShoppingList}
       />
-    </SafeAreaView>
+    </RootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: Colors.light.background,
-  }
-});
 

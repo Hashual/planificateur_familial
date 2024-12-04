@@ -1,7 +1,6 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, FlatList } from "react-native";
+import { FlatList } from "react-native";
 
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
@@ -13,6 +12,7 @@ import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import { ThemedText } from "@/components/ThemedText";
+import { RootView } from "@/components/RootView";
 
 export default function ShoppingList() {
   const loadedError = LoadFont({
@@ -127,14 +127,14 @@ export default function ShoppingList() {
 
   if (!list) {
     return (
-      <SafeAreaView style={styles.container}>
+      <RootView color="background" padding={20}>
         <ThemedText>Chargement ou liste introuvable... {listId}</ThemedText>
-      </SafeAreaView>
+      </RootView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <RootView color="background" padding={20}>
       <ThemedStatusBar
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
@@ -168,14 +168,6 @@ export default function ShoppingList() {
         handleAddArticle={handleAddArticle} 
       />
 
-    </SafeAreaView>
+    </RootView>
   );
-}
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-      backgroundColor: "#F7FAFA",
-    }
-  });
+};
