@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   reflection: {
     width: '100%',
     height: 10,
-    backgroundColor: Colors.reflectionWhite,
+    backgroundColor: Colors.light.backgroundWhite,
     opacity: 0.5,
     borderRadius: 5,
     position: 'absolute',

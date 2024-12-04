@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { Colors } from '../../../constants/Colors';
 import { useFonts } from 'expo-font';
+import { ThemedText } from '@/components/ThemedText';
 
 const DoorText: React.FC = () => {
   const [fontsLoaded] = useFonts({
@@ -14,7 +15,7 @@ const DoorText: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Free-go</Text>
+      <ThemedText variant="mainTitle">Free-Go</ThemedText>
     </View>
   );
 };
@@ -26,13 +27,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0, // Combine `left` et `right` pour centrer horizontalement
     alignItems: 'center', // Centre sur l'axe X
-  },
-  text: {
-    fontFamily: 'Pacifico',
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: Colors.textColor,
-  },
+  }
 });
 
 export default DoorText;
