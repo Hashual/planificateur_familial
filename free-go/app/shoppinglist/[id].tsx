@@ -10,7 +10,7 @@ import { ThemedButton } from "@/components/ThemedButton";
 import AddArticleModal from "@/components/modals/AddArticleModal";
 import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
-import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import { ThemedText } from "@/components/ThemedText";
 import { RootView } from "@/components/RootView";
 
@@ -135,9 +135,7 @@ export default function ShoppingList() {
 
   return (
     <RootView color="background" padding={20}>
-      <ThemedStatusBar
-        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
-      />
+      <ThemedStatusBar isDark={isModalVisible} />
       <ThemedText variant="title" color="primaryText">{list.name}</ThemedText>
       <FlatList
         data={sortArticlesByIsChecked(list.articles)}

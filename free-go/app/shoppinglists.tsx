@@ -10,7 +10,7 @@ import ListItem from "@/components/ListItem";
 import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
-import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import LoadFont from "@/utils/LoadFont";
 import { ThemedText } from "@/components/ThemedText";
 import { RootView } from "@/components/RootView";
@@ -78,9 +78,7 @@ export default function ShoppingLists() {
 
   return (
     <RootView color="background" padding={20}>
-      <ThemedStatusBar
-        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
-      />
+      <ThemedStatusBar isDark={isModalVisible} />
       <ThemedText variant="title" color="primaryText" align="center">Mes listes de courses</ThemedText>
       
       <FlatList

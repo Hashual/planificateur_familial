@@ -11,7 +11,7 @@ import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import Confirmation from "@/utils/alerts/Confirmation";
 import AppListModal from "@/components/modals/AddListModal";
-import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import { ThemedText } from "@/components/ThemedText";
 import { RootView } from "@/components/RootView";
 
@@ -78,9 +78,7 @@ export default function ToDoLists() {
 
   return (
     <RootView color="background" padding={20}>
-      <ThemedStatusBar
-        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
-      />
+      <ThemedStatusBar isDark={isModalVisible} />
       <ThemedText variant="title" color="primaryText" align="center">Mes To-Do Lists</ThemedText>
       <FlatList
         data={mockData.toDoLists}

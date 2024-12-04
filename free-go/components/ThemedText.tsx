@@ -24,7 +24,7 @@ export function ThemedText({variant, color, align, style, ...rest}: ThemedTextPr
   if (loadedError) { return loadedError; }
 
   return (
-    <Text style={[styles[variant ?? "default"], {color: colors[color ?? "text"]}, {textAlign: align ?? "left"},  style]} {...rest}></Text>
+    <Text style={[styles[variant ?? "default"], {color: colors[color ?? "primaryText"]}, {textAlign: align ?? "left"},  style]} {...rest}></Text>
   );
 }
 

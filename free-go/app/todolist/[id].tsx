@@ -8,7 +8,7 @@ import { Task } from "@/mockapi/types";
 import TaskItem from "@/components/todolist/TaskItem";
 import { ThemedButton } from "@/components/ThemedButton";
 import LoadFont from "@/utils/LoadFont";
-import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
 import AddTaskModal from "@/components/modals/AddTaskModal";
 import { ThemedText } from "@/components/ThemedText";
@@ -138,9 +138,7 @@ export default function ToDoList() {
 
   return (
     <RootView color="background" padding={20}>
-      <ThemedStatusBar
-        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
-      />
+      <ThemedStatusBar isDark={isModalVisible} />
       <ThemedText variant="title" color="primaryText">{list.name}</ThemedText>
       <FlatList
         data={list.tasks}
