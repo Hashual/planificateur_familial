@@ -1,26 +1,26 @@
-import { TimeDurations } from "@/constants/TimeDuration";
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
+
 import { Task } from "@/mockapi/types";
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+import { TimeDurations } from "@/constants/TimeDuration";
 import { CheckBox } from "../utilities/CheckBox";
+import { ThemedText } from "../utilities/ThemedText";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type TaskItemProps = {
     task: Task;
-    listId: number;
-    handleDeleteTask: (listId: number, taskId: number) => void;
-    handleCompleteTask: (listId: number, taskId: number) => void;
+    handleDeleteTask: () => void;
+    handleCompleteTask: () => void;
 };
 
-export default function TaskItem({ task, listId, handleDeleteTask, handleCompleteTask }: TaskItemProps) {
-    const getTaskStyle = (task: Task) => {
-        const now = new Date();
-        if (task.completedDate) {
-          return styles.completedTask;
-        }
-        if (!task.completedDate && task.dueDate && new Date(task.dueDate) < now) {
-          return styles.overdueTask;
-        }
-        return styles.pendingTask;
-      };
+export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }: TaskItemProps) {
+    const colors = useThemeColor();
+
+    const getTaskStyle = ({ completedDate, dueDate }: Task): keyof typeof colors => {
+      if (completedDate) return "inactive";
+      if (dueDate && new Date(dueDate) < new Date()) return "danger";
+      return "primaryText";
+    };
 
     const timesLeft = (dueDate: Date): number => {
       const date = new Date(dueDate);
@@ -51,78 +51,61 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
     
 
     return (
-        <View style={styles.taskItem}>
+        <View style={[styles.taskItem, {backgroundColor: colors.elementBackground}]}>
             <TouchableOpacity
-            onPress={() => handleCompleteTask(listId, task.id)}
+            onPress={handleCompleteTask}
+            style={styles.taskInfoContainer}
             >
-              <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
                 <CheckBox isChecked={task.completedDate ? true : false}/>
-                <View style={{ flexShrink: 1, width: "85%" }}>
-                  <Text style={getTaskStyle(task)}>{task.name}</Text>
-                  {task.completedDate ? (
-                    <Text style={styles.dueDateStatus}>
-                      Complété le {new Date(task.completedDate).toLocaleDateString()} à{' '}
-                      {new Date(task.completedDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}
-                    </Text>
-                  ) : task.dueDate != null ? (
-                    <Text style={styles.dueDateStatus}>
-                        {getTimeStatus(timesLeft(task.dueDate))}
-                    </Text>
-                  ) : null}
+                <View style={{flex: 1}}>
+                  <ThemedText 
+                    color={getTaskStyle(task)} 
+                    style={task.completedDate ? { textDecorationLine: "line-through" } : undefined}>
+                    {task.name}
+                  </ThemedText>
+                    {task.completedDate ? (
+                      <ThemedText variant="fs10" color="secondaryText">
+                        Complété le {new Date(task.completedDate).toLocaleDateString()} à{' '}
+                        {new Date(task.completedDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}
+                      </ThemedText>
+                    ) : task.dueDate != null ? (
+                      <ThemedText variant="fs10" color="secondaryText">
+                          {getTimeStatus(timesLeft(task.dueDate))}
+                      </ThemedText>
+                    ) : null}
                 </View>
-              </View>
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={() => handleDeleteTask(listId, task.id)}
+            onPress={handleDeleteTask}
             style={styles.deleteButtonContainer}
+            
             >
-            <Text style={styles.deleteButton}>✕</Text>
+            <ThemedText variant="fs20" color="danger">✕</ThemedText>
             </TouchableOpacity>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    input: {
-      borderColor: '#00796b',
-      borderWidth: 1,
-      padding: 10,
-      marginTop: 10,
-      borderRadius: 5,
-      backgroundColor: '#fff',
-    },
     taskItem: {
+      flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 10,
       marginVertical: 5,
-      backgroundColor: '#ffffff',
       borderRadius: 10,
+      overflow: "hidden",
     },
-    completedTask: {
-      textDecorationLine: "line-through",
-      color: "#BDBDBD"
-    },
-    pendingTask: {
-      color: "#141C24",
-    },
-    overdueTask: {
-      color: "#d32f2f",
+    taskInfoContainer: {
+      flex: 15, 
+      padding: 10,
+      flexDirection: "row", 
+      gap: 10, 
+      alignItems: "center"
     },
     deleteButtonContainer: {
       flex: 1,
-      width: 30,
-      maxWidth: 30,
       justifyContent: "center",
       alignItems: "center",
-    },
-    deleteButton: {
-      color: '#d32f2f',
-      fontSize: 20,
-      fontWeight: '900',
-    },
-    dueDateStatus: {
-      color: "#9C854A",
-      fontSize: 10,
+      padding: 10,
     }
   });
