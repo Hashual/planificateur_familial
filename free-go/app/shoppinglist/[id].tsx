@@ -42,7 +42,7 @@ export default function ShoppingList() {
     }
   };
 
-  const handleDeleteArticle = async (listId: number, articleId: number) => {
+  const handleDeleteArticle = async (articleId: number) => {
     try {
       const updatedData = await deleteArticle(listId, articleId);
       setShoppingData(updatedData);
@@ -143,8 +143,7 @@ export default function ShoppingList() {
         renderItem={({ item: article }) => (
           <ArticleItem
             article={article}
-            listId={listId}
-            handleDeleteArticle={handleDeleteArticle}
+            handleDeleteArticle={() => handleDeleteArticle(article.id)}
             handleCompleteArticle={() => handlePurchaseArticle(article.id)}
           />
         )}
