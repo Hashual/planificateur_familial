@@ -15,7 +15,7 @@ const DoorText: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <ThemedText variant="mainTitle">Free-Go</ThemedText>
+      <ThemedText variant="mainTitle" color="fixedPrimaryText">Free-Go</ThemedText>
     </View>
   );
 };

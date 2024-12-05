@@ -21,7 +21,10 @@ export default function ArticleItem({ article, handleDeleteArticle, handleComple
             >
                 <CheckBox isChecked={article.isChecked}/>
                 <View style={{flex: 1}}>
-                  <ThemedText color={article.isChecked ? "inactive" : "primaryText"}>
+                  <ThemedText 
+                    color={article.isChecked ? "inactive" : "primaryText"}
+                    style={article.isChecked ? { textDecorationLine: "line-through" } : undefined}
+                  >
                     {article.quantity === 1 ? article.name : `${article.name} (${article.quantity})`}
                   </ThemedText>
                 </View>
