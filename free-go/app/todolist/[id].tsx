@@ -146,8 +146,7 @@ export default function ToDoList() {
         renderItem={({ item: task }) => (
           <TaskItem
             task={task}
-            listId={listId}
-            handleDeleteTask={handleDeleteTask}
+            handleDeleteTask={() => handleDeleteTask(task.id)}
             handleCompleteTask={() => handleCompleteTask(task.id)}
           />
         )}
