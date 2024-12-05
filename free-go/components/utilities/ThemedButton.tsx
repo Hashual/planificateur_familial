@@ -71,12 +71,12 @@ export function ThemedButton({
         
         <View style={[styles.center, {flexDirection: onTop ? "column" : "row"}]}>
         {icon && (
-          <View style={[styles.iconContainer, {marginBottom: onTop ? 5 : 0, marginRight: onTop ? 0 : 10, borderColor: colors.primaryText}]}>
-            <MaterialCommunityIcons name={icon} size={20} color={colors.primaryText} />
+          <View style={[styles.iconContainer, {marginBottom: onTop ? 5 : 0, marginRight: onTop ? 0 : 10, borderColor: colors.fixedPrimaryText}]}>
+            <MaterialCommunityIcons name={icon} size={20} color={colors.fixedPrimaryText} />
           </View>
         )}
         
-        {title && <ThemedText variant='bold'>{title}</ThemedText>}
+        {title && <ThemedText variant='bold' color="fixedPrimaryText">{title}</ThemedText>}
       </View>
       </Animated.View>
     </Pressable>

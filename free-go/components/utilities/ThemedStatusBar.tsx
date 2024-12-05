@@ -1,14 +1,13 @@
-import XOR from "@/utils/XOR";
 import { StatusBar, useColorScheme } from "react-native"
 
 type StatusBarProps = {
-	isDark: boolean
+	isDark?: boolean
 }
 
 export default function ThemedStatusBar({isDark}: StatusBarProps) {
 	const scheme = useColorScheme();
 	
-	const barStyle = XOR(isDark, (scheme === "dark")) ? "light-content" : "dark-content";
+	const barStyle = (scheme === "light" && !isDark) ? "dark-content" : "light-content";
 
 	return <StatusBar barStyle={barStyle} />;
 }
