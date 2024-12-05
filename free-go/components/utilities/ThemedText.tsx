@@ -13,7 +13,7 @@ const textAlign = {
 export type ThemedTextProps = TextProps & {
   variant?: keyof typeof styles,
   color?: keyof typeof Colors["light"],
-  align?: keyof typeof textAlign
+  align?: keyof typeof textAlign,
 };
 
 export function ThemedText({variant, color, align, style, ...rest}: ThemedTextProps) {
@@ -51,7 +51,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  smallText: {
+  fs10: {
+    fontSize: 10,
+  },
+  fs14: {
     fontSize: 14,
+  },
+  fs20: {
+    fontSize: 20,
   }
 });
