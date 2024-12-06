@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Fridge from '../components/homePage/shared/Fridge';
-import DoorText from '../components/homePage/doorPage/DoorText';
-import Handle from '../components/homePage/doorPage/Handle';
-import HandleReflection from '../components/homePage/doorPage/HandleReflection';
-import DoorReflection from '../components/homePage/doorPage/DoorReflection';
+import Fridge from '@/components/homePage/shared/Fridge';
+import DoorText from '@/components/homePage/doorPage/DoorText';
+import Handle from '@/components/homePage/doorPage/Handle';
+import HandleReflection from '@/components/homePage/doorPage/HandleReflection';
+import DoorReflection from '@/components/homePage/doorPage/DoorReflection';
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';

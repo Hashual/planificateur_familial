@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import Fridge from '../components/homePage/shared/Fridge';
-import FridgeBottom from '../components/homePage/shared/FridgeBottom';
+import Fridge from '@/components/homePage/shared/Fridge';
+import FridgeBottom from '@/components/homePage/shared/FridgeBottom';
 import { useRouter } from 'expo-router';
 
 const FridgeBack: React.FC = () => {
