@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
-import { Colors } from '../../../constants/Colors';
+import { Colors } from '@/constants/Colors';
 import { useFonts } from 'expo-font';
 
 const DoorText: React.FC = () => {

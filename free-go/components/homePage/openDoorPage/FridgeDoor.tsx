@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import InsideDoor from '@/components/homePage/openDoorPage/insideDoor';
+import InsideDoor from '@/components/homePage/openDoorPage/InsideDoor';
 import { Colors } from '@/constants/Colors';
 
 

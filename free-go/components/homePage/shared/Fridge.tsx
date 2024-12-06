@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Colors } from '../../../constants/Colors';
+import { Colors } from '@/constants/Colors';
 
 interface Fridge {
   children: React.ReactNode;
