@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
+
     backgroundColor: '#FFFFFF', // Blanc pour l'intérieur
     borderRadius: 15,
     justifyContent: 'space-between', // Espacement uniforme
