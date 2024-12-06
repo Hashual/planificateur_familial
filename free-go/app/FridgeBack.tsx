@@ -13,9 +13,10 @@ const FridgeBack: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleFridgeClick}>
+      <TouchableOpacity onPress={handleFridgeClick} style={styles.fridgeBottom}>
         <Fridge>
-          <FridgeBottom />
+          <FridgeBottom>
+          </FridgeBottom>
         </Fridge>
       </TouchableOpacity>
     </View>
@@ -25,10 +26,19 @@ const FridgeBack: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'FFF',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  fridgeBottom: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 export default FridgeBack;

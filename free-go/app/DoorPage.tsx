@@ -12,17 +12,33 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const DoorPage: React.FC = () => {
   const router = useRouter();
 
-  // Gestion de l'événement lorsque le balayage est ouvert
-  const handleSwipeOpen = (direction: string) => {
-    if (direction === 'left') {
-      router.push('/OpenDoorPage'); // Naviguer uniquement si le balayage est à gauche
-    }
+  // Actions pour le balayage à gauche
+  const LeftSwipeAction = () => (
+    <View style={[styles.swipeAction, styles.leftAction]}>
+      {/* Optionnellement, ajoute des animations ou des styles ici */}
+    </View>
+  );
+
+  // Actions pour le balayage à droite
+  const RightSwipeAction = () => (
+    <View style={[styles.swipeAction, styles.rightAction]}>
+      {/* Optionnellement, ajoute des animations ou des styles ici */}
+    </View>
+  );
+
+  // Gestion de l'ouverture par balayage
+  const handleSwipeOpen = () => {
+     router.push('/OpenDoorPage'); // Naviguer vers la page pour la porte ouverte vers la gauche   
   };
 
   return (
     <GestureHandlerRootView>
       <Swipeable
-        onSwipeableOpen={() => handleSwipeOpen('left')} // Appelée après un balayage valide
+        renderLeftActions={LeftSwipeAction}
+        renderRightActions={RightSwipeAction}
+        onSwipeableOpen={(direction) =>
+          handleSwipeOpen()
+        }
         containerStyle={styles.container2}
         childrenContainerStyle={styles.container}
       >
@@ -42,14 +58,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    backgroundColor: 'FFF',
-    justifyContent: 'center', 
+    backgroundColor: '#FFF',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   container2: {
     flex: 1,
     width: '100%',
-  }
+  },
+  swipeAction: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80, // Largeur de l'action (optionnel)
+  },
+  leftAction: {
+    backgroundColor: '#A0E7E5', // Couleur pour le balayage à gauche
+  },
+  rightAction: {
+    backgroundColor: '#B4F8C8', // Couleur pour le balayage à droite
+  },
 });
 
 export default DoorPage;
