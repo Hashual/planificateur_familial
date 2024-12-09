@@ -13,47 +13,30 @@ const router = Router();
 
 router.post('/', handler({
     params: z.object({
-        shoppingListId: z.coerce.number().int(),
+        listId: z.coerce.number().int(),
     }),
     body: z.object({
         title: z.string(),
         dueDate: z.date().optional(),
     }),
     handler: async (req, res) => {
-        const { shoppingListId } = req.params;
+        const { listId } = req.params;
         const { title, dueDate } = req.body;
 
-        const newArticleId = await createShoppingListArticle(shoppingListId, title, dueDate);
+        const newArticleId = await createShoppingListArticle(listId, title, dueDate);
         if (!newArticleId) {
             res.status(500).json({ code: 500, message: 'Failed to create article' });
             return;
         }
 
-        const articles = await getShoppingListArticles(shoppingListId);
-        res.status(200).json({ code: 200, message: 'Success', data: articles });
-    },
-}));
-
-router.get('/:shoppingListId', handler({
-    params: z.object({
-        shoppingListId: z.coerce.number().int(),
-    }),
-    handler: async (req, res) => {
-        const { shoppingListId } = req.params;
-
-        const articles = await getShoppingListArticles(shoppingListId);
-        if (!articles) {
-            res.status(404).json({ code: 404, message: 'No articles found' });
-            return;
-        }
-
+        const articles = await getShoppingListArticles(listId);
         res.status(200).json({ code: 200, message: 'Success', data: articles });
     },
 }));
 
 router.put('/:articleId', handler({
     params: z.object({
-        articleId: z.coerce.number().int(),
+        listId: z.coerce.number().int(),
     }),
     body: z.object({
         title: z.string(),
@@ -61,16 +44,16 @@ router.put('/:articleId', handler({
         isCompleted: z.boolean(),
     }),
     handler: async (req, res) => {
-        const { articleId } = req.params;
+        const { listId } = req.params;
         const { title, dueDate, isCompleted } = req.body;
 
-        const article = await getShoppingListArticleById(articleId);
+        const article = await getShoppingListArticleById(listId);
         if (!article) {
             res.status(404).json({ code: 404, message: 'Article not found' });
             return;
         }
 
-        const updated = await updateShoppingListArticle(articleId, title, dueDate, isCompleted);
+        const updated = await updateShoppingListArticle(listId, title, dueDate, isCompleted);
         if (!updated) {
             res.status(500).json({ code: 500, message: 'Failed to update article' });
             return;
@@ -83,18 +66,18 @@ router.put('/:articleId', handler({
 
 router.delete('/:articleId', handler({
     params: z.object({
-        articleId: z.coerce.number().int(),
+        listId: z.coerce.number().int(),
     }),
     handler: async (req, res) => {
-        const { articleId } = req.params;
+        const { listId } = req.params;
 
-        const article = await getShoppingListArticleById(articleId);
+        const article = await getShoppingListArticleById(listId);
         if (!article) {
             res.status(404).json({ code: 404, message: 'Article not found' });
             return;
         }
 
-        await deleteShoppingListArticle(articleId);
+        await deleteShoppingListArticle(listId);
         res.status(200).json({ code: 200, message: 'Article deleted successfully' });
     },
 }));
