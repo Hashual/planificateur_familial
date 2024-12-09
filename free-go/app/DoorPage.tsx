@@ -5,13 +5,15 @@ import DoorText from '@/components/homePage/doorPage/DoorText';
 import Handle from '@/components/homePage/doorPage/Handle';
 import HandleReflection from '@/components/homePage/doorPage/HandleReflection';
 import DoorReflection from '@/components/homePage/doorPage/DoorReflection';
-import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+import Swipeable, { SwipeableMethods, SwipeableRef } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import FridgeBottom from '@/components/homePage/shared/FridgeBottom';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const DoorPage: React.FC = () => {
   const router = useRouter();
+
+  const swipeableRef = React.useRef<SwipeableMethods>(null);
 
   // Actions pour le balayage à gauche
   const LeftSwipeAction = () => (
@@ -33,7 +35,10 @@ const DoorPage: React.FC = () => {
 
   // Gestion de l'ouverture par balayage
   const handleSwipeOpen = () => {
-     router.push('/OpenDoorPage'); // Naviguer vers la page pour la porte ouverte vers la gauche   
+    if (swipeableRef.current) {
+      swipeableRef.current.close();
+    }
+    router.push('/OpenDoorPage'); // Naviguer vers la page pour la porte ouverte vers la gauche   
   };
 
   return (
@@ -41,6 +46,7 @@ const DoorPage: React.FC = () => {
     <View style={styles.container}>
       <GestureHandlerRootView style={styles.container}>
         <Swipeable
+          ref={swipeableRef}
           renderLeftActions={LeftSwipeAction}
           renderRightActions={RightSwipeAction}
           onSwipeableWillOpen={() =>
