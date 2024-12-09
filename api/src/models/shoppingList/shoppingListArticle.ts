@@ -5,10 +5,10 @@ type shoppingListArticles = {
     id: number;
     title: string;
     dueDate: Date;
+    completedAt: Date;
     createdAt: Date;
     updatedAt: Date;
     shoppingListId: number;
-    isCompleted: boolean;
 }
 
 export const createShoppingListArticle = async (shoppingListId: number, title: string, dueDate: Date | null | undefined): Promise<number> => {
@@ -16,8 +16,8 @@ export const createShoppingListArticle = async (shoppingListId: number, title: s
     return result.insertId;
 }
 
-export const updateShoppingListArticle = async (id: number, title: string, dueDate: Date | null | undefined, isCompleted: boolean): Promise<boolean> => {
-    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE shoppingListArticle SET title = ?, dueDate = ?, isCompleted = ? WHERE id = ?", [title, dueDate, isCompleted, id]);
+export const updateShoppingListArticle = async (id: number, title: string, dueDate: Date | null | undefined, completedAt: Date): Promise<boolean> => {
+    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE shoppingListArticle SET title = ?, dueDate = ?, completedAt = ? WHERE id = ?", [title, dueDate, completedAt, id]);
     return result.affectedRows > 0;
 }
 
@@ -32,10 +32,10 @@ export const getShoppingListArticles = async (shoppingListId: number): Promise<s
             id: row.id,
             title: row.title,
             dueDate: row.dueDate ? new Date(row.dueDate) : null,
+            completedAt: row.completedAt ? new Date(row.completedAt) : null,
             createdAt: new Date(row.createdAt),
             updatedAt: new Date(row.updatedAt),
             shoppingListId: row.shoppingListId,
-            isCompleted: row.isCompleted
         }
     }) as shoppingListArticles[];
 }
@@ -50,14 +50,14 @@ export const getShoppingListArticleById = async (id: number): Promise<shoppingLi
         id: row.id,
         title: row.title,
         dueDate: row.dueDate ? new Date(row.dueDate) : null,
+        completedAt: row.completedAt ? new Date(row.completedAt) : null,
         createdAt: new Date(row.createdAt),
         updatedAt: new Date(row.updatedAt),
         shoppingListId: row.shoppingListId,
-        isCompleted: row.isCompleted
     } as shoppingListArticles;
 }
 
-export const getArticlesAmount = async (shoppingListId: number, isCompleted: boolean): Promise<number> => {
-    const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT COUNT(*) AS amount FROM shoppingListArticle WHERE shoppingListId = ? AND isCompleted = ?", [shoppingListId, isCompleted]);
+export const getArticlesAmount = async (shoppingListId: number, completedAt: Date): Promise<number> => {
+    const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT COUNT(*) AS amount FROM shoppingListArticle WHERE shoppingListId = ? AND completedAt = ?", [shoppingListId, completedAt]);
     return result[0].amount;
 }
