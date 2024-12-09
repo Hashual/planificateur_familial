@@ -41,8 +41,8 @@ export const getAllShoppingLists = async (): Promise<shoppingList[]> => {
             id: row.id,
             title: row.title,
             numberOfArticles: row.numberOfArticles,
-            createdAt: row.createdAt,
-            updatedAt: row.updatedAt
+            createdAt: new Date(row.createdAt),
+            updatedAt: new Date(row.updatedAt)
         }
     }) as shoppingList[];
 }
@@ -58,6 +58,7 @@ export const getShoppingListById = async (id: number): Promise<shoppingList | un
         FROM shoppingList
         LEFT JOIN shoppingListArticle ON shoppingList.id = shoppingListArticle.shoppingListId
         WHERE shoppingList.id = ?
+        GROUP BY shoppingList.id
     `, [id]);
 
     if (result.length === 0) {
@@ -69,7 +70,7 @@ export const getShoppingListById = async (id: number): Promise<shoppingList | un
         id: row.id,
         title: row.title,
         numberOfArticles: row.numberOfArticles,
-        createdAt: row.createdAt,
-        updatedAt: row.updatedAt
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt)
     };
 }
