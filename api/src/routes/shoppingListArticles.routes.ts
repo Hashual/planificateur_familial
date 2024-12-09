@@ -1,13 +1,7 @@
 import { Router } from 'express';
 import { handler } from '../utils/handler';
 import { z } from 'zod';
-import {
-    createShoppingListArticle,
-    getShoppingListArticleById,
-    getShoppingListArticles,
-    updateShoppingListArticle,
-    deleteShoppingListArticle,
-} from '../models/shoppingList/shoppingListArticle';
+import { createShoppingListArticle, getShoppingListArticleById, getShoppingListArticles, updateShoppingListArticle, deleteShoppingListArticle } from '../models/shoppingList/shoppingListArticle';
 
 const router = Router();
 
