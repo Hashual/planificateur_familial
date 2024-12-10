@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "free-go",
-    "slug": "free-go",
+    "name": "Free-go",
+    "slug": "Free-go",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/freeGo.jpg",
-    "scheme": "myapp",
+    "icon": "@assets/images/freeGo.jpg",
+    "scheme": "Free-go",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/freeGo.jpg",
+      "image": "@assets/images/freeGo.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
