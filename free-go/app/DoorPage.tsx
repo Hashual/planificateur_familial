@@ -38,7 +38,8 @@ const DoorPage: React.FC = () => {
     if (swipeableRef.current) {
       swipeableRef.current.close();
     }
-    router.push('/OpenDoorPage'); // Naviguer vers la page pour la porte ouverte vers la gauche   
+    router.push('/OpenDoorPage');
+    
   };
 
   return (
