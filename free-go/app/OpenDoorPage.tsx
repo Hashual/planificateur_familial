@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import Fridge from '../components/homePage/shared/Fridge';
 import FridgeDoor from '../components/homePage/openDoorPage/FridgeDoor';
 import FridgeBottom from '../components/homePage/shared/FridgeBottom';
 import { useRouter } from 'expo-router';
+import { SetBackPage } from '@/utils/SetBackPage';
 
 const OpenDoorPage: React.FC = () => {
   const router = useRouter();
@@ -12,19 +13,7 @@ const OpenDoorPage: React.FC = () => {
     router.replace('/FridgeBack'); // Naviguer vers Page C
   };
 
-  useEffect(() => {
-    const backAction = () => {
-      router.replace('/'); // Retourner à Page A quand on est sur Page B
-      return true; // Empêche le comportement par défaut du bouton retour
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
-
-    return () => backHandler.remove(); // Nettoyer l'écouteur sur démontage du composant
-  }, []);
+  SetBackPage('/');
 
   return (
     <View style={styles.container}>
