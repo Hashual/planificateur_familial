@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
 import Fridge from '@/components/homePage/shared/Fridge';
 import FridgeBottom from '@/components/homePage/shared/FridgeBottom';
 import { useRouter } from 'expo-router';
+import { SetBackPage } from '@/utils/SetBackPage';
 
 const FridgeBack: React.FC = () => {
   const router = useRouter();
@@ -11,19 +12,7 @@ const FridgeBack: React.FC = () => {
     router.replace('/OpenDoorPage'); // Retourner à Page B
   };
 
-  useEffect(() => {
-    const backAction = () => {
-      router.replace('/OpenDoorPage'); // Retourner à Page B sur bouton retour
-      return true; // Empêche le comportement par défaut du bouton retour
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
-
-    return () => backHandler.remove(); // Nettoyer l'écouteur sur démontage du composant
-  }, []);
+  SetBackPage('/OpenDoorPage');
 
   return (
     <View style={styles.container}>
