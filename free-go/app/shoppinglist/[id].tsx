@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
     },
     categoryTitle: {
       fontSize: 30,
-      fontWeight: "bold",
       marginBottom: 10,
       color: "#141C24",
       fontFamily: "Pacifico",
