@@ -3,10 +3,10 @@ FROM node:20-alpine
 RUN mkdir -p /usr/src/api
 WORKDIR /usr/src/api
 
-COPY package.json .
-COPY package-lock.json .
+COPY package*.json .
 
-RUN npm install --silent -D
+RUN npm install --silent
+RUN npm install --silent --only=dev
 
 COPY . .
 
