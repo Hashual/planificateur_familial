@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { handler } from '../utils/handler';
-import { z } from 'zod';
+import { optional, z } from 'zod';
 import { createShoppingListArticle, getShoppingListArticleById, getShoppingListArticles, updateShoppingListArticle, deleteShoppingListArticle } from '../models/shoppingList/shoppingListArticle';
 
 const router = Router();
@@ -35,11 +35,11 @@ router.put('/:articleId', handler({
     body: z.object({
         title: z.string(),
         dueDate: z.date().optional(),
-        isCompleted: z.boolean(),
+        completedAt: z.date().optional(),
     }),
     handler: async (req, res) => {
         const { listId } = req.params;
-        const { title, dueDate, isCompleted } = req.body;
+        const { title, dueDate, completedAt } = req.body;
 
         const article = await getShoppingListArticleById(listId);
         if (!article) {
@@ -47,7 +47,7 @@ router.put('/:articleId', handler({
             return;
         }
 
-        const updated = await updateShoppingListArticle(listId, title, dueDate, isCompleted);
+        const updated = await updateShoppingListArticle(listId, title, dueDate, completedAt);
         if (!updated) {
             res.status(500).json({ code: 500, message: 'Failed to update article' });
             return;
