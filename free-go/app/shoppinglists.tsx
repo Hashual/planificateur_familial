@@ -14,12 +14,15 @@ import Error from "@/utils/alerts/Error";
 import { Colors } from "@/constants/Colors";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import LoadFont from "@/utils/LoadFont";
+import { SetBackPage } from "@/utils/SetBackPage";
 
 export default function ShoppingLists() {
   const loadedError = LoadFont({
     "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
   })
   if (loadedError) { return loadedError; }
+
+  SetBackPage('/OpenDoorPage');
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
