@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     width: '95%',
     height: '95%',
     backgroundColor: '#FFD700', // Jaune pour l'extérieur
-    borderRadius: 20, // Coins arrondis
+    borderRadius: 30, // Coins arrondis
     
     
   },
