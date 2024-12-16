@@ -17,7 +17,7 @@ import { RootView } from "@/components/utilities/RootView";
 
 
 export default function ShoppingList() {
-  SetBackPage("./homePage/OpenDoorPage");  
+  SetBackPage("/shoppinglists");
   const loadedError = LoadFont({
     "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
   })
