@@ -9,10 +9,10 @@ const FridgeBack: React.FC = () => {
   const router = useRouter();
 
   const handleFridgeClick = () => {
-    router.replace('/OpenDoorPage'); // Retourner à Page B
+    router.replace('/homePage/OpenDoorPage'); // Retourner à Page B
   };
 
-  SetBackPage('/OpenDoorPage');
+  SetBackPage('/homePage/OpenDoorPage');
 
   return (
     <View style={styles.container}>

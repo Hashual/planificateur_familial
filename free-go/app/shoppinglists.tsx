@@ -22,7 +22,7 @@ export default function ShoppingLists() {
   })
   if (loadedError) { return loadedError; }
 
-  SetBackPage('/OpenDoorPage');
+  SetBackPage('/homePage/OpenDoorPage');
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);

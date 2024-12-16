@@ -10,7 +10,7 @@ const OpenDoorPage: React.FC = () => {
   const router = useRouter();
 
   const handleFridgeClick = () => {
-    router.replace('/FridgeBack'); // Naviguer vers Page C
+    router.replace('/homePage/FridgeBack'); // Naviguer vers Page C
   };
 
   SetBackPage('/');

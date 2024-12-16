@@ -66,7 +66,7 @@ const DoorPage: React.FC = () => {
     }
     setShowAnimation(false); // Cacher l'animation dès que l'utilisateur interagit
     playSound(); // Jouer le son lors de l'ouverture
-    router.push('/OpenDoorPage');
+    router.push('/homePage/OpenDoorPage'); // Rediriger vers la page suivante
   };
 
   return (

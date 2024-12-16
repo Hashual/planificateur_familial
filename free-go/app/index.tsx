@@ -1,5 +1,5 @@
 import LoadFont from '@/utils/LoadFont';
-import HomePage from './homepage/HomePage';
+import HomePage from './homePage/HomePage';
 
 export default function App() {
   const result = LoadFont({
