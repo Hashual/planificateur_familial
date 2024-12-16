@@ -12,8 +12,10 @@ import AddArticleModal from "@/components/modals/AddArticleModal";
 import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import { SetBackPage } from "@/utils/SetBackPage";
 
 export default function ShoppingList() {
+  SetBackPage("/shoppinglists");
   const loadedError = LoadFont({
     "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
   })
