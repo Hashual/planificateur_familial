@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS shoppingListArticle (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    shoppingListId INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     dueDate TIMESTAMP NULL,
     completedAt TIMESTAMP NULL,
