@@ -10,15 +10,54 @@ import FridgeBottom from '@/components/homePage/shared/FridgeBottom';
 import FridgeDoorAnimation from '@/components/homePage/animation/FridgeDoorAnimation';
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Audio } from 'expo-av';
 
 const DoorPage: React.FC = () => {
   const router = useRouter();
   const swipeableRef = useRef<SwipeableMethods>(null);
   const [showAnimation, setShowAnimation] = useState(false); // Gérer l'état de l'animation
+  const sound = useRef<Audio.Sound | null>(null);
+
+  useEffect(() => {
+    const loadSound = async () => {
+      try {
+        console.log("Chargement du son...");
+        const { sound: soundObject } = await Audio.Sound.createAsync(
+          require('@/assets/sounds/fridge-door-open.mp3')
+        );
+        sound.current = soundObject;
+      } catch (error) {
+        console.error("Erreur lors du chargement du son :", error);
+      }
+    };
+
+    loadSound();
+
+    return () => {
+      if (sound.current) {
+        sound.current.unloadAsync();
+      }
+    };
+  }, []);
+
+  const playSound = async () => {
+    try {
+      if (sound.current) {
+        await sound.current.playAsync();
+      }
+    } catch (error) {
+      console.error("Erreur lors de la lecture du son :", error);
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setShowAnimation(true), 5000); // Déclencher après 5 secondes
-    return () => clearTimeout(timer); // Nettoyer le timer si le composant est démonté
+    return () => {
+      clearTimeout(timer); // Nettoyer le timer si le composant est démonté
+      if (sound.current) {
+        sound.current.unloadAsync();
+      }
+    };
   }, []);
 
   const handleSwipeOpen = () => {
@@ -26,7 +65,8 @@ const DoorPage: React.FC = () => {
       swipeableRef.current.close();
     }
     setShowAnimation(false); // Cacher l'animation dès que l'utilisateur interagit
-      router.push('/OpenDoorPage');
+    playSound(); // Jouer le son lors de l'ouverture
+    router.push('/OpenDoorPage');
   };
 
   return (
