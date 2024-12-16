@@ -1,5 +1,7 @@
 import { ThemedButton } from "@/components/utilities/ThemedButton";
-import { Modal, Text, View, StyleSheet, TextInput } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { Modal, View, StyleSheet, TextInput } from "react-native";
+import { ThemedText } from "../utilities/ThemedText";
 
 type AddListModalProps = {
 	isModalVisible: boolean;
@@ -18,6 +20,12 @@ export default function AddListModal(
 		handleAddList
 	}: AddListModalProps
 ) {
+	const colors = useThemeColor();
+	const inputStyle = {
+		...styles.input,
+		backgroundColor: colors.elementBackground,
+		borderColor: colors.primary
+	}
 	return (
 		<Modal
 			visible={isModalVisible}
@@ -26,28 +34,28 @@ export default function AddListModal(
 			onRequestClose={closeModal}
 		>
 			<View style={styles.modalOverlay}>
-			<View style={styles.modalContent}>
-				<Text style={styles.modalTitle}>Ajouter une nouvelle liste</Text>
-				<TextInput
-				style={styles.input}
-				placeholder="Nom de la liste"
-				placeholderTextColor="#666"
-				value={listNameInput}
-				onChangeText={setListNameInput}
-				/>
-				<View style={styles.modalButtons}>
-				<ThemedButton
-					title="Annuler"
-					onPress={closeModal}
-					type="secondary"
-				/>
-				<ThemedButton
-					title="Ajouter"
-					onPress={handleAddList}
-					type="primary"
-				/>
+				<View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
+					<ThemedText variant="title">Ajouter une liste</ThemedText>
+					<TextInput
+					style={[inputStyle, {color: colors.primaryText}]}
+					placeholder="Nom de la liste"
+					placeholderTextColor={colors.placeHolderText}
+					value={listNameInput}
+					onChangeText={setListNameInput}
+					/>
+					<View style={styles.modalButtons}>
+					<ThemedButton
+						title="Annuler"
+						onPress={closeModal}
+						type="secondary"
+					/>
+					<ThemedButton
+						title="Ajouter"
+						onPress={handleAddList}
+						type="primary"
+					/>
+					</View>
 				</View>
-			</View>
 			</View>
 		</Modal>
 	)
@@ -63,7 +71,6 @@ const styles = StyleSheet.create({
 	modalContent: {
 		width: "80%",
 		padding: 20,
-		backgroundColor: "#fff",
 		borderRadius: 10,
 		alignItems: "center",
 	},
@@ -79,12 +86,10 @@ const styles = StyleSheet.create({
 		marginTop: 15,
 	},
 	input: {
-		borderColor: "#F5C754",
 		borderWidth: 1,
 		width: "90%",
 		padding: 10,
 		marginTop: 10,
 		borderRadius: 5,
-		backgroundColor: "#fff",
 	  },
 })
