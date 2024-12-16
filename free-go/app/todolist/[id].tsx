@@ -12,8 +12,10 @@ import LoadFont from "@/utils/LoadFont";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
 import AddTaskModal from "@/components/modals/AddTaskModal";
+import { SetBackPage } from "@/utils/SetBackPage";
 
 export default function ToDoList() {
+  SetBackPage("/todolists");
   const loadedError = LoadFont({
     "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
   })
