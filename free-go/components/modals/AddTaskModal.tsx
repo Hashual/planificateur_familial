@@ -1,9 +1,12 @@
-import { Modal, View, TextInput, Text, StyleSheet, Platform, Pressable } from "react-native";
-import { ThemedButton } from "@/components/ThemedButton";
+import { Modal, View, TextInput, StyleSheet, Platform, Pressable } from "react-native";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import Error from "@/utils/alerts/Error";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import React from "react";
+import { ThemedText } from "../utilities/ThemedText";
 
 type AddArticleModalProps = {
     isModalVisible: boolean;
@@ -28,6 +31,7 @@ export default function AddArticleModal({
     setSelectedTime, 
     handleAddTask
 } : AddArticleModalProps) { 
+    const colors = useThemeColor();
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [isTimePickerVisible, setTimePickerVisible] = useState(false);
     const showDatePicker = () => setDatePickerVisible(true);
@@ -51,6 +55,15 @@ export default function AddArticleModal({
         hideTimePicker();
       };
 
+    const inputStyle = {
+      ...styles.input,
+      backgroundColor: colors.elementBackground,
+      borderColor: colors.primary
+    }
+
+    const textColor = {
+      color: colors.primaryText
+    }
 
     return (
         <Modal
@@ -60,12 +73,12 @@ export default function AddArticleModal({
         onRequestClose={closeModal}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Ajouter une nouvelle tâche</Text>
+          <View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
+            <ThemedText variant="title">Ajouter une tâche</ThemedText>
             <TextInput
-              style={styles.input}
+              style={[inputStyle, textColor]}
               placeholder="Nom de la tâche"
-              placeholderTextColor="#666"
+              placeholderTextColor={colors.placeHolderText}
               value={taskNameInput}
               onChangeText={setTaskNameInput}
             />
@@ -73,12 +86,12 @@ export default function AddArticleModal({
               <>
                 <input
                   type="date"
-                  style={styles.input}
+                  style={inputStyle}
                   onChange={(e) => setSelectedDate(new Date(e.target.value))}
                 />
                 <input
                     type="time"
-                    style={styles.input}
+                    style={inputStyle}
                     onChange={(e) => {
                       const [hours, minutes] = e.target.value.split(":");
                       const time = new Date();
@@ -90,15 +103,15 @@ export default function AddArticleModal({
             ) : (
               <>
               <Pressable onPress={showDatePicker}>
-                <View style={[styles.input, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    {selectedDate ? <Text>{selectedDate.toLocaleDateString()}</Text> : <Text style={{color: "#666"}}>Date (optionnel)</Text>}
-                    <MaterialCommunityIcons name="calendar-edit" size={20} color="#141C24" />
+                <View style={[inputStyle, {flexDirection: "row", justifyContent: "space-between"}]}>
+                    {selectedDate ? <ThemedText variant="fs14">{selectedDate.toLocaleDateString()}</ThemedText> : <ThemedText variant="fs14" color="placeHolderText">Date (optionnel)</ThemedText>}
+                    <MaterialCommunityIcons name="calendar-edit" size={20} color={colors.primaryText} />
                 </View>
               </Pressable>
               <Pressable onPress={showTimePicker}>
-                <View style={[styles.input, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    {selectedTime ? <Text>{selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}</Text> : <Text style={{color: "#666"}}>Heure (optionnel)</Text>}
-                        <MaterialCommunityIcons name="clock-edit-outline" size={20} color="#141C24" />
+                <View style={[inputStyle, {flexDirection: "row", justifyContent: "space-between"}]}>
+                    {selectedTime ? <ThemedText variant="fs14">{selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}</ThemedText> : <ThemedText variant="fs14" color="placeHolderText">Heure (optionnel)</ThemedText>}
+                        <MaterialCommunityIcons name="clock-edit-outline" size={20} color={colors.primaryText} />
                 </View>
               </Pressable>
               <DateTimePickerModal
@@ -127,15 +140,11 @@ export default function AddArticleModal({
                 title="Annuler"
                 onPress={closeModal}
                 type="secondary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
               />
               <ThemedButton
                 title="Ajouter"
                 onPress={handleAddTask}
                 type="primary"
-                lightColor="#F5C754"
-                darkColor="#F5C754"
               />
             </View>
           </View>
@@ -148,12 +157,10 @@ export default function AddArticleModal({
 const styles = StyleSheet.create({
     input: {
       width: "85%",
-      borderColor: "#F5C754",
       borderWidth: 1,
       padding: 10,
       marginTop: 10,
       borderRadius: 5,
-      backgroundColor: "#fff",
       boxSizing: "border-box" as "border-box",
     },
     modalOverlay: {
@@ -165,7 +172,6 @@ const styles = StyleSheet.create({
     modalContent: {
       width: "80%",
       padding: 20,
-      backgroundColor: "#fff",
       borderRadius: 10,
       alignItems: "center",
     },

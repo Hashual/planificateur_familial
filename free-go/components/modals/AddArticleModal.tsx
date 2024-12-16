@@ -1,5 +1,7 @@
 import { Modal, View, TextInput, Text, StyleSheet } from "react-native";
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { ThemedText } from "../utilities/ThemedText";
 
 type AddArticleModalProps = {
 	isModalVisible: boolean;
@@ -21,7 +23,7 @@ export default function AddArticleModal({
     handleAddArticle
 } : AddArticleModalProps) {
     const MAX_NUMBER_OF_ARTICLE = 999999;
-    
+    const colors = useThemeColor();
     const handleIncrement = () => {
         if (numberOfArticle<MAX_NUMBER_OF_ARTICLE) {
             setNumberOfArticle((prevNumber: number) => prevNumber + 1);
@@ -43,6 +45,16 @@ export default function AddArticleModal({
         }
     };
 
+    const inputStyle = {
+      ...styles.input,
+      backgroundColor: colors.elementBackground,
+      borderColor: colors.primary
+    }
+
+    const textColor = {
+      color: colors.primaryText
+    }
+
     return (
         <Modal
         visible={isModalVisible}
@@ -51,26 +63,26 @@ export default function AddArticleModal({
         onRequestClose={closeModal}
       >
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Ajouter un nouvel article</Text>
+          <View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
+            <ThemedText variant="title">Ajouter un article</ThemedText>
             <TextInput
-              style={styles.input}
+              style={[inputStyle, textColor]}
               placeholder="Nom de l'article"
-              placeholderTextColor="#666"
+              placeholderTextColor={colors.placeHolderText}
               value={articleNameInput}
               onChangeText={setArticleNameInput}
             />
 
-            <View style={[styles.input]}> 
+            <View style={inputStyle}> 
                 
                 <View style={styles.quantity}>
-                  <Text>Quantité : </Text>
+                  <ThemedText variant="fs14">Quantité : </ThemedText>
                   <TextInput
                     value={numberOfArticle.toString()}
                     onChangeText={(text) => handleInputChange(text)}
                     keyboardType="numeric"
                     maxLength={6}
-                    style={styles.textInput}
+                    style={[styles.textInput, textColor]}
                   />
                 </View>
                 <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
@@ -110,12 +122,10 @@ export default function AddArticleModal({
 const styles = StyleSheet.create({
     input: {
       width: "85%",
-      borderColor: "#F5C754",
       borderWidth: 1,
       padding: 10,
       marginTop: 10,
       borderRadius: 5,
-      backgroundColor: "#fff",
       flexDirection: "row",
       boxSizing: "border-box" as "border-box",
     },
@@ -128,7 +138,6 @@ const styles = StyleSheet.create({
     modalContent: {
       width: "80%",
       padding: 20,
-      backgroundColor: "#fff",
       borderRadius: 10,
       alignItems: "center",
     },

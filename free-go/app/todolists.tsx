@@ -1,20 +1,20 @@
 import React, { useState, useCallback } from "react";
-import {StyleSheet, FlatList, Text} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList } from "react-native";
 import { useFocusEffect } from "expo-router";
 
 import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
 import { MockData } from "@/mockapi/types";
 
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
 import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import Confirmation from "@/utils/alerts/Confirmation";
 import AppListModal from "@/components/modals/AddListModal";
-import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
-import { Colors } from "@/constants/Colors";
 import { SetBackPage } from "@/utils/SetBackPage";
+import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
+import { ThemedText } from "@/components/utilities/ThemedText";
+import { RootView } from "@/components/utilities/RootView";
 
 export default function ToDoLists() {
   const loadedError = LoadFont({
@@ -22,7 +22,7 @@ export default function ToDoLists() {
   })
   if (loadedError) { return loadedError; }
 
-  SetBackPage('/homePage/OpenDoorPage');
+  SetBackPage('./homePage/OpenDoorPage');
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
@@ -80,11 +80,9 @@ export default function ToDoLists() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ThemedStatusBar
-        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
-      />
-      <Text style={styles.title}>To-Do List</Text>
+    <RootView color="background" padding={20}>
+      <ThemedStatusBar isDark={isModalVisible} />
+      <ThemedText variant="title" color="primaryText" align="center">Mes To-Do Lists</ThemedText>
       <FlatList
         data={mockData.toDoLists}
         keyExtractor={(item) => item.id.toString()}
@@ -117,21 +115,6 @@ export default function ToDoLists() {
         setListNameInput={setToDoListNameInputValue}
         handleAddList={handleAddTaskList}
       />
-    </SafeAreaView>
+    </RootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: Colors.light.background,
-  },
-  title: {
-    fontSize: 32,
-    marginBottom: 10,
-    color: Colors.light.text,
-    textAlign: "center",
-    fontFamily: "Pacifico",
-  }
-});

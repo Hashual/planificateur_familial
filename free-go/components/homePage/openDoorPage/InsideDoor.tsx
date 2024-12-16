@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import DoorShelfs from './DoorShelf';
-import { ThemedButton } from '@/components/ThemedButton';
+import { ThemedButton } from '@/components/utilities/ThemedButton';
 import { useRouter } from 'expo-router';
 
 interface InsideDoorProps {
@@ -20,8 +20,6 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               title="To-Do"
               onPress={() => router.push('/todolists')}
               type="primary"
-              lightColor="#F5C754"
-              darkColor="#F5C754"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
               icon='check'
@@ -32,8 +30,6 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               title="Liste de course"
               onPress={() => router.push('/shoppinglists')}
               type="primary"
-              lightColor="#F5C754"
-              darkColor="#F5C754"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
               icon='basket'

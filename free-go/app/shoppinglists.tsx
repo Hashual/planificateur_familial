@@ -1,20 +1,20 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, FlatList, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList } from "react-native";
 import { useFocusEffect } from "expo-router";
 
 import { createShoppingList, deleteShoppingList, getMockData } from "@/mockapi/mockData";
 import { MockData } from "@/mockapi/types";
 
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
 import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
-import { Colors } from "@/constants/Colors";
-import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import LoadFont from "@/utils/LoadFont";
 import { SetBackPage } from "@/utils/SetBackPage";
+import { ThemedText } from "@/components/utilities/ThemedText";
+import { RootView } from "@/components/utilities/RootView";
 
 export default function ShoppingLists() {
   const loadedError = LoadFont({
@@ -22,7 +22,7 @@ export default function ShoppingLists() {
   })
   if (loadedError) { return loadedError; }
 
-  SetBackPage('/homePage/OpenDoorPage');
+  SetBackPage('./homePage/OpenDoorPage');
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [isModalVisible, setModalVisible] = useState(false);
@@ -80,11 +80,10 @@ export default function ShoppingLists() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ThemedStatusBar
-        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
-      />
-      <Text style={styles.title}>Listes de courses</Text>
+    <RootView color="background" padding={20}>
+      <ThemedStatusBar isDark={isModalVisible} />
+      <ThemedText variant="title" color="primaryText" align="center">Mes listes de courses</ThemedText>
+      
       <FlatList
         data={mockData.shoppingLists}
         keyExtractor={(item) => item.id.toString()}
@@ -121,22 +120,7 @@ export default function ShoppingLists() {
         setListNameInput={setNameInputValue}
         handleAddList={handleAddShoppingList}
       />
-    </SafeAreaView>
+    </RootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: Colors.light.background,
-  },
-  title: {
-    fontSize: 32,
-    marginBottom: 10,
-    color: Colors.light.text,
-    textAlign: "center",
-    fontFamily: "Pacifico",
-  }
-});
 
