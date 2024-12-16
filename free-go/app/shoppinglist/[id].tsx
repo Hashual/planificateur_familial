@@ -1,21 +1,23 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, StyleSheet, FlatList } from "react-native";
+import { FlatList } from "react-native";
 
 import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
 
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import AddArticleModal from "@/components/modals/AddArticleModal";
 import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
-import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import { SetBackPage } from "@/utils/SetBackPage";
+import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
+import { ThemedText } from "@/components/utilities/ThemedText";
+import { RootView } from "@/components/utilities/RootView";
+
 
 export default function ShoppingList() {
-  SetBackPage("/homePage/OpenDoorPage");
+  SetBackPage("./homePage/OpenDoorPage");  
   const loadedError = LoadFont({
     "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
   })
@@ -43,7 +45,7 @@ export default function ShoppingList() {
     }
   };
 
-  const handleDeleteArticle = async (listId: number, articleId: number) => {
+  const handleDeleteArticle = async (articleId: number) => {
     try {
       const updatedData = await deleteArticle(listId, articleId);
       setShoppingData(updatedData);
@@ -128,26 +130,23 @@ export default function ShoppingList() {
 
   if (!list) {
     return (
-      <SafeAreaView style={styles.container}>
-        <Text>Chargement ou liste introuvable... {listId}</Text>
-      </SafeAreaView>
+      <RootView color="background" padding={20}>
+        <ThemedText>Chargement ou liste introuvable... {listId}</ThemedText>
+      </RootView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ThemedStatusBar
-        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
-      />
-      <Text style={styles.categoryTitle}>{list.name}</Text>
+    <RootView color="background" padding={20}>
+      <ThemedStatusBar isDark={isModalVisible} />
+      <ThemedText variant="title" color="primaryText">{list.name}</ThemedText>
       <FlatList
         data={sortArticlesByIsChecked(list.articles)}
         keyExtractor={(article) => article.id.toString()}
         renderItem={({ item: article }) => (
           <ArticleItem
             article={article}
-            listId={listId}
-            handleDeleteArticle={handleDeleteArticle}
+            handleDeleteArticle={() => handleDeleteArticle(article.id)}
             handleCompleteArticle={() => handlePurchaseArticle(article.id)}
           />
         )}
@@ -169,20 +168,6 @@ export default function ShoppingList() {
         handleAddArticle={handleAddArticle} 
       />
 
-    </SafeAreaView>
+    </RootView>
   );
-}
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 20,
-      backgroundColor: "#F7FAFA",
-    },
-    categoryTitle: {
-      fontSize: 30,
-      marginBottom: 10,
-      color: "#141C24",
-      fontFamily: "Pacifico",
-    }
-  });
+};

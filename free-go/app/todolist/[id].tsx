@@ -1,18 +1,19 @@
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList, Text, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList } from "react-native";
 
 import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData";
 import { Task } from "@/mockapi/types";
 
 import TaskItem from "@/components/todolist/TaskItem";
-import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
 import LoadFont from "@/utils/LoadFont";
-import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
+import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
 import AddTaskModal from "@/components/modals/AddTaskModal";
 import { SetBackPage } from "@/utils/SetBackPage";
+import { ThemedText } from "@/components/utilities/ThemedText";
+import { RootView } from "@/components/utilities/RootView";
 
 export default function ToDoList() {
   SetBackPage("/todolists");
@@ -131,26 +132,23 @@ export default function ToDoList() {
 
   if (!list) {
     return (
-      <SafeAreaView style={styles.container}>
-        <Text>Chargement ou liste introuvable... {listId}</Text>
-      </SafeAreaView>
+      <RootView color="background" padding={20}>
+        <ThemedText>Chargement ou liste introuvable... {listId}</ThemedText>
+      </RootView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ThemedStatusBar
-        style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
-      />
-      <Text style={styles.categoryTitle}>{list.name}</Text>
+    <RootView color="background" padding={20}>
+      <ThemedStatusBar isDark={isModalVisible} />
+      <ThemedText variant="title" color="primaryText">{list.name}</ThemedText>
       <FlatList
         data={list.tasks}
         keyExtractor={(task) => task.id.toString()}
         renderItem={({ item: task }) => (
           <TaskItem
             task={task}
-            listId={listId}
-            handleDeleteTask={handleDeleteTask}
+            handleDeleteTask={() => handleDeleteTask(task.id)}
             handleCompleteTask={() => handleCompleteTask(task.id)}
           />
         )}
@@ -172,20 +170,6 @@ export default function ToDoList() {
         selectedTime={selectedTime} 
         setSelectedTime={setSelectedTime} 
         handleAddTask={handleAddTask} />
-    </SafeAreaView>
+    </RootView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: "#F7FAFA",
-  },
-  categoryTitle: {
-    fontSize: 30,
-    marginBottom: 10,
-    color: "#141C24",
-    fontFamily: "Pacifico"
-  }
-});
