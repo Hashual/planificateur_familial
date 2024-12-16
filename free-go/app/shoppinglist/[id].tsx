@@ -15,7 +15,7 @@ import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedSt
 import { SetBackPage } from "@/utils/SetBackPage";
 
 export default function ShoppingList() {
-  SetBackPage("/homePage/OpenDoorPage");
+  SetBackPage("/shoppinglists");
   const loadedError = LoadFont({
     "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
   })
