@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 import * as todoListRoutes from './routes/todoList.routes';
 import * as shoppingListRoutes from './routes/shoppingList.routes';
 
-import { RunScripts } from './db';
+import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';
 
 const app = express();
@@ -32,4 +32,6 @@ app.listen(3000, () => {
 	console.log('Server is running on port 3000');
 })
 
-RunScripts();
+connection.addListener('connect', () => {
+	RunScripts();
+})
