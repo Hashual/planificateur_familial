@@ -1,5 +1,6 @@
-import React from 'react';
-import { View, StyleSheet, ScrollView, StatusBar } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, ScrollView, StatusBar, Button } from 'react-native';
+import * as Notifications from 'expo-notifications';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/ThemedButton';
 import { useRouter } from 'expo-router';
@@ -10,6 +11,30 @@ interface InsideDoorProps {
 
 const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
   const router = useRouter(); // Initialisation du router pour la navigation
+
+  // Configuration des notifications
+  useEffect(() => {
+    const configureNotifications = async () => {
+      const { status } = await Notifications.getPermissionsAsync();
+      if (status !== 'granted') {
+        await Notifications.requestPermissionsAsync();
+      }
+    };
+
+    configureNotifications();
+  }, []);
+
+  // Fonction pour envoyer une notification
+  const sendNotification = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Tâche ajoutée ! ✅',
+        body: 'N’oublie pas de compléter ta nouvelle tâche dans la To-Do List.',
+        sound: true, // Activer le son pour la notification
+      },
+      trigger: null, // Envoyer immédiatement
+    });
+  };
 
   return (
     <View style={styles.insideContainer}>
@@ -24,7 +49,7 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               darkColor="#F5C754"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
-              icon='check'
+              icon="check"
               onTop={true}
             />
             <DoorShelfs />
@@ -36,11 +61,15 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               darkColor="#F5C754"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
-              icon='basket'
+              icon="basket"
               onTop={true}
             />
             <DoorShelfs />
-            
+
+            {/* Nouveau bouton pour envoyer une notification */}
+            <View style={styles.notificationButton}>
+              <Button title="Envoyer une notification" onPress={sendNotification} color="#F5C754" />
+            </View>
           </ScrollView>
         </View>
         {children ? <View style={styles.childrenContainer}>{children}</View> : null}
@@ -60,22 +89,26 @@ const styles = StyleSheet.create({
   inside: {
     width: '95%', // Largeur relative pour s'adapter à la porte
     height: '95%', // Hauteur relative pour s'adapter à la porte
-    backgroundColor: '#FFFFFF', // Couleur blanche
-    borderRadius: 20, // Coins légèrement arrondis
-    transform: [{ skewX: '-0deg' }, { skewY: '-0deg' }], // Déformation horizontale et verticale
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    transform: [{ skewX: '-0deg' }, { skewY: '-0deg' }],
   },
   shelfContainer: {
     flex: 1,
-    justifyContent: 'space-between', // Espacement uniforme des étagères
+    justifyContent: 'space-between',
     paddingVertical: 10,
   },
   button: {
-    marginVertical: 10, // Espacement entre les boutons
+    marginVertical: 10,
     alignSelf: 'center',
-    width: '80%', // Largeur ajustée pour un bon alignement    
+    width: '80%',
+  },
+  notificationButton: {
+    marginTop: 20,
+    alignSelf: 'center',
   },
   childrenContainer: {
-    position: 'absolute', // Permet de superposer les enfants sans affecter les étagères
+    position: 'absolute',
     width: '100%',
     height: '100%',
     justifyContent: 'center',
