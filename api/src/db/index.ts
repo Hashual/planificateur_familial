@@ -10,16 +10,38 @@ export const connection = createConnection({
 	charset: "utf8mb4"
 })
 
-connection.connect((err) => {
-	if (err) {
-		console.error('Database connection failed: ' + err.stack);
-		return;
-	}
-	console.log('Connected to database.');
-})
+let isConnected = false;
+async function Connect() {
+	connection.connect((err) => {
+		if (err) {
+			console.error('Database connection failed: ' + err.stack);
+			setTimeout(Connect, 5000);
+
+			return;
+		}
+		console.log('Connected to database.');
+
+		isConnected = true;
+	})
+}
+Connect();
 
 export const SqlQuery = <T extends QueryResult>(sql: string, values?: any) => {
 	return new Promise<T>((resolve, reject) => {
+		if (!isConnected) {
+			console.log(`Database not connected, retrying in 5 seconds.`);
+			
+			setTimeout(() => {
+				SqlQuery(sql, values).then( (result) => {
+					resolve(result as T);	
+				}).catch( (err) => {
+					reject(err);
+				})
+			}, 5000);
+
+			return;
+		}
+
 		connection.query(sql, values, (err: QueryError | null, result: T) => {
 			if (err) {
 				reject(err);
