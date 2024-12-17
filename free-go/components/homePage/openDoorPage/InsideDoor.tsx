@@ -35,6 +35,15 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               icon='basket'
               onTop={true}
             />
+            <ThemedButton
+              title="Se connecter"
+              onPress={() => router.push('/auth/login')}
+              type="primary"
+              textStyle={{ fontSize: 10 }}
+              style={styles.button}
+              icon='login'
+              onTop={true}
+            />
             <DoorShelfs />
             
           </ScrollView>

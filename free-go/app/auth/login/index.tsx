@@ -1,0 +1,10 @@
+import LoginButton from "@/components/auth/google/LoginButton";
+import { View } from "react-native";
+
+export default function Login() {
+	return (
+		<View>
+			<LoginButton />
+		</View>
+	)
+}
