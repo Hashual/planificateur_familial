@@ -1,3 +1,4 @@
+import { API } from "@/constants/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type UserInfos = {
@@ -21,7 +22,7 @@ export async function GetUserInfos(): Promise<UserInfos> {
 			}
 		
 			// TODO: Replace by the real API url
-			fetch(`http://localhost:3000/users/me`, {
+			fetch(`${API.URL}/users/me`, {
 				method: 'GET',
 				headers: {
 					'Authorization': `Bearer ${token}`
