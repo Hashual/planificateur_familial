@@ -3,6 +3,8 @@ import { Session } from 'express-session';
 import { google } from "googleapis";
 import { randomBytes } from 'node:crypto';
 import { appendFile } from 'node:fs';
+import { createUser, getUserByProvider } from '../models/user/user';
+import { createSessionForUser, getSessionById } from '../models/sessions/sessions';
 
 const oauth2Client = new google.auth.OAuth2(
 	process.env.GOOGLE_CLIENT_ID,
@@ -65,9 +67,40 @@ router.get('/callback', async (req, res) => {
 	});
 
 	const { data } = await oauth2.userinfo.get();
-	console.log(data);
 
-	res.redirect(`${finalAuthUrl}?token=FINAL_TOKEN`);
+	let user = await getUserByProvider("google", data.id!);
+	if (!user) {
+		const userId = await createUser({
+			email: data.email!,
+			password: null,
+			firstName: data.given_name!,
+			lastName: data.family_name!,
+			avatarUrl: data.picture!,
+			provider: 'google',
+			providerId: data.id!
+		})
+
+		user = await getUserByProvider("google", data.id!);
+	}
+
+	if (!user) {
+		res.status(500).send({ code: 500, message: 'Failed to create user' });
+		return;
+	}
+
+	const sessionTokenId = await createSessionForUser(user);
+	if (!sessionTokenId) {
+		res.status(500).send({ code: 500, message: 'Failed to create session' });
+		return;
+	}
+
+	const session = await getSessionById(sessionTokenId);
+	if (!session) {
+		res.status(500).send({ code: 500, message: 'Failed to get session' });
+		return;
+	}
+
+	res.redirect(`${finalAuthUrl}?token=${session.token}`);
 })
 
 export default router;
