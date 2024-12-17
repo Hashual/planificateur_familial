@@ -9,7 +9,7 @@ import Swipeable, { SwipeableMethods } from 'react-native-gesture-handler/Reanim
 import FridgeBottom from '@/components/homePage/shared/FridgeBottom';
 import FridgeDoorAnimation from '@/components/homePage/animation/FridgeDoorAnimation';
 import { useRouter } from 'expo-router';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { Audio } from 'expo-av';
 
 const DoorPage: React.FC = () => {
@@ -17,6 +17,7 @@ const DoorPage: React.FC = () => {
   const swipeableRef = useRef<SwipeableMethods>(null);
   const [showAnimation, setShowAnimation] = useState(false); // Gérer l'état de l'animation
   const sound = useRef<Audio.Sound | null>(null);
+
 
   useEffect(() => {
     const loadSound = async () => {
@@ -69,6 +70,21 @@ const DoorPage: React.FC = () => {
     router.push('/homePage/OpenDoorPage'); // Rediriger vers la page suivante
   };
 
+  const doubleTap = Gesture.Tap()
+  .numberOfTaps(2)
+  .onStart(() => {
+    // Si une animation est déjà en cours, on ne la relance pas
+    console.log("Double tap détecté !");
+    if (!showAnimation) {
+      setShowAnimation(true);
+      // Réinitialiser l'état après 1 seconde (ajustez selon la durée de votre animation)
+      setTimeout(() => {
+        setShowAnimation(false);
+      }, 3400); // Temps que vous souhaitez que l'animation dure
+    }
+  });
+
+
   return (
     <View style={styles.container}>
       <GestureHandlerRootView style={styles.container}>
@@ -83,6 +99,8 @@ const DoorPage: React.FC = () => {
           childrenContainerStyle={styles.container}
         >
           <FridgeDoorAnimation showAnimation={showAnimation} style={styles.fridge}>
+            <GestureDetector gesture={doubleTap} >
+              <View collapsable={false} style={styles.container}>
               <Fridge>
                 <DoorText />
                 <Handle>
@@ -90,6 +108,8 @@ const DoorPage: React.FC = () => {
                 </Handle>
                 <DoorReflection />
               </Fridge>
+              </View>
+            </GestureDetector>
           </FridgeDoorAnimation>
         </Swipeable>
       </GestureHandlerRootView>
