@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:23-alpine
 
 RUN mkdir -p /usr/src/api
 WORKDIR /usr/src/api
