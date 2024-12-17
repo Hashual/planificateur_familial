@@ -24,16 +24,15 @@ const scopes = [
 ];
 
 router.get('/login', (req, res) => {
-	const state = randomBytes(32).toString('hex');
-	(req.session as CustomSession).state = state;
-
 	const authUrl = oauth2Client.generateAuthUrl({
 		access_type: 'offline',
-		scope: scopes,
-		state: state
+		scope: scopes
 	});
 
-	res.redirect(authUrl);
+	res.status(200).send({
+		code: 200,
+		data: { authUrl }
+	})
 })
 
 router.get('/callback', async (req, res) => {
@@ -43,11 +42,11 @@ router.get('/callback', async (req, res) => {
 	}
 
 	const code = req.query.code as string | undefined;
-	const state = req.query.state as string | undefined;
+	
+	// The state will be the final redirection url with the token
+	const finalAuthUrl = req.query.state as string | undefined;
 
-	console.log(code, state, (req.session as CustomSession).state);
-
-	if (!code || !state || state !== (req.session as CustomSession).state) {
+	if (!code || !finalAuthUrl) {
 		res.redirect('/auth/google/login');
 		return;
 	}
@@ -66,8 +65,9 @@ router.get('/callback', async (req, res) => {
 	});
 
 	const { data } = await oauth2.userinfo.get();
+	console.log(data);
 
-	res.json(data);
+	res.redirect(`${finalAuthUrl}?token=FINAL_TOKEN`);
 })
 
 export default router;
