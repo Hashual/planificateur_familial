@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Platform } from "react-native";
+import { Button } from "react-native";
 
 function defaultGoogleButtonSignIn() {
 	fetch("http://localhost:3000/auth/google/login").then( (response) => {
@@ -19,44 +19,25 @@ function defaultGoogleButtonSignIn() {
 		}).catch(console.error);
 	});
 }
-
 export default function LoginButton() {
 	const [googleAuthButton, setGoogleAuthButton] = useState(<></>);
 
+	function setDefaultGoogleButton() {
+		setGoogleAuthButton(
+			<>
+				<Button
+					title="Se connecter avec Google"
+					onPress={defaultGoogleButtonSignIn}
+				>
+				</Button>
+			</>
+		);
+	}
+
 	useEffect( () => {
 		const fn = async () => {
-			if (Platform.OS != "web" && window.location.hostname != "exp.host") {
-				try {
-					const dynamicImport = await import("@react-native-google-signin/google-signin");
-					setGoogleAuthButton(
-						<>
-							<dynamicImport.GoogleSigninButton
-								size={100}
-								color={dynamicImport.GoogleSigninButton.Color.Dark}
-								onPress={() => {
-									// initiate sign in
-								}}
-							/>
-						</>
-					);
-				} catch (e) {
-					setDefaultGoogleButton();
-				}
-			} else {
-				setDefaultGoogleButton();
-			}
-
-			function setDefaultGoogleButton() {
-				setGoogleAuthButton(
-					<>
-						<Button
-							title="Se connecter avec Google"
-							onPress={defaultGoogleButtonSignIn}
-						>
-						</Button>
-					</>
-				);
-			}
+			// TODO: Use the login Button from @react-native-google-signin/google-signin package when it will be debugged for Expo 52.
+			setDefaultGoogleButton();
 		}
 		fn();
 	}, []);
