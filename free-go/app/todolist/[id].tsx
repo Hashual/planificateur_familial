@@ -68,8 +68,14 @@ export default function ToDoList() {
   };
 
   const handleAddTask = async () => {
+    const dueDate = createDate();
     if (!taskNameInput.trim()) {
       Error("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
+      return;
+    }
+
+    if(dueDate && dueDate < new Date()) {
+      Error("Entrée invalide", "Veuillez ne pas choisir une date passée.");
       return;
     }
 
@@ -77,7 +83,7 @@ export default function ToDoList() {
       const newTask: Task = {
         id: Date.now(),
         name: taskNameInput,
-        dueDate: createDate(),
+        dueDate: dueDate,
         completedDate: null,
       };
       const updatedData = await addTask(listId, newTask);
