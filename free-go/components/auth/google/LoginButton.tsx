@@ -47,13 +47,14 @@ export default function LoginButton() {
 			}
 
 			function setDefaultGoogleButton() {
-				setGoogleAuthButton(<>
-					<Button
-						title="Se connecter avec Google"
-						onPress={defaultGoogleButtonSignIn}
-					>
-					</Button>
-				</>
+				setGoogleAuthButton(
+					<>
+						<Button
+							title="Se connecter avec Google"
+							onPress={defaultGoogleButtonSignIn}
+						>
+						</Button>
+					</>
 				);
 			}
 		}
