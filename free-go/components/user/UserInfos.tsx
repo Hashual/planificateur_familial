@@ -1,4 +1,4 @@
-import { GetUserInfosFromCache } from "@/utils/api/GetUserInfos";
+import { GetUserInfosFromCache } from "@/utils/api/auth/UserInfos";
 import React, { useEffect } from "react";
 import { Image, Text } from "react-native";
 

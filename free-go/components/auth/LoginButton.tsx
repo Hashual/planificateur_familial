@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { ThemedButton, ThemedButtonVisualProps } from "../utilities/ThemedButton";
 import { router } from "expo-router";
-import { IsLogin } from "../user/IsLogin";
+import { IsLogin } from "../../utils/api/auth/IsLogin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ClearUserInfos from "@/utils/api/auth/ClearUserInfos";
 
 export default function LoginButton(customProps?: ThemedButtonVisualProps) {
 	const [button, setButton] = React.useState(<></>)
@@ -13,7 +14,7 @@ export default function LoginButton(customProps?: ThemedButtonVisualProps) {
 	
 	function handleLoginDisconnectClick() {
 		// TODO: Add a confirmation dialog
-		AsyncStorage.clear();
+		ClearUserInfos();
 		router.push('/homePage/OpenDoorPage');
 	}
 

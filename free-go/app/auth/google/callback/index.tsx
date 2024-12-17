@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
-import { GetUserInfos } from "@/utils/api/GetUserInfos";
+import { GetUserInfos } from "@/utils/api/auth/UserInfos";
 
 export default function GoogleSignInCallback() {
 	const { token } = useLocalSearchParams<{ token: string }>();
