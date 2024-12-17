@@ -21,8 +21,11 @@ app.use(session({
 }))
 
 app.use('/auth/google', GoogleAuthRoutes.default);
+
+// TODO: Rename routes to add 's' & /api/v1 prefix
 app.use('/todo-list', todoListRoutes.default);
 app.use('/shopping-list', shoppingListRoutes.default);
+app.use('/users', UserRoutes.default);
 
 app.use((err: Error, req: Request, res: Response, next: Function) => {
 	if (err instanceof ZodError) {
