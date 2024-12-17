@@ -12,8 +12,6 @@ const oauth2Client = new google.auth.OAuth2(
 	process.env.GOOGLE_REDIRECT_URI
 )
 
-console.log(process.env.GOOGLE_REDIRECT_URI);
-
 interface CustomSession extends Session {
 	state?: string;
 }
@@ -70,7 +68,7 @@ router.get('/callback', async (req, res) => {
 
 	let user = await getUserByProvider("google", data.id!);
 	if (!user) {
-		const userId = await createUser({
+		await createUser({
 			email: data.email!,
 			password: null,
 			firstName: data.given_name!,
