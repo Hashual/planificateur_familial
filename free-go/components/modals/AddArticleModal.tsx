@@ -38,10 +38,10 @@ export default function AddArticleModal({
 
     const handleInputChange = (text: string) => {
         const numericValue = parseInt(text, 10);
-        if (!isNaN(numericValue) && numericValue>0) {
-          setNumberOfArticle(numericValue);
+        if (isNaN(numericValue)) {
+          setNumberOfArticle(0);
         } else {
-          setNumberOfArticle(1);
+          setNumberOfArticle(numericValue);
         }
     };
 
