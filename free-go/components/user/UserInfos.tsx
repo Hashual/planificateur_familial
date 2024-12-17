@@ -25,6 +25,7 @@ type UserInfosProps = {
 }
 
 export default function UserInfos({ avatarUrl, displayName }: UserInfosProps) {
+	// TODO: Improve the design
 	return (
 		<>
 			<Image 

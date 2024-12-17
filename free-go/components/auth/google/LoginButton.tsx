@@ -23,6 +23,7 @@ function defaultGoogleButtonSignIn() {
 export default function LoginButton() {
 	const [googleAuthButton, setGoogleAuthButton] = useState(<></>);
 
+	// TODO: Improve the design
 	function setDefaultGoogleButton() {
 		setGoogleAuthButton(
 			<>

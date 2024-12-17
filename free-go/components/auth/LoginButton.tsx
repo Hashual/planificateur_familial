@@ -18,6 +18,7 @@ export default function LoginButton(customProps?: ThemedButtonVisualProps) {
 		router.push('/homePage/OpenDoorPage');
 	}
 
+	// TODO: Improve the design?
 	useEffect( () => {
 		IsLogin().then( (isLogin) => {
 			setButton(
