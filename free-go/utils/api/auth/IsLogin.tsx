@@ -1,4 +1,4 @@
-import { GetUserInfosFromCache } from "@/utils/api/GetUserInfos";
+import { GetUserInfosFromCache } from "@/utils/api/auth/UserInfos";
 
 export function IsLogin(): Promise<boolean> {
 	return new Promise( (resolve, _reject) => {
