@@ -6,7 +6,8 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "module": "ESNext"
   },
   "include": [
     "**/*.ts",
@@ -14,5 +15,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ],
-  "jsx" : "react"
+  "jsx" : "react",
 }
