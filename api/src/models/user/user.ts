@@ -1,19 +1,6 @@
 import {SqlQuery} from "../../db";
 import { ResultSetHeader, RowDataPacket} from "mysql2";
 
-export type User = {
-	id: number;
-	firstName: string;
-	lastName: string;
-	email: string;
-	password: string | null;
-	avatarUrl: string | null;
-	provider: 'google' | 'local';
-	providerId: string | null;
-	createdAt: Date;
-	updatedAt: Date;
-}
-
 type UserUpdate = {
 	firstName: string;
 	lastName: string;
@@ -30,6 +17,12 @@ type UserCreate = {
 	avatarUrl: string | null;
 	provider: 'google' | 'local';
 	providerId: string;
+}
+
+export type User = UserCreate & {
+	id: number;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
 export async function createUser(user: UserCreate): Promise<number> {
