@@ -3,6 +3,8 @@ import { View, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/utilities/ThemedButton';
 import { useRouter } from 'expo-router';
+import { MeUserInfos } from '@/components/user/UserInfos';
+import LoginButton from '@/components/auth/LoginButton';
 
 interface InsideDoorProps {
   children?: React.ReactNode; // Permet d'ajouter des enfants
@@ -35,16 +37,12 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               icon='basket'
               onTop={true}
             />
-            <ThemedButton
-              title="Se connecter"
-              onPress={() => router.push('/auth/login')}
-              type="primary"
-              textStyle={{ fontSize: 10 }}
+            <DoorShelfs />
+            <LoginButton
               style={styles.button}
-              icon='login'
-              onTop={true}
             />
             <DoorShelfs />
+            <MeUserInfos />
             
           </ScrollView>
         </View>
