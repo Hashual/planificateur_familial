@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-native";
 
 function defaultGoogleButtonSignIn() {
+	// TODO: update the api url with the correct one
 	fetch("http://localhost:3000/auth/google/login").then( (response) => {
 		response.json().then( (data) => {
 			if (data.code != 200) {
