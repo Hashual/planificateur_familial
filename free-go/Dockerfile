@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:23-alpine
 
 RUN mkdir -p /usr/src/free-go
 WORKDIR /usr/src/free-go
