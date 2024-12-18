@@ -22,7 +22,6 @@ const DoorPage: React.FC = () => {
   useEffect(() => {
     const loadSound = async () => {
       try {
-        console.log("Chargement du son...");
         const { sound: soundObject } = await Audio.Sound.createAsync(
           require('@/assets/sounds/fridge-door-open.mp3')
         );
@@ -52,7 +51,14 @@ const DoorPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowAnimation(true), 5000); // Déclencher après 5 secondes
+    const timer = setTimeout(() => {
+      if (!showAnimation) {
+        setShowAnimation(true);
+        // Réinitialiser l'état après 1 seconde (ajustez selon la durée de votre animation)
+        setTimeout(() => {
+          setShowAnimation(false);
+        }, 3400);
+    }}, 5000); // Déclencher après 5 secondes
     return () => {
       clearTimeout(timer); // Nettoyer le timer si le composant est démonté
       if (sound.current) {
@@ -70,19 +76,19 @@ const DoorPage: React.FC = () => {
     router.push('/homePage/OpenDoorPage'); // Rediriger vers la page suivante
   };
 
-  const doubleTap = Gesture.Tap()
-  .numberOfTaps(2)
-  .onStart(() => {
-    // Si une animation est déjà en cours, on ne la relance pas
-    console.log("Double tap détecté !");
-    if (!showAnimation) {
-      setShowAnimation(true);
-      // Réinitialiser l'état après 1 seconde (ajustez selon la durée de votre animation)
-      setTimeout(() => {
-        setShowAnimation(false);
-      }, 3400); // Temps que vous souhaitez que l'animation dure
-    }
-  });
+    const doubleTap = Gesture.Tap()
+    .numberOfTaps(2)
+    .onStart(() => {
+      // Si une animation est déjà en cours, on ne la relance pas
+      if (!showAnimation) {
+        setShowAnimation(true);
+        // Réinitialiser l'état après 1 seconde (ajustez selon la durée de votre animation)
+        setTimeout(() => {
+          setShowAnimation(false);
+        }, 3400); // Temps que vous souhaitez que l'animation dure
+      }
+    }).runOnJS(true);
+
 
 
   return (
