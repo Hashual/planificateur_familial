@@ -10,10 +10,12 @@ import * as UserRoutes from './routes/user.routes';
 import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';
 import session from 'express-session';
+import cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.set('trust proxy', 1);
 app.use(session({
