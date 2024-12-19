@@ -39,7 +39,7 @@ export default function ListItem({ id, name, itemName, totalItems, completedItem
             <View style={styles.textContainer}>
               <ThemedText variant="subtitle">{name}</ThemedText>
               <ThemedText variant="fs14" color="placeHolderText" style={{marginTop: 4}}>
-                {totalItems} {totalItems <= 1 ? `${itemName}` : `${itemName}s`}
+                {completedItems}/{totalItems} {totalItems <= 1 ? `${itemName}` : `${itemName}s`}
                 </ThemedText>
               <ProgressBar nbItems={totalItems} nbItemsCompleted={completedItems ?? 0}/>
             </View>
