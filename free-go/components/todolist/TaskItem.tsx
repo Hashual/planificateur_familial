@@ -61,7 +61,7 @@ export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }:
                   <ThemedText 
                     color={getTaskStyle(task)} 
                     style={task.completedDate ? { textDecorationLine: "line-through" } : undefined}>
-                    {task.name}
+                    {task.title}
                   </ThemedText>
                     {task.completedDate ? (
                       <ThemedText variant="fs10" color="secondaryText">

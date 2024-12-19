@@ -14,6 +14,7 @@ import { SetBackPage } from "@/utils/SetBackPage";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
+import {useFetchQuery} from "@/hooks/useAPI";
 
 
 export default function ShoppingList() {
@@ -37,9 +38,8 @@ export default function ShoppingList() {
   
   const loadShoppingData = async () => {
     try {
-      const data = await getMockData();
-      setShoppingData(data);
-      setList(data.shoppingLists.find((list) => list.id === listId));
+      const data = await useFetchQuery("/shopping-list/" + listId);
+      setList(data.data);
     } catch (error) {
       Error("Erreur", "Erreur de chargement des données", error);
     }
@@ -47,9 +47,11 @@ export default function ShoppingList() {
 
   const handleDeleteArticle = async (articleId: number) => {
     try {
-      const updatedData = await deleteArticle(listId, articleId);
-      setShoppingData(updatedData);
-      setList(updatedData.shoppingLists.find((list) => list.id === listId));
+      const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles/" + articleId, {
+        method: "DELETE",
+      });
+
+      setList(updatedData.data);
     } catch (error) {
       Error("Erreur","Erreur lors de la suppression de l'article", error);
     }
@@ -82,21 +84,24 @@ export default function ShoppingList() {
 
   const handlePurchaseArticle = async (articleId: number) => {
     try {
-      const shoppingList = shoppingData.shoppingLists.find((list) => list.id === listId);
-      const article = shoppingList?.articles.find(
-        (article: { id: number }) => article.id === articleId
-      );
+      const shoppingList = await useFetchQuery("/shopping-list/" + listId);
+      const article = shoppingList.data.articles.find((article: Article) => article.id === articleId);
       if (!article) {
         Error("Erreur", "L'article n'existe pas ou n'est pas trouvé");
         return;
       }
       const updatedArticle = {
         ...article,
-        isChecked: article.isChecked ? false : true,
+        completedAt: article.completedAt ? null : new Date()
       };
-      const updatedData = await updateArticle(listId, updatedArticle);
-      setShoppingData(updatedData);
-      setList(updatedData.shoppingLists.find((list) => list.id === listId));
+
+      const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles/" + articleId, {
+        method: "PUT",
+        body: updatedArticle,
+      });
+
+      setList(updatedData.data);
+
     } catch (error) {
       Error("Erreur","Impossible de valider l'achat de l'article", error);
     }
@@ -139,10 +144,9 @@ export default function ShoppingList() {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <ThemedText variant="title" color="primaryText">{list.name}</ThemedText>
+      <ThemedText variant="title" color="primaryText">{list.title}</ThemedText>
       <FlatList
         data={sortArticlesByIsChecked(list.articles)}
-        keyExtractor={(article) => article.id.toString()}
         renderItem={({ item: article }) => (
           <ArticleItem
             article={article}
