@@ -8,7 +8,7 @@ type TodoListTask = {
     createdAt: Date;
     updatedAt: Date;
     todoListId: number;
-    isComplete: boolean;
+    completedDate: boolean;
 }
 
 export const createTodoListTask = async(todoListId: number, title: string, dueDate: Date | null | undefined): Promise<number> => {
@@ -17,7 +17,12 @@ export const createTodoListTask = async(todoListId: number, title: string, dueDa
 }
 
 export const updateTodoListTask = async(id: number, title: string, dueDate: Date | null | undefined, isComplete: boolean): Promise<boolean> => {
-    const result : ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE todoListTask SET title = ?, dueDate = ?, isComplete = ? WHERE id = ?", [title, dueDate, isComplete, id]);
+    let result;
+    if (isComplete) {
+        result = await SqlQuery<ResultSetHeader>("UPDATE todoListTask SET title = ?, dueDate = ?, completedDate = NOW() WHERE id = ?", [title, dueDate, id]);
+    } else
+        result = await SqlQuery<ResultSetHeader>("UPDATE todoListTask SET title = ?, dueDate = ?, completedDate = null WHERE id = ?", [title, dueDate, id]);
+
     return result.affectedRows > 0;
 }
 
@@ -35,7 +40,7 @@ export const getTodoListTasks = async(todoListId: number): Promise<TodoListTask[
             createdAt: new Date(row.createdAt),
             updatedAt: new Date(row.updatedAt),
             todoListId: row.todoListId,
-            isComplete: row.isComplete
+            completedDate: row.completedDate
         }
     }) as TodoListTask[];
 }
@@ -53,11 +58,16 @@ export const getTodoListTaskById = async(id: number): Promise<TodoListTask | nul
         createdAt: new Date(row.createdAt),
         updatedAt: new Date(row.updatedAt),
         todoListId: row.todoListId,
-        isComplete: row.isComplete
+        completedDate: row.completedDate
     } as TodoListTask;
 }
 
 export const getTasksAmount = async(todoListId: number, isComplete: boolean): Promise<number> => {
-	const result : RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT COUNT(*) as amount FROM todoListTask WHERE todoListId = ? AND isComplete = ?", [todoListId, isComplete]);
-	return result[0].amount;
+    if (isComplete) {
+        const result : RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT COUNT(*) as amount FROM todoListTask WHERE todoListId = ? AND completedDate IS NOT NULL", [todoListId]);
+        return result[0].amount;
+    } else {
+        const result : RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT COUNT(*) as amount FROM todoListTask WHERE todoListId = ? AND completedDate IS NULL", [todoListId]);
+        return result[0].amount;
+    }
 }

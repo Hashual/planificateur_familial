@@ -4,6 +4,7 @@ import { QueryResult, ResultSetHeader, RowDataPacket } from "mysql2";
 type TodoList = {
     id: number;
     title: string;
+    tasksAmount: number;
     tasksInProgressAmount: number;
     createdAt: Date;
     updatedAt: Date;
@@ -25,14 +26,15 @@ export const deleteTodoList = async (id: number): Promise<void> => {
 
 export const getAllTodoLists = async (): Promise<TodoList[]> => {
     const result = await SqlQuery<RowDataPacket[]>(`
-        SELECT 
+        SELECT
             todoList.id,
             todoList.title,
             todoList.createdAt,
             todoList.updatedAt,
-            COUNT(todoListTask.id) AS tasksInProgressAmount
+            COUNT(todoListTask.id) AS tasksAmount,
+            COUNT(CASE WHEN todoListTask.completedDate IS NULL THEN 1 END) AS tasksInProgressAmount
         FROM todoList
-        LEFT JOIN todoListTask ON todoList.id = todoListTask.todoListId AND todoListTask.isComplete = 0
+                 LEFT JOIN todoListTask ON todoList.id = todoListTask.todoListId
         GROUP BY todoList.id
     `);
 
@@ -40,6 +42,7 @@ export const getAllTodoLists = async (): Promise<TodoList[]> => {
         return {
             id: row.id,
             title: row.title,
+            tasksAmount: row.tasksAmount,
             tasksInProgressAmount: row.tasksInProgressAmount,
             createdAt: new Date(row.createdAt),
             updatedAt: row.updatedAt
@@ -54,9 +57,11 @@ export const getTodoListById = async (id: number): Promise<TodoList | undefined>
             todoList.title,
             todoList.createdAt,
             todoList.updatedAt,
+            COUNT(todoListTask2.id) AS tasksAmount,
             COUNT(todoListTask.id) AS tasksInProgressAmount
         FROM todoList
-        LEFT JOIN todoListTask ON todoList.id = todoListTask.todoListId AND todoListTask.isComplete = 0
+        LEFT JOIN todoListTask ON todoList.id = todoListTask.todoListId AND todoListTask.completedDate IS NULL
+        LEFT JOIN todoListTask AS todoListTask2 ON todoList.id = todoListTask2.todoListId
         WHERE todoList.id = ?
         GROUP BY todoList.id
     `, [id]);
@@ -70,6 +75,7 @@ export const getTodoListById = async (id: number): Promise<TodoList | undefined>
     return {
         id: row.id,
         title: row.title,
+        tasksAmount: row.tasksAmount,
         tasksInProgressAmount: row.tasksInProgressAmount,
         createdAt: new Date(new Date(row.createdAt)),
         updatedAt: new Date(row.updatedAt)
