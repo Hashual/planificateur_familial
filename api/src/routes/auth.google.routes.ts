@@ -65,6 +65,7 @@ router.get('/callback', async (req, res) => {
 	});
 
 	const { data } = await oauth2.userinfo.get();
+	// TODO: Compatibility if u login with google with a email that already exists
 
 	let user = await getUserByProvider("google", data.id!);
 	if (!user) {
