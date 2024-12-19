@@ -15,6 +15,7 @@ import AppListModal from "@/components/modals/AddListModal";
 import ThemedStatusBar, { StatusBarStyle } from "@/components/utilities/ThemedStatusBar";
 import { Colors } from "@/constants/Colors";
 import { SetBackPage } from "@/utils/SetBackPage";
+import {API, useFetchQuery} from "@/hooks/useAPI";
 
 export default function ToDoLists() {
   const loadedError = LoadFont({
@@ -25,6 +26,7 @@ export default function ToDoLists() {
   SetBackPage('/OpenDoorPage');
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
+  const [data, setData] = useState<API["/todo-list"]>();
   const [isModalVisible, setModalVisible] = useState(false);
   const [toDoListNameInputValue, setToDoListNameInputValue] = useState("");
 
@@ -36,6 +38,15 @@ export default function ToDoLists() {
       console.error("Error loading data:", error);
     }
   };
+
+  const loadData = async () => {
+    try {
+      const data = await useFetchQuery("/todo-list");
+      setData(data.data);
+    } catch (error) {
+        console.error("Error loading data:", error);
+    }
+  }
 
   const openModal = () => {
     setModalVisible(true);
@@ -50,9 +61,13 @@ export default function ToDoLists() {
 
     if (newTaskListName) {
       try {
-        await createTaskList(newTaskListName);
+        await useFetchQuery("/todo-list", {
+          method: "POST",
+          body: {title: newTaskListName}
+        });
         setToDoListNameInputValue("");
-        await loadMockData();
+        // await loadMockData();
+        await loadData();
         closeModal();
       } catch (error) {
         Error("Erreur", "Il y a eu un problème lors de la création de la liste.", error);
@@ -66,7 +81,8 @@ export default function ToDoLists() {
     Confirmation("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", async () => {
       try {
         await deleteTaskList(id);
-        await loadMockData();
+        //await loadMockData();
+        await loadData();
       } catch (error) {
         Error("Erreur", "Il y a eu un problème lors de la suppression de la liste.", error);
       }
@@ -75,7 +91,8 @@ export default function ToDoLists() {
 
   useFocusEffect(
     useCallback(() => {
-      loadMockData();
+      //loadMockData();
+        loadData();
     }, [])
   );
 
@@ -85,38 +102,46 @@ export default function ToDoLists() {
         style={isModalVisible ? StatusBarStyle.Light : StatusBarStyle.Dark}
       />
       <Text style={styles.title}>To-Do List</Text>
-      <FlatList
-        data={mockData.toDoLists}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item: list }) => {
-          const completedTasksCount = list.tasks.filter((task) => task.completedDate).length;
+
+      {data && data.length === 0 && (
+          <Text style={styles.title}>Aucune liste de tâches</Text>
+        )
+      }
+      {data && data.length > 0 && (
+
+        <FlatList
+        // data={mockData.toDoLists}
+            data={data ? data : []}
+            renderItem={({ item: list }) => {
+          const completedTasksCount = list.tasksAmount - list.tasksInProgressAmount
           return (
-            <ListItem 
-              id={list.id} 
-              name={list.name} 
-              itemName="tâche" 
-              totalItems={list.tasks.length}
-              completedItems={completedTasksCount} 
-              handleDeleteList={async () => handleDeleteTaskList(list.id)} 
-              listIcon={"format-list-bulleted"} 
-              pathName={"/todolist/[id]"} 
+            <ListItem
+              id={list.id}
+              name={list.title}
+              itemName="tâche"
+              totalItems={list.tasksAmount}
+              completedItems={completedTasksCount}
+              handleDeleteList={async () => handleDeleteTaskList(list.id)}
+              listIcon={"format-list-bulleted"}
+              pathName={"/todolist/[id]"}
             />
           )
         }}
       />
-      <ThemedButton
-        title="Ajouter une liste"
-        icon="plus"
-        onPress={openModal}
-        type="primary"
-      />
-      <AppListModal
-        isModalVisible={isModalVisible}
-        closeModal={closeModal}
-        listNameInput={toDoListNameInputValue}
-        setListNameInput={setToDoListNameInputValue}
-        handleAddList={handleAddTaskList}
-      />
+    )}
+    <ThemedButton
+      title="Ajouter une liste"
+      icon="plus"
+      onPress={openModal}
+      type="primary"
+    />
+    <AppListModal
+      isModalVisible={isModalVisible}
+      closeModal={closeModal}
+      listNameInput={toDoListNameInputValue}
+      setListNameInput={setToDoListNameInputValue}
+      handleAddList={handleAddTaskList}
+    />
     </SafeAreaView>
   );
 }
