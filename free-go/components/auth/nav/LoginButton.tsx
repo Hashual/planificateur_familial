@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { ThemedButton, ThemedButtonVisualProps } from "../utilities/ThemedButton";
+import { ThemedButton, ThemedButtonVisualProps } from "../../utilities/ThemedButton";
 import { router } from "expo-router";
-import { IsLogin } from "../../utils/api/auth/IsLogin";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { IsLogin } from "../../../utils/api/auth/IsLogin";
 import ClearUserInfos from "@/utils/api/auth/ClearUserInfos";
 
-export default function LoginButton(customProps?: ThemedButtonVisualProps) {
+export default function NavLoginButton(customProps?: ThemedButtonVisualProps) {
 	const [button, setButton] = React.useState(<></>)
 
 	function handleLoginButtonClick() {

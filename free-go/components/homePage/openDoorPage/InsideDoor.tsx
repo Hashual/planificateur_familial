@@ -4,7 +4,7 @@ import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/utilities/ThemedButton';
 import { useRouter } from 'expo-router';
 import { MeUserInfos } from '@/components/user/UserInfos';
-import LoginButton from '@/components/auth/LoginButton';
+import NavLoginButton from '@/components/auth/nav/LoginButton';
 
 interface InsideDoorProps {
   children?: React.ReactNode; // Permet d'ajouter des enfants
@@ -38,7 +38,7 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               onTop={true}
             />
             <DoorShelfs />
-            <LoginButton
+            <NavLoginButton
               style={styles.button}
             />
             <DoorShelfs />
