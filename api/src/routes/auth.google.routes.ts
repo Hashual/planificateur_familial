@@ -3,7 +3,7 @@ import { Session } from 'express-session';
 import { google } from "googleapis";
 import { randomBytes } from 'node:crypto';
 import { appendFile } from 'node:fs';
-import { createUser, getUserByProvider } from '../models/user/user';
+import { createUser, getUserByProvider, Provider } from '../models/user/user';
 import { createSessionForUser, getSessionById } from '../models/sessions/sessions';
 
 const oauth2Client = new google.auth.OAuth2(
@@ -11,10 +11,6 @@ const oauth2Client = new google.auth.OAuth2(
 	process.env.GOOGLE_CLIENT_SECRET,
 	process.env.GOOGLE_REDIRECT_URI
 )
-
-interface CustomSession extends Session {
-	state?: string;
-}
 
 const router = Router();
 
@@ -67,7 +63,7 @@ router.get('/callback', async (req, res) => {
 	const { data } = await oauth2.userinfo.get();
 	// TODO: Compatibility if u login with google with a email that already exists
 
-	let user = await getUserByProvider("google", data.id!);
+	let user = await getUserByProvider(Provider.Google, data.id!);
 	if (!user) {
 		await createUser({
 			email: data.email!,
@@ -75,11 +71,11 @@ router.get('/callback', async (req, res) => {
 			firstName: data.given_name!,
 			lastName: data.family_name!,
 			avatarUrl: data.picture!,
-			provider: 'google',
+			provider: Provider.Google,
 			providerId: data.id!
 		})
 
-		user = await getUserByProvider("google", data.id!);
+		user = await getUserByProvider(Provider.Google, data.id!);
 	}
 
 	if (!user) {
