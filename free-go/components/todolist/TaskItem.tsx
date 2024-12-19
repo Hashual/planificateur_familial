@@ -64,7 +64,7 @@ export default function TaskItem({ task, listId, handleDeleteTask, handleComplet
               <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
                 <Text style={getCheckBoxStyle(task)}>✓</Text>
                 <View style={{ flexShrink: 1, width: "85%" }}>
-                  <Text style={getTaskStyle(task)}>{task.name}</Text>
+                  <Text style={getTaskStyle(task)}>{task.title}</Text>
                   {task.completedDate ? (
                     <Text style={styles.dueDateStatus}>
                       Complété le {new Date(task.completedDate).toLocaleDateString()} à{' '}
