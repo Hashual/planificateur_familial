@@ -22,7 +22,7 @@ function defaultGoogleButtonSignIn() {
 		}).catch(console.error);
 	});
 }
-export default function LoginButton() {
+export default function GoogleLoginButton() {
 	const [googleAuthButton, setGoogleAuthButton] = useState(<></>);
 
 	// TODO: Improve the design

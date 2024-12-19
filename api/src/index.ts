@@ -1,8 +1,11 @@
 import express, { Request, Response } from 'express';
 
+// TODO: Improve imports (to remove .default)
 import * as todoListRoutes from './routes/todoList.routes';
 import * as shoppingListRoutes from './routes/shoppingList.routes';
 import * as GoogleAuthRoutes from './routes/auth.google.routes';
+import * as LocalAuthRoutes from './routes/auth.local.routes';
+import * as UserRoutes from './routes/user.routes';
 
 import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';
@@ -21,6 +24,7 @@ app.use(session({
 }))
 
 app.use('/auth/google', GoogleAuthRoutes.default);
+app.use('/auth/local', LocalAuthRoutes.default);
 
 // TODO: Rename routes to add 's' & /api/v1 prefix
 app.use('/todo-list', todoListRoutes.default);
