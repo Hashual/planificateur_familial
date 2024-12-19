@@ -10,14 +10,14 @@ type ArticleItemProps = {
 
 export default function ArticleItem({ article, listId, handleDeleteArticle, handleCompleteArticle }: ArticleItemProps) {
     const getTaskStyle = (article: Article) => {
-        if (article.isChecked) {
+        if (article.completedAt) {
           return styles.purchasedArticle;
         }
         return styles.pendingArticle;
       };
 
     const getCheckBoxStyle = (article: Article) => {
-        if (article.isChecked) {
+        if (article.completedAt) {
           return [styles.checkBox, styles.checkBoxChecked];
         }
         return styles.checkBox;
@@ -32,7 +32,7 @@ export default function ArticleItem({ article, listId, handleDeleteArticle, hand
               <View style={styles.rowWithGap}>
                 <Text style={getCheckBoxStyle(article)}>✓</Text>
                 <View style={styles.shrinkableItem}>
-                  <Text style={getTaskStyle(article)}>{article.quantity === 1 ? article.name : `${article.name} (${article.quantity})`}</Text>
+                  <Text style={getTaskStyle(article)}>{article.quantity === 1 ? article.title : `${article.title} (${article.quantity})`}</Text>
                 </View>
               </View>
             </TouchableOpacity>
