@@ -3,7 +3,7 @@ import { Session } from 'express-session';
 import { google } from "googleapis";
 import { randomBytes } from 'node:crypto';
 import { appendFile } from 'node:fs';
-import { createUser, getUserByProvider, Provider } from '../models/user/user';
+import { createUser, getUserByEmail, getUserByProvider, Provider } from '../models/user/user';
 import { createSessionForUser, getSessionById } from '../models/sessions/sessions';
 
 const oauth2Client = new google.auth.OAuth2(
@@ -61,10 +61,15 @@ router.get('/callback', async (req, res) => {
 	});
 
 	const { data } = await oauth2.userinfo.get();
-	// TODO: Compatibility if u login with google with a email that already exists
 
 	let user = await getUserByProvider(Provider.Google, data.id!);
 	if (!user) {
+		const userByMail = await getUserByEmail(data.email!);
+		if (userByMail) {
+			res.redirect(`${finalAuthUrl}?error=accountAlreadyExists`);
+			return;
+		}
+
 		await createUser({
 			email: data.email!,
 			password: null,
