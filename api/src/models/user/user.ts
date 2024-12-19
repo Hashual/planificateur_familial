@@ -84,12 +84,14 @@ export async function getUserByProvider(provider: string, providerId: string): P
 	return getUserById(row.id as number);
 }
 
-export async function getUserByEmail(email: string): Promise<User | null> {
+export async function getUserByEmail(email: string, password?: string): Promise<User | null> {
+	const hashedPassword = password ? hashPassword(password) : undefined;
+
 	const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>(`
 		SELECT *
 		FROM user
-		WHERE email = ?
-	`, [email]);
+		WHERE email = ? ${hashedPassword ? 'AND password = ?' : ''}
+	`, [email, hashedPassword]);
 
 	if (result.length === 0) {
 		return null;

@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { handler } from "../utils/handler";
 import { z } from "zod";
-import { createUser, getUserByEmail } from "../models/user/user";
+import { createUser, getUserByEmail, getUserById } from "../models/user/user";
+import { createSessionForUser, getSessionById } from "../models/sessions/sessions";
 
 const router = Router();
 
@@ -36,6 +37,37 @@ router.post('/register', handler({
 		}
 
 		res.status(200).json({ code: 200, data: { userId } });
+	}
+}));
+
+router.post('/login', handler({
+	body: z.object({
+		email: z.string().email(),
+		password: z.string().min(8).max(100)
+	}),
+	handler: async (req, res) => {
+		const { email, password } = req.body;
+
+		const user = await getUserByEmail(email, password);
+
+		if (!user) {
+			res.status(401).json({ code: 401, message: 'Invalid email or password' });
+			return;
+		}
+
+		const sessionTokenId = await createSessionForUser(user);
+		if (!sessionTokenId) {
+			res.status(500).send({ code: 500, message: 'Failed to create session' });
+			return;
+		}
+	
+		const session = await getSessionById(sessionTokenId);
+		if (!session) {
+			res.status(500).send({ code: 500, message: 'Failed to get session' });
+			return;
+		}
+		
+		res.status(200).json({ code: 200, data: { token: session.token } });
 	}
 }));
 
