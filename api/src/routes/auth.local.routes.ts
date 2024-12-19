@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { handler } from "../utils/handler";
 import { z } from "zod";
-import { createUser, getUserByEmail, getUserById } from "../models/user/user";
+import { createUser, getUserByEmail, Provider } from "../models/user/user";
 import { createSessionForUser, getSessionById } from "../models/sessions/sessions";
 
 const router = Router();
@@ -27,7 +27,7 @@ router.post('/register', handler({
 			email,
 			password,
 			avatarUrl: null,
-			provider: 'local',
+			provider: Provider.Local,
 			providerId: null
 		});
 

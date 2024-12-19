@@ -2,6 +2,11 @@ import {SqlQuery} from "../../db";
 import { ResultSetHeader, RowDataPacket} from "mysql2";
 import hashPassword from "../../utils/auth/hashPassword";
 
+export enum Provider {
+	Google = 'google',
+	Local = 'local'
+}
+
 type UserUpdate = {
 	firstName: string;
 	lastName: string;
@@ -17,7 +22,7 @@ type UserCreate = {
 	password: string | null;
 	avatarUrl: string | null;
 	// TODO: Add a type or an enum for provider
-	provider: 'google' | 'local';
+	provider: Provider | null;
 	providerId: string | null
 }
 
@@ -69,8 +74,11 @@ export async function getUserById(id: number): Promise<User | null> {
 	} as User;
 }
 
-// TODO: Change provider to an enum or a type
-export async function getUserByProvider(provider: string, providerId: string): Promise<User | null> {
+export async function getUserByProvider(provider: Provider, providerId: string): Promise<User | null> {
+	if (provider == Provider.Local) {
+		throw new Error('Cannot get local user by provider');
+	}
+
 	const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>(`
 		SELECT id
 		FROM user
