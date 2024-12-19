@@ -107,38 +107,37 @@ export default function ToDoLists() {
       }
       {data && data.length > 0 && (
 
-        <FlatList
-        // data={mockData.toDoLists}
-            data={data ? data : []}
-            renderItem={({ item: list }) => {
-          const completedTasksCount = list.tasksAmount - list.tasksInProgressAmount
-          return (
-            <ListItem
-              id={list.id}
-              name={list.title}
-              itemName="tâche"
-              totalItems={list.tasksAmount}
-              completedItems={completedTasksCount}
-              handleDeleteList={async () => handleDeleteTaskList(list.id)}
-              listIcon={"format-list-bulleted"}
-              pathName={"/todolist/[id]"}
-            />
+          <>
+            <FlatList
+              // data={mockData.toDoLists}
+              data={data ? data : []}
+              renderItem={({item: list}) => {
+                const completedTasksCount = list.tasksAmount - list.tasksInProgressAmount;
+                return (
+                    <ListItem
+                        id={list.id}
+                        name={list.title}
+                        itemName="tâche"
+                        totalItems={list.tasksAmount}
+                        completedItems={completedTasksCount}
+                        handleDeleteList={async () => handleDeleteTaskList(list.id)}
+                        listIcon={"format-list-bulleted"}
+                        pathName={"/todolist/[id]"}/>
+                );
+              }}/>
+            <ThemedButton
+              title="Ajouter une liste"
+              icon="plus"
+              onPress={openModal}
+              type="primary"/><AppListModal
+              isModalVisible={isModalVisible}
+              closeModal={closeModal}
+              listNameInput={toDoListNameInputValue}
+              setListNameInput={setToDoListNameInputValue}
+              handleAddList={handleAddTaskList}/>
+          </>
           )
-        }}
-      />
-      <ThemedButton
-        title="Ajouter une liste"
-        icon="plus"
-        onPress={openModal}
-        type="primary"
-      />
-      <AppListModal
-        isModalVisible={isModalVisible}
-        closeModal={closeModal}
-        listNameInput={toDoListNameInputValue}
-        setListNameInput={setToDoListNameInputValue}
-        handleAddList={handleAddTaskList}
-      />
+      }
     </RootView>
-  );
+    );
 }
