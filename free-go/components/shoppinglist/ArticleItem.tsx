@@ -19,13 +19,13 @@ export default function ArticleItem({ article, handleDeleteArticle, handleComple
             onPress={handleCompleteArticle}
             style={styles.articleInfoContainer}
             >
-                <CheckBox isChecked={article.isChecked}/>
+                <CheckBox isChecked={article.completedAt}/>
                 <View style={{flex: 1}}>
                   <ThemedText 
-                    color={article.isChecked ? "inactive" : "primaryText"}
-                    style={article.isChecked ? { textDecorationLine: "line-through" } : undefined}
+                    color={article.completedAt ? "inactive" : "primaryText"}
+                    style={article.completedAt ? { textDecorationLine: "line-through" } : undefined}
                   >
-                    {article.quantity === 1 ? article.name : `${article.name} (${article.quantity})`}
+                    {article.quantity === 1 ? article.title : `${article.title} (${article.quantity})`}
                   </ThemedText>
                 </View>
             </TouchableOpacity>

@@ -15,6 +15,7 @@ import LoadFont from "@/utils/LoadFont";
 import { SetBackPage } from "@/utils/SetBackPage";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
+import {API, useFetchQuery} from "@/hooks/useAPI";
 
 export default function ShoppingLists() {
   const loadedError = LoadFont({
@@ -25,6 +26,7 @@ export default function ShoppingLists() {
   SetBackPage('./homePage/OpenDoorPage');
 
   const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
+  const [data, setData] = useState<API["/shopping-list"]>();
   const [isModalVisible, setModalVisible] = useState(false);
   const [nameInputValue, setNameInputValue] = useState("");
 
@@ -36,6 +38,15 @@ export default function ShoppingLists() {
       Error("Erreur", "Il y a eu un problème lors du chargement des données.", error);
     }
   };
+
+  const loadData = async () => {
+    try {
+      const data = await useFetchQuery("/shopping-list");
+      setData(data.data);
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  }
 
   const openModal = () => {
     setModalVisible(true);
@@ -50,9 +61,14 @@ export default function ShoppingLists() {
 
     if (newShoppingListName) {
       try {
-        await createShoppingList(newShoppingListName);
+        await useFetchQuery("/shopping-list", {
+          method: "POST",
+          body: {
+            title: newShoppingListName
+          }
+        });
         setNameInputValue("");
-        await loadMockData();
+        await loadData();
         closeModal();
       } catch (error) {
         Error("Erreur", "Il y a eu un problème lors de la création de la liste.", error);
@@ -75,7 +91,7 @@ export default function ShoppingLists() {
 
   useFocusEffect(
     useCallback(() => {
-      loadMockData();
+      loadData();
     }, [])
   );
 
@@ -85,16 +101,14 @@ export default function ShoppingLists() {
       <ThemedText variant="title" color="primaryText" align="center">Mes listes de courses</ThemedText>
       
       <FlatList
-        data={mockData.shoppingLists}
-        keyExtractor={(item) => item.id.toString()}
+        data={data}
         renderItem={({ item: list }) => {
-          const completedTasksCount = list.articles.filter((article) => article.isChecked).length;
-
+          const completedTasksCount = list.numberOfArticles - list.numberOfInProgressArticles;
           return (
             <ListItem
               id={list.id}
-              name={list.name}
-              totalItems={list.articles.length}
+              name={list.title}
+              totalItems={list.numberOfArticles}
               completedItems={completedTasksCount}
               handleDeleteList={async () => {
                 handleDeleteShoppingList(list.id)

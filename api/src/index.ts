@@ -6,9 +6,19 @@ import * as shoppingListRoutes from './routes/shoppingList.routes';
 import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';
 
+
+const cors = require('cors');
 const app = express();
 
+// log all requests
+app.use((req, res, next) => {
+	console.log(`${req.method} ${req.path}`);
+	console.log(req.params);
+	next();
+})
+
 app.use(express.json());
+app.use(cors());
 app.use('/todo-list', todoListRoutes.default);
 app.use('/shopping-list', shoppingListRoutes.default);
 

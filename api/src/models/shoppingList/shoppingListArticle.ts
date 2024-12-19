@@ -4,6 +4,7 @@ import { QueryResult, ResultSetHeader, RowDataPacket } from "mysql2";
 type shoppingListArticles = {
     id: number;
     title: string;
+    quantity: number;
     dueDate: Date;
     completedAt: Date;
     createdAt: Date;
@@ -31,6 +32,7 @@ export const getShoppingListArticles = async (shoppingListId: number): Promise<s
         return {
             id: row.id,
             title: row.title,
+            quantity: row.quantity,
             dueDate: row.dueDate ? new Date(row.dueDate) : null,
             completedAt: row.completedAt ? new Date(row.completedAt) : null,
             createdAt: new Date(row.createdAt),
@@ -49,6 +51,7 @@ export const getShoppingListArticleById = async (id: number): Promise<shoppingLi
     return {
         id: row.id,
         title: row.title,
+        quantity: row.quantity,
         dueDate: row.dueDate ? new Date(row.dueDate) : null,
         completedAt: row.completedAt ? new Date(row.completedAt) : null,
         createdAt: new Date(row.createdAt),

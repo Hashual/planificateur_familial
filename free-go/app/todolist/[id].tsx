@@ -2,8 +2,8 @@ import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 
-import { addTask, deleteTask, getMockData, updateTask} from "@/mockapi/mockData";
-import { Task } from "@/mockapi/types";
+import {addTask, deleteTask, updateTask} from "@/mockapi/mockData";
+import {Task} from "@/mockapi/types";
 
 import TaskItem from "@/components/todolist/TaskItem";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
@@ -14,6 +14,7 @@ import AddTaskModal from "@/components/modals/AddTaskModal";
 import { SetBackPage } from "@/utils/SetBackPage";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
+import {useFetchQuery} from "@/hooks/useAPI";
 
 export default function ToDoList() {
   SetBackPage("/todolists");
@@ -35,19 +36,25 @@ export default function ToDoList() {
   
   const loadToDoData = async () => {
     try {
-      const data = await getMockData();
-      setToDoData(data);
-      setList(data.toDoLists.find((list) => list.id === listId));
+        const taskData = await useFetchQuery("/todo-list/" + listId);
+        setList(taskData.data);
     } catch (error) {
       Error("Erreur", "Erreur de chargement des données", error);
     }
   };
 
-  const handleDeleteTask = async (taskId: number) => {
+  const handleDeleteTask = async (listId: number, taskId: number) => {
     try {
-      const updatedData = await deleteTask(listId, taskId);
-      setToDoData(updatedData);
-      setList(updatedData.toDoLists.find((list) => list.id === listId));
+      const updatedData =  await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId, { method: "delete"});
+      if (updatedData) {
+        setList((prevList: any) => ({
+          ...prevList,
+          tasks: updatedData.data
+        }));
+      } else {
+        Error("Erreur", "Erreur lors de la mise à jour de la tâche");
+      }
+
     } catch (error) {
       Error("Erreur", "Erreur lors de la suppression de la tâche", error);
     }
@@ -82,11 +89,11 @@ export default function ToDoList() {
     try {
       const newTask: Task = {
         id: Date.now(),
-        name: taskNameInput,
-        dueDate: dueDate,
+        title: taskNameInput,
+        dueDate: createDate(),
         completedDate: null,
       };
-      const updatedData = await addTask(listId, newTask);
+      const updatedData= await useFetchQuery("/todo-list/" + listId + "/tasks/" , { method: "POST", body: newTask });
       closeModal();
       setToDoData(updatedData);
       setList(updatedData.toDoLists.find((list) => list.id === listId));
@@ -98,8 +105,7 @@ export default function ToDoList() {
 
   const handleCompleteTask = async (taskId: number) => {
     try {
-      const taskList = toDoData.toDoLists.find((list) => list.id === listId);
-      const task = taskList?.tasks.find(
+      const task = list?.tasks.find(
         (task: { id: number }) => task.id === taskId
       );
       if (!task) {
@@ -108,12 +114,25 @@ export default function ToDoList() {
       }
 
       const updatedTask = {
-        ...task,
+        title: task.title,
+        id: task.id,
+        dueDate: task.dueDate,
+        isComplete: task.completedDate ? 0 : 1,
         completedDate: task.completedDate ? null : new Date(),
       };
-      const updatedData = await updateTask(listId, updatedTask);
-      setToDoData(updatedData);
-      setList(updatedData.toDoLists.find((list) => list.id === listId));
+
+      const updatedData =  await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId, { method: "PUT", body: updatedTask });
+
+      if (updatedData) {
+        setList((prevList: any) => ({
+          ...prevList,
+          tasks: prevList.tasks.map((t: any) =>
+              t.id === taskId ? { ...t, ...updatedTask } : t
+          ),
+        }));
+      } else {
+        Error("Erreur", "Erreur lors de la mise à jour de la tâche");
+      }
     } catch (error) {
       Error("Erreur", "Erreur lors de la complétion d'une tâche", error);
     }
@@ -147,7 +166,7 @@ export default function ToDoList() {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <ThemedText variant="title" color="primaryText">{list.name}</ThemedText>
+      <ThemedText variant="title" color="primaryText">{list.title}</ThemedText>
       <FlatList
         data={list.tasks}
         keyExtractor={(task) => task.id.toString()}
