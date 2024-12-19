@@ -1,11 +1,12 @@
 import {SqlQuery} from "../../db";
 import { ResultSetHeader, RowDataPacket} from "mysql2";
+import hashPassword from "../../utils/auth/hashPassword";
 
 type UserUpdate = {
 	firstName: string;
 	lastName: string;
 	email: string;
-	password: string;
+	password: string; 
 	avatarUrl: string;
 }
 
@@ -15,8 +16,9 @@ type UserCreate = {
 	email: string;
 	password: string | null;
 	avatarUrl: string | null;
+	// TODO: Add a type or an enum for provider
 	provider: 'google' | 'local';
-	providerId: string;
+	providerId: string | null
 }
 
 export type User = UserCreate & {
@@ -26,15 +28,19 @@ export type User = UserCreate & {
 }
 
 export async function createUser(user: UserCreate): Promise<number> {
+	const hashedPassword = user.password ? hashPassword(user.password) : null;
+
 	const result: ResultSetHeader = await SqlQuery<ResultSetHeader>(`
 		INSERT INTO user (email, firstName, lastName, password, avatarUrl, provider, providerId)
 		VALUES (?, ?, ?, ?, ?, ?, ?)
-	`, [user.email, user.firstName, user.lastName, user.password, user.avatarUrl, user.provider, user.providerId]);
+	`, [user.email, user.firstName, user.lastName, hashedPassword, user.avatarUrl, user.provider, user.providerId]);
 
 	return result.insertId;
 }
 
 export async function updateUser(id: number, user: Partial<UserUpdate>): Promise<boolean> {
+	user.password = user.password ? hashPassword(user.password) : undefined;
+	
 	const result: ResultSetHeader = await SqlQuery<ResultSetHeader>(`
 		UPDATE user
 		SET ${Object.keys(user).map(key => `${key} = ?`).join(', ')}
@@ -69,6 +75,21 @@ export async function getUserByProvider(provider: string, providerId: string): P
 		FROM user
 		WHERE provider = ? AND providerId = ?
 	`, [provider, providerId]);
+
+	if (result.length === 0) {
+		return null;
+	}
+
+	const row = result[0];
+	return getUserById(row.id as number);
+}
+
+export async function getUserByEmail(email: string): Promise<User | null> {
+	const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>(`
+		SELECT *
+		FROM user
+		WHERE email = ?
+	`, [email]);
 
 	if (result.length === 0) {
 		return null;
