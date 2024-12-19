@@ -69,6 +69,7 @@ export async function getUserById(id: number): Promise<User | null> {
 	} as User;
 }
 
+// TODO: Change provider to an enum or a type
 export async function getUserByProvider(provider: string, providerId: string): Promise<User | null> {
 	const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>(`
 		SELECT id

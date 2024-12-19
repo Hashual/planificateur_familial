@@ -12,8 +12,6 @@ type UserInfos = {
 }
 
 export async function GetUserInfos(): Promise<UserInfos> {
-	let token;
-
 	return new Promise( (resolve, reject) => {
 		AsyncStorage.getItem("session-token").then((token) => {
 			if (!token) { 
@@ -21,7 +19,6 @@ export async function GetUserInfos(): Promise<UserInfos> {
 				return;
 			}
 		
-			// TODO: Replace by the real API url
 			fetch(`${API.URL}/users/me`, {
 				method: 'GET',
 				headers: {
