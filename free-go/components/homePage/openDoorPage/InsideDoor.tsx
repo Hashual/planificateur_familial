@@ -6,13 +6,11 @@ import { ThemedButton } from '@/components/ThemedButton';
 import { useRouter } from 'expo-router';
 
 interface InsideDoorProps {
-  children?: React.ReactNode; // Permet d'ajouter des enfants
+  children?: React.ReactNode;
 }
 
 const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
-  const router = useRouter(); // Initialisation du router pour la navigation
-
-  // Configuration des notifications
+  const router = useRouter();
   useEffect(() => {
     const configureNotifications = async () => {
       const { status } = await Notifications.getPermissionsAsync();
@@ -24,15 +22,14 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
     configureNotifications();
   }, []);
 
-  // Fonction pour envoyer une notification
   const sendNotification = async () => {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: 'Tâche ajoutée ! ✅',
         body: 'N’oublie pas de compléter ta nouvelle tâche dans la To-Do List.',
-        sound: true, // Activer le son pour la notification
+        sound: true,
       },
-      trigger: null, // Envoyer immédiatement
+      trigger: null,
     });
   };
 
@@ -66,7 +63,6 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
             />
             <DoorShelfs />
 
-            {/* Nouveau bouton pour envoyer une notification */}
             <View style={styles.notificationButton}>
               <Button title="Envoyer une notification" onPress={sendNotification} color="#F5C754" />
             </View>
@@ -87,8 +83,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inside: {
-    width: '95%', // Largeur relative pour s'adapter à la porte
-    height: '95%', // Hauteur relative pour s'adapter à la porte
+    width: '95%', 
+    height: '95%',
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     transform: [{ skewX: '-0deg' }, { skewY: '-0deg' }],
