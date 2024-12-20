@@ -42,6 +42,7 @@ export const getAllShoppingLists = async (): Promise<shoppingList[]> => {
         return {
             id: row.id,
             title: row.title,
+            numberOfInProgressArticles: row.articlesInProgressAmount,
             numberOfArticles: row.numberOfArticles,
             createdAt: new Date(row.createdAt),
             updatedAt: new Date(row.updatedAt)
