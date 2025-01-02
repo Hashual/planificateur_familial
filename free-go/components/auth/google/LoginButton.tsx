@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import { createURL, openURL } from "expo-linking";
 import { API } from "@/constants/API";
 
@@ -25,17 +25,13 @@ function defaultGoogleButtonSignIn() {
 export default function GoogleLoginButton() {
 	const [googleAuthButton, setGoogleAuthButton] = useState(<></>);
 
-	// TODO: Improve the design
-
 	function setDefaultGoogleButton() {
 		setGoogleAuthButton(
-			<>
-				<Button
-					title="Se connecter avec Google"
-					onPress={defaultGoogleButtonSignIn}
-				>
-				</Button>
-			</>
+				<TouchableOpacity style={styles.button} onPress={defaultGoogleButtonSignIn}>
+						<Text style={styles.buttonText}>Se connecter avec Google</Text>
+				</TouchableOpacity>
+				
+				
 		);
 	}
 
@@ -49,3 +45,17 @@ export default function GoogleLoginButton() {
 
 	return googleAuthButton;
 }
+const styles = StyleSheet.create({
+	button: {
+		width: "100%",
+		padding: 15,
+		backgroundColor: "#007BFF",
+		borderRadius: 8,
+		alignItems: "center",
+	},
+  	buttonText: {
+    	color: "#fff",
+    	fontWeight: "bold",
+  	},
+
+});
