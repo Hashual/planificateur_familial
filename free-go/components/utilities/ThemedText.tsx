@@ -38,12 +38,10 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     fontSize: 48,
-    fontWeight: 'bold',
     fontFamily: "Pacifico"
   },
   title: {
     fontSize: 32,
-    fontWeight: 'bold',
     fontFamily: "Pacifico",
     marginBottom: 10
   },
