@@ -1,6 +1,7 @@
 import { API } from "@/constants/API";
 import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Colors } from "@/constants/Colors";
 
 export default function RegisterForm() {
   const [lastName, setLastName] = useState("");
@@ -107,12 +108,12 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     padding: 15,
-    backgroundColor: "#28a745",
+    backgroundColor: Colors.light.primary,
     borderRadius: 8,
     alignItems: "center",
   },
   buttonText: {
-    color: "#fff",
+    color: Colors.light.primaryText,
     fontWeight: "bold",
   },
 });
