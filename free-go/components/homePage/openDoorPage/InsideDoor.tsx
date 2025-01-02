@@ -3,6 +3,8 @@ import { View, StyleSheet, ScrollView, StatusBar } from 'react-native';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/utilities/ThemedButton';
 import { useRouter } from 'expo-router';
+import { MeUserInfos } from '@/components/user/UserInfos';
+import NavLoginButton from '@/components/auth/nav/LoginButton';
 
 interface InsideDoorProps {
   children?: React.ReactNode; // Permet d'ajouter des enfants
@@ -36,6 +38,11 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               onTop={true}
             />
             <DoorShelfs />
+            <NavLoginButton
+              style={styles.button}
+            />
+            <DoorShelfs />
+            <MeUserInfos />
             
           </ScrollView>
         </View>

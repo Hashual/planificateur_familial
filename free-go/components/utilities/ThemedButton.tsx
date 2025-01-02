@@ -6,14 +6,17 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { Shadows } from '@/constants/Shadows';
 import { ThemedText } from './ThemedText';
 
-export type ThemedButtonProps = {
+export type ThemedButtonVisualProps = {
+  type?: 'primary' | 'secondary';
+  style?: ViewStyle;
+  textStyle?: TextStyle;
+}
+
+export type ThemedButtonProps = ThemedButtonVisualProps & {
   title?: string;
   icon?: keyof typeof MaterialCommunityIcons.glyphMap;
   onTop?: boolean;
   onPress: () => void;
-  type?: 'primary' | 'secondary';
-  style?: ViewStyle;
-  textStyle?: TextStyle;
   padV?: number;
   padH?: number;
 };
