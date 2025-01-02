@@ -11,7 +11,6 @@ export default function GoogleSignInCallback() {
 	if (error) {
 		switch (error) {
 			case GoogleSignInCallbackError.AccountAlreadyExists:
-				// TODO: Change with custom alert
 				alert("Un compte avec cette adresse mail existe déjà !");
 				break;
 		}
