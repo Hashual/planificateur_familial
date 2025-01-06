@@ -31,7 +31,7 @@ export const getAllShoppingLists = async (): Promise<shoppingList[]> => {
             shoppingList.title,
             shoppingList.createdAt,
             shoppingList.updatedAt,
-            COUNT(CASE WHEN shoppingListArticle.completedAt IS NULL THEN 1 END) AS articlesInProgressAmount,
+            COUNT(CASE WHEN shoppingListArticle.completedAt IS NULL AND shoppingListArticle.id IS NOT NULL THEN 1 END) AS articlesInProgressAmount,
             COUNT(shoppingListArticle.id) AS numberOfArticles
         FROM shoppingList
         LEFT JOIN shoppingListArticle ON shoppingList.id = shoppingListArticle.shoppingListId
@@ -58,7 +58,7 @@ export const getShoppingListById = async (id: number): Promise<shoppingList | un
             shoppingList.createdAt,
             shoppingList.updatedAt,
             COUNT(shoppingListArticle.id) AS numberOfArticles,
-            COUNT(CASE WHEN shoppingListArticle.completedAt IS NULL THEN 1 END) AS articlesInProgressAmount
+            COUNT(CASE WHEN shoppingListArticle.completedAt IS NULL AND shoppingListArticle.id IS NOT NULL THEN 1 END) AS articlesInProgressAmount
         FROM shoppingList
         LEFT JOIN shoppingListArticle ON shoppingList.id = shoppingListArticle.shoppingListId
         WHERE shoppingList.id = ?
