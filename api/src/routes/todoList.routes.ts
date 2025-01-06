@@ -4,7 +4,7 @@ import { handler } from '../utils/handler';
 import { z } from 'zod';
 import { getTodoListTasks } from '../models/todo/todoListTask';
 import * as todoListTasksRoutes from './todoListTasks.routes';
-import { TODO_LIST_ID_TYPE, todoListIdMiddleware } from '../middlewares/todoList.middleware';
+import { TODO_LIST_ID_TYPE, todoListIdMiddleware } from '../middlewares/todo/todoList.middleware';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const router = Router();
