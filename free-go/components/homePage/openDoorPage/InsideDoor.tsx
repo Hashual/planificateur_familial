@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, StyleSheet, ScrollView, StatusBar, Button } from 'react-native';
-import * as Notifications from 'expo-notifications';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/ThemedButton';
 import { useRouter } from 'expo-router';
+import localNotification from '@/components/notifications/localNotification';
 
 interface InsideDoorProps {
   children?: React.ReactNode;
@@ -41,6 +41,7 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               onTop={true}
             />
             <DoorShelfs />
+            <Button title="Notification local" onPress={localNotification}></Button>
           </ScrollView>
         </View>
         {children ? <View style={styles.childrenContainer}>{children}</View> : null}
