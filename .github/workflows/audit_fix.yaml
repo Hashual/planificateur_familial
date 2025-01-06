@@ -1,0 +1,19 @@
+name: npm audit
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+  
+jobs:
+  npm-audit-fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hugoheml/npm-audit-fix-action@v7
+        with:
+          npm_args: --force
+          assignees: hugoheml
