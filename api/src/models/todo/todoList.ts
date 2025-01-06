@@ -1,7 +1,7 @@
 import { SqlQuery } from "../../db";
 import { QueryResult, ResultSetHeader, RowDataPacket } from "mysql2";
 
-type TodoList = {
+export type TodoList = {
     id: number;
     title: string;
     tasksAmount: number;

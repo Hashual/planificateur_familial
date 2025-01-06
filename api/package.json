@@ -9,14 +9,15 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "@hugoheml/express-ts-handler": "^0.0.2",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
-    "@hugoheml/express-ts-handler": "^0.0.2",
     "googleapis": "^144.0.0",
+    "http-status-codes": "^2.3.0",
     "mysql2": "^3.11.4",
     "zod": "^3.23.8"
   },

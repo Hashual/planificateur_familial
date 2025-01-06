@@ -1,19 +1,18 @@
 import express, { Request, Response } from 'express';
 
-// TODO: Improve imports (to remove .default)
-import * as todoListRoutes from './routes/todoList.routes';
-import * as shoppingListRoutes from './routes/shoppingList.routes';
-import * as GoogleAuthRoutes from './routes/auth.google.routes';
-import * as LocalAuthRoutes from './routes/auth.local.routes';
-import * as UserRoutes from './routes/user.routes';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-
+// TODO: Improve imports (to remove )
+import todoListRoutes from './routes/todoList.routes';
+import shoppingListRoutes from './routes/shoppingList.routes';
+import GoogleAuthRoutes from './routes/auth.google.routes';
+import LocalAuthRoutes from './routes/auth.local.routes';
+import UserRoutes from './routes/user.routes';
 import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';
 import session from 'express-session';
+import HttpError from './utils/exceptions/HttpError';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const cors = require('cors');
 const app = express();
@@ -36,17 +35,20 @@ app.use(session({
   cookie: { secure: process.env.NODE_ENV === 'production' }
 }))
 
-app.use('/auth/google', GoogleAuthRoutes.default);
-app.use('/auth/local', LocalAuthRoutes.default);
+app.use('/auth/google', GoogleAuthRoutes);
+app.use('/auth/local', LocalAuthRoutes);
 
 // TODO: Rename routes to add 's' & /api/v1 prefix
-app.use('/todo-list', todoListRoutes.default);
-app.use('/shopping-list', shoppingListRoutes.default);
-app.use('/users', UserRoutes.default);
+app.use('/todo-list', todoListRoutes);
+app.use('/shopping-list', shoppingListRoutes);
+app.use('/users', UserRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: Function) => {
 	if (err instanceof ZodError) {
 		res.status(400).json({ code: 400, message: 'Bad Request', errors: err.errors });
+		return;
+	} else if (err instanceof HttpError) {
+		res.status(err.status).json({ code: err.status, message: err.message });
 		return;
 	} else {
 		console.log(err);
@@ -54,7 +56,7 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
 	}
 })
 
-app.use((req, res) => {
+app.use((_req, res) => {
 	if (!res.headersSent) {
 		res.status(404).send({ code: 404, message: 'Not Found' });
 	}

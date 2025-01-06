@@ -3,14 +3,16 @@ import { createTodoList, deleteTodoList, getAllTodoLists, getTodoListById } from
 import { handler } from '../utils/handler';
 import { z } from 'zod';
 import { getTodoListTasks } from '../models/todo/todoListTask';
-import todoListTasksRoutes from './todoListTasks.routes';
+import * as todoListTasksRoutes from './todoListTasks.routes';
+import { TODO_LIST_ID_TYPE, todoListIdMiddleware } from '../middlewares/todoList.middleware';
+import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
     const todoList = await getAllTodoLists();
 
-    res.status(200).json({ code: 200, message: 'Success', data: todoList });
+    res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: todoList });
 });
 
 router.post('/', handler({
@@ -23,48 +25,38 @@ router.post('/', handler({
 		const todoListId = await createTodoList(title);
 		const todoList = await getTodoListById(todoListId)!;
 
-		res.status(200).json({ code: 200, message: 'Success', data: todoList });
+		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: todoList });
 	}
 }))
 
 router.get('/:listId', handler({
 	params: z.object({
-		listId: z.coerce.number().int()
+		listId: TODO_LIST_ID_TYPE
 	}),
+	use: todoListIdMiddleware,
     handler: async (req, res) => {
-		const { listId } = req.params;
-		const todoList = await getTodoListById(listId);
+		const { todoList } = req;
 
-		if (!todoList) {
-			res.status(404).json({ code: 404, message: 'Not Found' });
-			return;
-		}
+		const tasks = await getTodoListTasks(todoList.id);
 
-		const tasks = await getTodoListTasks(listId);
-
-		res.status(200).json({ code: 200, message: 'Success', data: { ...todoList, tasks } });
+		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: { ...todoList, tasks } });
 	}
 }));
 
 router.delete('/:listId', handler({
 	params: z.object({
-		listId: z.coerce.number().int()
+		listId: TODO_LIST_ID_TYPE
 	}),
+	use: todoListIdMiddleware,
 	handler: async (req, res) => {
-		const { listId } = req.params;
-		const todoList = await getTodoListById(listId);
+		const { todoList } = req;
 
-		if (!todoList) {
-			res.status(404).json({ code: 404, message: 'Not Found' });
-			return;
-		}
+		await deleteTodoList(todoList.id);
 
-		await deleteTodoList(listId);
-
-		res.status(200).json({ code: 200, message: 'Success' });
+		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK });
 	}
 }))
 
-router.use('/:listId/tasks', todoListTasksRoutes);
+router.use('/', todoListTasksRoutes.default);
 
 export default router;
