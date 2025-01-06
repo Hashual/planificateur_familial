@@ -32,7 +32,7 @@ export const getAllTodoLists = async (): Promise<TodoList[]> => {
             todoList.createdAt,
             todoList.updatedAt,
             COUNT(todoListTask.id) AS tasksAmount,
-            COUNT(CASE WHEN todoListTask.completedDate IS NULL THEN 1 END) AS tasksInProgressAmount
+            COUNT(CASE WHEN todoListTask.completedDate IS NULL AND todoListTask.id IS NOT NULL THEN 1 END) AS tasksInProgressAmount
         FROM todoList
                  LEFT JOIN todoListTask ON todoList.id = todoListTask.todoListId
         GROUP BY todoList.id
