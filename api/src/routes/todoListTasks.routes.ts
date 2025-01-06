@@ -1,94 +1,77 @@
 import { Router } from 'express';
-import { createTodoList, deleteTodoList, getAllTodoLists, getTodoListById } from '../models/todo/todoList';
 import { handler } from '../utils/handler';
 import { z } from 'zod';
-import {
-	createTodoListTask,
-	deleteTodoListTask,
-	getTodoListTaskById,
-	getTodoListTasks,
-	updateTodoListTask
-} from '../models/todo/todoListTask';	
+import { createTodoListTask, deleteTodoListTask, getTodoListTasks, updateTodoListTask } from '../models/todo/todoListTask';	
+import { TODO_LIST_ID_TYPE, todoListIdMiddleware } from '../middlewares/todoList.middleware';
+import { TODO_LIST_TASK_ID_TYPE, todoListTaskIdMiddleware } from '../middlewares/todoListTask.middleware';
+import HttpError from '../utils/exceptions/HttpError';
+import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const router = Router();
 
-// TODO : fix zod verification on listId   // z.coerce.number().int()
-router.post('/', handler({
-	params: z.any(),
+router.post('/:listId/tasks', handler({
+	use: todoListIdMiddleware,
+	params: {
+		listId: TODO_LIST_ID_TYPE,
+	},
 	body: z.object({
 		title: z.string(),
 		date: z.date().optional()
 	}),
 	handler: async (req, res) => {
-		let { listId } = req.params;
 		const { title, date } = req.body;
 
-		listId = listId || 1;
+		const { todoList } = req;
 
-/*		const todoList = await getTodoListById(listId);
-		if (!todoList) {
-			res.status(404).json({ code: 404, message: 'Not Found' });
-			return;
-		}*/
+		await createTodoListTask(todoList.id, title, date);
+		const newTasks = await getTodoListTasks(todoList.id)!;
 
-		const newTodoId = await createTodoListTask(listId, title, date);
-		const newTodo = await getTodoListTasks(listId)!;
-
-		res.status(200).json({ code: 200, message: 'Success', data: newTodo });
+		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: newTasks });
 	}
 }))
 
 // TODO : Make dueDate date type
-router.put('/:taskId', handler({
+router.put('/:listId/tasks/:taskId', handler({
+	use: [todoListIdMiddleware, todoListTaskIdMiddleware],
 	params: z.object({
-		taskId: z.coerce.number().int()
+		listId: TODO_LIST_ID_TYPE,
+		taskId: TODO_LIST_TASK_ID_TYPE
 	}),
 	body: z.object({
 		title: z.string(),
-		dueDate: z.string().optional(),
+		dueDate: z.string().optional().nullable(),
 		isComplete: z.number()
 	}),
 	handler: async (req, res) => {
-		const { taskId } = req.params;
+		const { todoList, task } = req;
 		const { title, dueDate, isComplete } = req.body;
 
-		const todo = await getTodoListTaskById(taskId);
-		if (!todo) {
-			res.status(404).json({ code: 404, message: 'Not Found' });
-			return;
-		}
-
 		const date = dueDate ? new Date(dueDate) : null;
-		const updated = await updateTodoListTask(taskId, title, date, isComplete === 1);
+		const updated = await updateTodoListTask(task.id, title, date, isComplete === 1);
 		if (!updated) {
-			res.status(500).json({ code: 500, message: 'Failed to update' });
-			return;
+			throw new HttpError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to update todo');
 		}
 
-		const updatedTodo = await getTodoListTasks(todo.todoListId)!;
+		const updatedTodo = await getTodoListTasks(todoList.id)!;
 		
-		res.status(200).json({ code: 200, message: 'Success', data: updatedTodo });
+		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: updatedTodo });
 	}
 }))
 
-router.delete('/:taskId', handler({
+router.delete('/:listId/tasks/:taskId', handler({
+	use: [todoListIdMiddleware, todoListTaskIdMiddleware],
 	params: z.object({
-		taskId: z.coerce.number().int()
+		listId: TODO_LIST_ID_TYPE,
+		taskId: TODO_LIST_TASK_ID_TYPE
 	}),
 	handler: async (req, res) => {
-		const { taskId } = req.params;
+		const { task, todoList } = req;
 
-		const todo = await getTodoListTaskById(taskId);
-		if (!todo) {
-			res.status(404).json({ code: 404, message: 'Not Found' });
-			return;
-		}
+		await deleteTodoListTask(task.id);
 
-		await deleteTodoListTask(taskId);
+		const updatedTodo = await getTodoListTasks(todoList.id);
 
-		const updatedTodo = await  getTodoListTasks(todo.todoListId)!;
-
-		res.status(200).json({ code: 200, message: 'Success', data: updatedTodo });
+		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: updatedTodo });
 	}
 }))
 
