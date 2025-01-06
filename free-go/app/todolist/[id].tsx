@@ -95,8 +95,10 @@ export default function ToDoList() {
       };
       const updatedData= await useFetchQuery("/todo-list/" + listId + "/tasks/" , { method: "POST", body: newTask });
       closeModal();
-      setToDoData(updatedData);
-      setList(updatedData.toDoLists.find((list) => list.id === listId));
+      setList((prevList: any) => ({
+        ...prevList,
+        tasks: updatedData.data
+      }));
     } catch (error) {
       Error("Erreur", "Erreur lors de l'ajout de la tâche", error);
     }
