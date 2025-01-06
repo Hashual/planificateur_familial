@@ -1,4 +1,4 @@
-import { makeHandler } from "express-ts-handler";
+import { makeHandler } from "@hugoheml/express-ts-handler";
 import { z, ZodSchema } from "zod";
 
 export const handler = makeHandler<ZodSchema>({
