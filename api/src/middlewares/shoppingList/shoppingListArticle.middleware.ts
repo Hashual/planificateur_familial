@@ -5,13 +5,13 @@ import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 
 export const shoppingListArticleIdMiddleware = async (req: Request) => {
-    const { shoppingListId, articleId } = req.params;
+    const { listId, articleId } = req.params;
     const articleIdInt = parseInt(articleId);
-    const shoppingListIdInt = parseInt(shoppingListId);
-    
+    const shoppingListIdInt = parseInt(listId);
+
     const article = await getShoppingListArticleById(articleIdInt);
     if (!article || article.shoppingListId != shoppingListIdInt) {
-        throw new HttpError(StatusCodes.NOT_FOUND, 'Shopping List article not found');
+        throw new HttpError(StatusCodes.NOT_FOUND, 'Shopping List Article not found');
     }
 
     return Object.assign(req, { article });

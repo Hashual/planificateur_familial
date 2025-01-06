@@ -5,8 +5,8 @@ import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 
 export const shoppingListIdMiddleware = async (req: Request) => {
-    const { shoppingListId } = req.params;
-    const shoppingList = await getShoppingListById(parseInt(shoppingListId));
+    const { listId } = req.params;
+    const shoppingList = await getShoppingListById(parseInt(listId));
 
     if (!shoppingList) {
         throw new HttpError(StatusCodes.NOT_FOUND, 'Shopping List not found');
