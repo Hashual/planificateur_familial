@@ -1,6 +1,6 @@
 import { Request } from "express";
-import { getTodoListById } from "../models/todo/todoList";
-import HttpError from "../utils/exceptions/HttpError";
+import { getTodoListById } from "../../models/todo/todoList";
+import HttpError from "../../utils/exceptions/HttpError";
 import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 
