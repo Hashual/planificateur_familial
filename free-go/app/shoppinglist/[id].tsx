@@ -78,12 +78,10 @@ export default function ShoppingList() {
         body: newArticle,
         });
       closeModal();
-        setList((prevList: any) => {
-            return {
-                ...prevList,
-                articles: [...prevList.articles, newArticle],
-            };
-        });
+        setList((prevList: any) => ({
+          ...prevList,
+          articles: [...prevList.articles, newArticle]
+        }));
     } catch (error) {
       Error("Erreur", "Erreur lors de l'ajout de l'article", error);
     }
