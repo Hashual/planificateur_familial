@@ -11,27 +11,6 @@ interface InsideDoorProps {
 
 const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
   const router = useRouter();
-  useEffect(() => {
-    const configureNotifications = async () => {
-      const { status } = await Notifications.getPermissionsAsync();
-      if (status !== 'granted') {
-        await Notifications.requestPermissionsAsync();
-      }
-    };
-
-    configureNotifications();
-  }, []);
-
-  const sendNotification = async () => {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: 'Tâche ajoutée ! ✅',
-        body: 'N’oublie pas de compléter ta nouvelle tâche dans la To-Do List.',
-        sound: true,
-      },
-      trigger: null,
-    });
-  };
 
   return (
     <View style={styles.insideContainer}>
@@ -62,10 +41,6 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               onTop={true}
             />
             <DoorShelfs />
-
-            <View style={styles.notificationButton}>
-              <Button title="Envoyer une notification" onPress={sendNotification} color="#F5C754" />
-            </View>
           </ScrollView>
         </View>
         {children ? <View style={styles.childrenContainer}>{children}</View> : null}
