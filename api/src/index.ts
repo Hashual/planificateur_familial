@@ -10,8 +10,6 @@ import * as UserRoutes from './routes/user.routes';
 import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';
 import session from 'express-session';
-import cors from 'cors';
-
 
 const cors = require('cors');
 const app = express();
