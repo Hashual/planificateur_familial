@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS event (
     startDate TIMESTAMP,
     endDate TIMESTAMP,
     isRecurrent BOOLEAN NOT NULL DEFAULT FALSE,
-    color VARCHAR(255) NOT NULL,
+    color VARCHAR(255) NOT NULL
 )
