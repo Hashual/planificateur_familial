@@ -69,14 +69,21 @@ export default function ShoppingList() {
     try {
       const newArticle: Article = {
         id: Date.now(), // Génération d'id à simplifier (à modif avec l'api)
-        name: articleNameInput,
+        title: articleNameInput,
         quantity: numberOfArticle,
         isChecked: false,
       };
-      const updatedData = await addArticle(listId, newArticle);
+      const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles", {
+        method: "POST",
+        body: newArticle,
+        });
       closeModal();
-      setShoppingData(updatedData);
-      setList(updatedData.shoppingLists.find((list) => list.id === listId));
+        setList((prevList: any) => {
+            return {
+                ...prevList,
+                articles: [...prevList.articles, newArticle],
+            };
+        });
     } catch (error) {
       Error("Erreur", "Erreur lors de l'ajout de l'article", error);
     }

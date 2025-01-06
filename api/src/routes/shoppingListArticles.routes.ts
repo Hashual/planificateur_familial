@@ -17,14 +17,15 @@ router.post('/:listId/articles', handler({
     }),
     body: z.object({
         title: z.string(),
-        dueDate: z.date().optional().nullable()
+        dueDate: z.date().optional().nullable(),
+        quantity: z.number(),
     }),
     handler: async (req, res) => {
         
         const { shoppingList } = req;
-        const { title, dueDate } = req.body;
+        const { title, dueDate, quantity} = req.body;
 
-        const newArticleId = await createShoppingListArticle(shoppingList.id, title, dueDate);
+        const newArticleId = await createShoppingListArticle(shoppingList.id, title, dueDate, quantity);
 
         if (!newArticleId) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ code: StatusCodes.INTERNAL_SERVER_ERROR, message: 'Failed to create article' });
