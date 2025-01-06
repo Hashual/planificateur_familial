@@ -30,7 +30,6 @@ router.post('/:listId/tasks', handler({
 	}
 }))
 
-// TODO : Make dueDate date type
 router.put('/:listId/tasks/:taskId', handler({
 	use: [todoListIdMiddleware, todoListTaskIdMiddleware],
 	params: z.object({

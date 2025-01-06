@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 
-// TODO: Improve imports (to remove )
 import todoListRoutes from './routes/todoList.routes';
 import shoppingListRoutes from './routes/shoppingList.routes';
 import GoogleAuthRoutes from './routes/auth.google.routes';
