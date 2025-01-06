@@ -1,21 +1,19 @@
 import { Router } from 'express';
+import {createShoppingList, deleteShoppingList, getAllShoppingLists, getShoppingListById,} from '../models/shoppingList/shoppingList';
 import { handler } from '../utils/handler';
 import { z } from 'zod';
-import {
-    createShoppingList,
-    deleteShoppingList,
-    getAllShoppingLists,
-    getShoppingListById,
-} from '../models/shoppingList/shoppingList';
 import { getShoppingListArticles } from '../models/shoppingList/shoppingListArticle';
-import shoppingListArticlesRoutes from './shoppingListArticles.routes';
+import * as shoppingListArticlesRoutes from './shoppingListArticles.routes';
+import { SHOPPING_LIST_ID_TYPE, shoppingListIdMiddleware } from '../middlewares/shoppingList/shoppingList.middleware';
+import { StatusCodes, ReasonPhrases } from 'http-status-codes';
+
 
 const router = Router();
 
 router.get('/', async (req, res) => {
     const shoppingLists = await getAllShoppingLists();
 
-    res.status(200).json({ code: 200, message: 'Success', data: shoppingLists });
+    res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: shoppingLists });
 });
 
 router.post('/', handler({
@@ -29,56 +27,56 @@ router.post('/', handler({
         const shoppingList = await getShoppingListById(shoppingListId);
 
         if (!shoppingList) {
-            res.status(500).json({ code: 500, message: 'Failed to create shopping list' });
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ code: StatusCodes.INTERNAL_SERVER_ERROR, message: 'Failed to create shopping list' });
             return;
         }
 
-        res.status(200).json({ code: 200, message: 'Success', data: shoppingList });
+        res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: shoppingList });
     },
 }));
 
 router.get('/:listId', handler({
     params: z.object({
-        listId: z.coerce.number().int(),
+        listId: SHOPPING_LIST_ID_TYPE,
     }),
+    use: shoppingListIdMiddleware,
     handler: async (req, res) => {
-        const { listId } = req.params;
+        const { listId } = req.body;
 
         const shoppingList = await getShoppingListById(listId);
+
         if (!shoppingList) {
-            res.status(404).json({ code: 404, message: 'Shopping list not found' });
+            res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Shopping list not found' });
             return;
         }
 
         const articles = await getShoppingListArticles(listId);
 
-        res.status(200).json({
-            code: 200,
-            message: 'Success',
-            data: { ...shoppingList, articles },
-        });
+        res.status(StatusCodes.OK).json({code: StatusCodes.OK, message: ReasonPhrases.OK, data: {...shoppingList, articles}, });
     },
 }));
 
 router.delete('/:listId', handler({
     params: z.object({
-        listId: z.coerce.number().int(),
+        listId: SHOPPING_LIST_ID_TYPE,
     }),
+    use: shoppingListIdMiddleware,
     handler: async (req, res) => {
-        const { listId } = req.params;
+        const { listId } = req.body;
 
         const shoppingList = await getShoppingListById(listId);
+
         if (!shoppingList) {
-            res.status(404).json({ code: 404, message: 'Shopping list not found' });
+            res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Shopping list not found' });
             return;
         }
 
         await deleteShoppingList(listId);
 
-        res.status(200).json({ code: 200, message: 'Shopping list deleted successfully' });
+        res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: 'Shopping list deleted successfully' });
     },
 }));
 
-router.use('/:listId/articles', shoppingListArticlesRoutes);
+router.use('/', shoppingListArticlesRoutes.default);
 
 export default router;

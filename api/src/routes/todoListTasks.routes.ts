@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { handler } from '../utils/handler';
 import { z } from 'zod';
 import { createTodoListTask, deleteTodoListTask, getTodoListTasks, updateTodoListTask } from '../models/todo/todoListTask';	
-import { TODO_LIST_ID_TYPE, todoListIdMiddleware } from '../middlewares/todoList.middleware';
-import { TODO_LIST_TASK_ID_TYPE, todoListTaskIdMiddleware } from '../middlewares/todoListTask.middleware';
+import { TODO_LIST_ID_TYPE, todoListIdMiddleware } from '../middlewares/todo/todoList.middleware';
+import { TODO_LIST_TASK_ID_TYPE, todoListTaskIdMiddleware } from '../middlewares/todo/todoListTask.middleware';
 import HttpError from '../utils/exceptions/HttpError';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
@@ -19,6 +19,7 @@ router.post('/:listId/tasks', handler({
 		date: z.date().optional()
 	}),
 	handler: async (req, res) => {
+		
 		const { title, date } = req.body;
 
 		const { todoList } = req;
