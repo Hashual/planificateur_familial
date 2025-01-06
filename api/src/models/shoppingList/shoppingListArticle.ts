@@ -12,8 +12,8 @@ type shoppingListArticles = {
     shoppingListId: number;
 }
 
-export const createShoppingListArticle = async (shoppingListId: number, title: string, dueDate: Date | null | undefined): Promise<number> => {
-    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO shoppingListArticle (title, dueDate, shoppingListId) VALUES (?, ?, ?)", [title, dueDate, shoppingListId]);
+export const createShoppingListArticle = async (shoppingListId: number, title: string, dueDate: Date | null | undefined, quantity: number): Promise<number> => {
+    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO shoppingListArticle (shoppingListId, title, dueDate, quantity) VALUES (?, ?, ?, ?)", [shoppingListId, title, dueDate, quantity]);
     return result.insertId;
 }
 
