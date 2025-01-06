@@ -20,7 +20,6 @@ router.post('/', handler({
 		date: z.date().optional()
 	}),
 	handler: async (req, res) => {
-		console.log("req", req.params, req.body);
 		let { listId } = req.params;
 		const { title, date } = req.body;
 
