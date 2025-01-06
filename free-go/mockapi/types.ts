@@ -14,7 +14,7 @@ export type ToDoList = {
 
 export type Article = {
   id: number;
-  name: string;
+  title: string;
   description?: string;
   category?: string;
   quantity: number;
