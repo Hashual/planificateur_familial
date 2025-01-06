@@ -5,6 +5,10 @@ import { randomBytes } from 'node:crypto';
 import { appendFile } from 'node:fs';
 import { createUser, getUserByEmail, getUserByProvider, Provider } from '../models/user/user';
 import { createSessionForUser, getSessionById } from '../models/sessions/sessions';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 
 const oauth2Client = new google.auth.OAuth2(
 	process.env.GOOGLE_CLIENT_ID,
