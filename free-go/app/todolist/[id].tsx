@@ -43,7 +43,7 @@ export default function ToDoList() {
     }
   };
 
-  const handleDeleteTask = async (listId: number, taskId: number) => {
+  const handleDeleteTask = async (taskId: number) => {
     try {
       const updatedData =  await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId, { method: "delete"});
       if (updatedData) {
