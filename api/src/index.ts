@@ -6,6 +6,10 @@ import * as shoppingListRoutes from './routes/shoppingList.routes';
 import * as GoogleAuthRoutes from './routes/auth.google.routes';
 import * as LocalAuthRoutes from './routes/auth.local.routes';
 import * as UserRoutes from './routes/user.routes';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 
 import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';

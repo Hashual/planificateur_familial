@@ -1,6 +1,9 @@
 import { readdirSync, readFileSync } from 'fs';
 import { createConnection, QueryError, QueryResult } from 'mysql2';
 import { join } from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const connection = createConnection({
 	host: process.env.SQL_HOST,
