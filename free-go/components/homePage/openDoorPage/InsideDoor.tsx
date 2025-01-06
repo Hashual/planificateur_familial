@@ -46,6 +46,15 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               onTop={true}
             />
             <DoorShelfs />
+            <ThemedButton
+              title="Calendrier"
+              onPress={() => router.push('/testcalendarwithtimeline')}
+              type="primary"
+              textStyle={{ fontSize: 10 }}
+              style={styles.button}
+              icon='calendar'
+              onTop={true}
+            />
             
           </ScrollView>
         </View>
