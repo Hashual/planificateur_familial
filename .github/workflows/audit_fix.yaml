@@ -7,13 +7,22 @@ on:
   
 jobs:
   npm-audit-fix:
+    strategy:
+      matrix:
+        folder: [api, free-go]
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
     steps:
       - uses: actions/checkout@v3
-      - uses: hugoheml/npm-audit-fix-action@v7
+      -
+        name: Go to the directory
+        run: cd ${{ matrix.folder }}
+      - 
+        name: npm audit fix
+        uses: hugoheml/npm-audit-fix-action@v7
         with:
           npm_args: --force
           assignees: hugoheml
+          commit_title: 'build(deps): npm audit fix in ${{ matrix.folder }}'
