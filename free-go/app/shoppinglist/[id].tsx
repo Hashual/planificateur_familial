@@ -73,15 +73,12 @@ export default function ShoppingList() {
         quantity: numberOfArticle,
         isChecked: false,
       };
-      const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles", {
-        method: "POST",
-        body: newArticle,
-        });
+      const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles", {method: "POST", body: newArticle});
       closeModal();
-        setList((prevList: any) => ({
-          ...prevList,
-          articles: [...prevList.articles, newArticle]
-        }));
+      setList((prevList: any) => ({
+        ...prevList,
+        articles: updatedData.data
+      }));
     } catch (error) {
       Error("Erreur", "Erreur lors de l'ajout de l'article", error);
     }
