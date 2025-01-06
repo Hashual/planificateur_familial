@@ -41,16 +41,14 @@ router.get('/:listId', handler({
     }),
     use: shoppingListIdMiddleware,
     handler: async (req, res) => {
-        const { listId } = req.body;
-
-        const shoppingList = await getShoppingListById(listId);
+        const { shoppingList } = req;
 
         if (!shoppingList) {
             res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Shopping list not found' });
             return;
         }
 
-        const articles = await getShoppingListArticles(listId);
+        const articles = await getShoppingListArticles(shoppingList.id);
 
         res.status(StatusCodes.OK).json({code: StatusCodes.OK, message: ReasonPhrases.OK, data: {...shoppingList, articles}, });
     },
@@ -62,16 +60,14 @@ router.delete('/:listId', handler({
     }),
     use: shoppingListIdMiddleware,
     handler: async (req, res) => {
-        const { listId } = req.body;
-
-        const shoppingList = await getShoppingListById(listId);
+        const { shoppingList } = req;
 
         if (!shoppingList) {
             res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Shopping list not found' });
             return;
         }
 
-        await deleteShoppingList(listId);
+        await deleteShoppingList(shoppingList.id);
 
         res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: 'Shopping list deleted successfully' });
     },

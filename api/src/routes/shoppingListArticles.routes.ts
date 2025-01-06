@@ -10,33 +10,33 @@ import {StatusCodes, ReasonPhrases} from 'http-status-codes';
 
 const router = Router();
 
-router.post('/', handler({
+router.post('/:listId/articles', handler({
     use : shoppingListIdMiddleware,
     params: z.object({
         listId: SHOPPING_LIST_ID_TYPE,
     }),
     body: z.object({
         title: z.string(),
-        dueDate: z.date().optional(),
+        dueDate: z.date().optional().nullable()
     }),
     handler: async (req, res) => {
         
-        const { listId } = req.params;
+        const { shoppingList } = req;
         const { title, dueDate } = req.body;
 
-        const newArticleId = await createShoppingListArticle(listId, title, dueDate);
+        const newArticleId = await createShoppingListArticle(shoppingList.id, title, dueDate);
 
         if (!newArticleId) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ code: StatusCodes.INTERNAL_SERVER_ERROR, message: 'Failed to create article' });
             return;
         }
 
-        const articles = await getShoppingListArticles(listId);
+        const articles = await getShoppingListArticles(shoppingList.id);
         res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: articles });
     },
 }));
 // TODO : Make dueDate and completedAt date type
-router.put('/:articleId/articles/:articleId', handler({
+router.put('/:listId/articles/:articleId', handler({
     use: [shoppingListIdMiddleware, shoppingListArticleIdMiddleware],
     params: z.object({
         listId : SHOPPING_LIST_ID_TYPE,
@@ -44,14 +44,12 @@ router.put('/:articleId/articles/:articleId', handler({
     }),
     body: z.object({
         title: z.string(),
-        dueDate: z.string().optional(),
+        dueDate: z.string().optional().nullable(),
         completedAt: z.string().nullable(),
     }),
     handler: async (req, res) => {
-        const { articleId } = req.params;
+        const { article } = req;
         const { title, dueDate, completedAt } = req.body;
-
-        const article = await getShoppingListArticleById(articleId);
 
         if (!article) {
             res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Article not found' });
@@ -61,7 +59,7 @@ router.put('/:articleId/articles/:articleId', handler({
         const dateOfDue = dueDate ? new Date(dueDate) : null;
         const dateOfCompletedAt = completedAt ? new Date(completedAt) : null;
 
-        const updated = await updateShoppingListArticle(articleId, title, dateOfDue, dateOfCompletedAt);
+        const updated = await updateShoppingListArticle(article.id, title, dateOfDue, dateOfCompletedAt);
         if (!updated) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ code: StatusCodes.INTERNAL_SERVER_ERROR, message: 'Failed to update article' });
             return;
@@ -73,16 +71,14 @@ router.put('/:articleId/articles/:articleId', handler({
     },
 }));
 
-router.delete('/:articleId/articles/articleId', handler({
+router.delete('/:listId/articles/:articleId', handler({
     use: [shoppingListIdMiddleware, shoppingListArticleIdMiddleware],
     params: z.object({
         listId : SHOPPING_LIST_ID_TYPE,
         articleId: SHOPPING_LIST_ARTICLE_ID_TYPE,
     }),
     handler: async (req, res) => {
-        const { articleId } = req.params;
-
-        const article = await getShoppingListArticleById(articleId);
+        const { article } = req;
 
         if (!article) {
             res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Article not found' });
@@ -90,7 +86,7 @@ router.delete('/:articleId/articles/articleId', handler({
         }
 
         const listId = article.shoppingListId;
-        await deleteShoppingListArticle(articleId);
+        await deleteShoppingListArticle(article.id);
 
         const list = await getShoppingListById(listId);
         const articles = await getShoppingListArticles(listId);
