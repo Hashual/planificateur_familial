@@ -2,7 +2,6 @@ import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 
-import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
 
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
@@ -27,9 +26,6 @@ export default function ShoppingList() {
   const params = useLocalSearchParams();
 
   const listId = Number(params.id);
-  const [shoppingData, setShoppingData] = useState<{ shoppingLists: any[] }>({
-    shoppingLists: [],
-  });
   const [list, setList] = useState<any | undefined>(undefined);
 
   const [isModalVisible, setModalVisible] = useState(false);
