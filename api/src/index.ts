@@ -57,7 +57,7 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
 
 app.use((_req, res) => {
 	if (!res.headersSent) {
-		res.status(404).send({ code: 404, message: 'Not Found' });
+		res.status(404).send({ code: 404, message: 'Route Not Found' });
 	}
 })
 
