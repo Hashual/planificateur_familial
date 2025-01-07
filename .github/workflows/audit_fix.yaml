@@ -9,7 +9,7 @@ jobs:
   npm-audit-fix:
     strategy:
       matrix:
-        folder: [api, free-go]
+        folder: [api]
     runs-on: ubuntu-latest
     permissions:
       contents: write
