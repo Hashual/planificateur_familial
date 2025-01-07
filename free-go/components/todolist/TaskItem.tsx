@@ -10,12 +10,13 @@ import { useState } from 'react';
 import { router } from 'expo-router';
 
 type TaskItemProps = {
+    listId: number,
     task: Task;
     handleDeleteTask: () => void;
     handleCompleteTask: () => void;
 };
 
-export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }: TaskItemProps) {
+export default function TaskItem({ listId, task, handleDeleteTask, handleCompleteTask }: TaskItemProps) {
     const colors = useThemeColor();
 
     const getTaskStyle = ({ completedDate, dueDate }: Task): keyof typeof colors => {
@@ -63,7 +64,7 @@ export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }:
           if (buttonIndex === 0) {
             // cancel action
           } else if (buttonIndex === 1) {
-            router.push(`/todolist/task/${task.id}`);
+            router.push(`/todolist/task/${task.id}?listId=${listId}`);
           } else if (buttonIndex === 2) {
             handleDeleteTask();
           }
