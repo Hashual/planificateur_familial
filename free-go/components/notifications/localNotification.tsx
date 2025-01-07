@@ -1,6 +1,6 @@
 import * as Notifications from 'expo-notifications';
 
-export default function localNotification() {
+export default function localNotification( title : string, body : string) {
     Notifications.setNotificationHandler({
         handleNotification: async () => ({
           shouldShowAlert: true,
@@ -11,8 +11,8 @@ export default function localNotification() {
       
       Notifications.scheduleNotificationAsync({
         content: {
-          title: 'Look at that notification',
-          body: "I'm so proud of myself!",
+          title: title,
+          body: body,
         },
         trigger: null,
       });
