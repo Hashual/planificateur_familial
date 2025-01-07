@@ -68,6 +68,7 @@ export default function ShoppingList() {
         title: articleNameInput,
         quantity: numberOfArticle,
         isChecked: false,
+        completedAt: null,
       };
       const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles", {method: "POST", body: newArticle});
       closeModal();

@@ -19,6 +19,7 @@ export type Article = {
   category?: string;
   quantity: number;
   isChecked: boolean;
+  completedAt: Date | null;
 };
 
 export type ShoppingList = {
