@@ -18,7 +18,7 @@ export async function schedulePushNotification(title : string, body : string) {
       body: body,
       data: { data: 'goes here', test: { test1: 'more data' } },
     },
-    trigger: null, // Immediate notification
+    trigger: null,
   });
 }
 
