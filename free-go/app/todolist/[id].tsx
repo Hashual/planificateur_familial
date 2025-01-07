@@ -166,6 +166,7 @@ export default function ToDoList() {
         keyExtractor={(task) => task.id.toString()}
         renderItem={({ item: task }) => (
           <TaskItem
+            listId={listId}
             task={task}
             handleDeleteTask={() => handleDeleteTask(task.id)}
             handleCompleteTask={() => handleCompleteTask(task.id)}
