@@ -80,8 +80,7 @@ export default function ToDoLists() {
   const handleDeleteTaskList = async (id: number) => {
     Confirmation("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", async () => {
       try {
-        await deleteTaskList(id);
-        //await loadMockData();
+        await useFetchQuery(`/todo-list/${id}`, {method: "DELETE"});
         await loadData();
       } catch (error) {
         Error("Erreur", "Il y a eu un problème lors de la suppression de la liste.", error);
