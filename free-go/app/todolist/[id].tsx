@@ -17,10 +17,6 @@ import {useFetchQuery} from "@/hooks/useAPI";
 
 export default function ToDoList() {
   SetBackPage("/todolists");
-  const loadedError = LoadFont({
-    "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
-  })
-  if (loadedError) { return loadedError; }
 
   const params = useLocalSearchParams();
   const listId = Number(params.id);
