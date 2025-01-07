@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { FlatList } from "react-native";
 import { useFocusEffect } from "expo-router";
 
-import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
 import { MockData } from "@/mockapi/types";
 
 import { ThemedButton } from "@/components/utilities/ThemedButton";
@@ -30,14 +29,6 @@ export default function ToDoLists() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [toDoListNameInputValue, setToDoListNameInputValue] = useState("");
 
-  const loadMockData = async () => {
-    try {
-      const data = await getMockData();
-      setMockData(data);
-    } catch (error) {
-      console.error("Error loading data:", error);
-    }
-  };
 
   const loadData = async () => {
     try {
@@ -66,7 +57,6 @@ export default function ToDoLists() {
           body: {title: newTaskListName}
         });
         setToDoListNameInputValue("");
-        // await loadMockData();
         await loadData();
         closeModal();
       } catch (error) {
@@ -90,7 +80,6 @@ export default function ToDoLists() {
 
   useFocusEffect(
     useCallback(() => {
-      //loadMockData();
         loadData();
     }, [])
   );
@@ -101,7 +90,6 @@ export default function ToDoLists() {
       <ThemedText variant="title" color="primaryText" align="center">Mes To-Do Lists</ThemedText>
 
       <FlatList
-        // data={mockData.toDoLists}
         data={data ? data : []}
         renderItem={({item: list}) => {
           const completedTasksCount = list.tasksAmount - list.tasksInProgressAmount;
