@@ -2,7 +2,6 @@ import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 
-import {addTask, deleteTask, updateTask} from "@/mockapi/mockData";
 import {Task} from "@/mockapi/types";
 
 import TaskItem from "@/components/todolist/TaskItem";
@@ -25,9 +24,6 @@ export default function ToDoList() {
 
   const params = useLocalSearchParams();
   const listId = Number(params.id);
-  const [toDoData, setToDoData] = useState<{ toDoLists: any[] }>({
-    toDoLists: [],
-  });
   const [list, setList] = useState<any | undefined>(undefined);
   const [isModalVisible, setModalVisible] = useState(false);
   const [taskNameInput, setTaskNameInput] = useState("");

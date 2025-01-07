@@ -2,9 +2,6 @@ import React, { useState, useCallback } from "react";
 import { FlatList } from "react-native";
 import { useFocusEffect } from "expo-router";
 
-import { createTaskList, deleteTaskList, getMockData } from "@/mockapi/mockData";
-import { MockData } from "@/mockapi/types";
-
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
 import LoadFont from "@/utils/LoadFont";
@@ -25,23 +22,14 @@ export default function ToDoLists() {
 
   SetBackPage('./homePage/OpenDoorPage');
 
-  const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [data, setData] = useState<API["/todo-list"]>();
   const [isModalVisible, setModalVisible] = useState(false);
   const [toDoListNameInputValue, setToDoListNameInputValue] = useState("");
 
-  const loadMockData = async () => {
-    try {
-      const data = await getMockData();
-      setMockData(data);
-    } catch (error) {
-      console.error("Error loading data:", error);
-    }
-  };
 
   const loadData = async () => {
     try {
-      const data = await useFetchQuery("/todo-list");
+      const data = await useFetchQuery<API['/todo-list']>("/todo-list");
       setData(data.data);
     } catch (error) {
         console.error("Error loading data:", error);
@@ -66,7 +54,6 @@ export default function ToDoLists() {
           body: {title: newTaskListName}
         });
         setToDoListNameInputValue("");
-        // await loadMockData();
         await loadData();
         closeModal();
       } catch (error) {
@@ -80,8 +67,7 @@ export default function ToDoLists() {
   const handleDeleteTaskList = async (id: number) => {
     Confirmation("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", async () => {
       try {
-        await deleteTaskList(id);
-        //await loadMockData();
+        await useFetchQuery(`/todo-list/${id}`, {method: "DELETE"});
         await loadData();
       } catch (error) {
         Error("Erreur", "Il y a eu un problème lors de la suppression de la liste.", error);
@@ -91,7 +77,6 @@ export default function ToDoLists() {
 
   useFocusEffect(
     useCallback(() => {
-      //loadMockData();
         loadData();
     }, [])
   );
@@ -102,8 +87,7 @@ export default function ToDoLists() {
       <ThemedText variant="title" color="primaryText" align="center">Mes To-Do Lists</ThemedText>
 
       <FlatList
-        // data={mockData.toDoLists}
-        data={data ? data : []}
+        data={Array.isArray(data) ? data : []}
         renderItem={({item: list}) => {
           const completedTasksCount = list.tasksAmount - list.tasksInProgressAmount;
           return (

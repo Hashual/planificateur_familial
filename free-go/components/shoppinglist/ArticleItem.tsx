@@ -19,7 +19,7 @@ export default function ArticleItem({ article, handleDeleteArticle, handleComple
             onPress={handleCompleteArticle}
             style={styles.articleInfoContainer}
             >
-                <CheckBox isChecked={article.completedAt}/>
+                <CheckBox isChecked={!!article.completedAt}/>
                 <View style={{flex: 1}}>
                   <ThemedText 
                     color={article.completedAt ? "inactive" : "primaryText"}
