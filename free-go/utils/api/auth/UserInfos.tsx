@@ -1,4 +1,4 @@
-import { API } from "@/constants/API";
+import { BASE_URL } from "@/hooks/useAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type UserInfos = {
@@ -19,7 +19,7 @@ export async function GetUserInfos(): Promise<UserInfos> {
 				return;
 			}
 		
-			fetch(`${API.URL}/users/me`, {
+			fetch(`${BASE_URL}/users/me`, {
 				method: 'GET',
 				headers: {
 					'Authorization': `Bearer ${token}`

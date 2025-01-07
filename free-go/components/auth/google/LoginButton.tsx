@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import { createURL, openURL } from "expo-linking";
-import { API } from "@/constants/API";
+import { BASE_URL } from "@/hooks/useAPI";
 
 function defaultGoogleButtonSignIn() {
 	// TODO: update the api url with the correct one
-	fetch(`${API.URL}/auth/google/login`).then( (response) => {
+	fetch(`${BASE_URL}/auth/google/login`).then( (response) => {
 		response.json().then( (data) => {
 			if (data.code != 200) {
 				console.error(data);

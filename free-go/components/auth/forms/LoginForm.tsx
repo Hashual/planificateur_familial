@@ -1,4 +1,4 @@
-import { API } from "@/constants/API";
+import { BASE_URL } from "@/hooks/useAPI";
 import { SaveAPIToken } from "@/utils/api/auth/SaveAPIToken";
 import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
@@ -8,7 +8,7 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    fetch(`${API.URL}/auth/local/login`, {
+    fetch(`${BASE_URL}/auth/local/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
