@@ -81,8 +81,8 @@ export default function ShoppingLists() {
   const handleDeleteShoppingList = async (id: number) => {
     Confirmation("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", async () => {
       try {
-        await deleteShoppingList(id);
-        await loadMockData();
+        await useFetchQuery(`/shopping-list/${id}`, {method: "DELETE"});
+        await loadData();
       } catch (error) {
         Error("Erreur", "Il y a eu un problème lors de la suppression de la liste.", error);
       }
