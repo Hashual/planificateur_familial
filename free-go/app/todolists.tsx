@@ -2,8 +2,6 @@ import React, { useState, useCallback } from "react";
 import { FlatList } from "react-native";
 import { useFocusEffect } from "expo-router";
 
-import { MockData } from "@/mockapi/types";
-
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
 import LoadFont from "@/utils/LoadFont";
@@ -24,7 +22,6 @@ export default function ToDoLists() {
 
   SetBackPage('./homePage/OpenDoorPage');
 
-  const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [data, setData] = useState<API["/todo-list"]>();
   const [isModalVisible, setModalVisible] = useState(false);
   const [toDoListNameInputValue, setToDoListNameInputValue] = useState("");
@@ -32,7 +29,7 @@ export default function ToDoLists() {
 
   const loadData = async () => {
     try {
-      const data = await useFetchQuery("/todo-list");
+      const data = await useFetchQuery<API['/todo-list']>("/todo-list");
       setData(data.data);
     } catch (error) {
         console.error("Error loading data:", error);
@@ -90,7 +87,7 @@ export default function ToDoLists() {
       <ThemedText variant="title" color="primaryText" align="center">Mes To-Do Lists</ThemedText>
 
       <FlatList
-        data={data ? data : []}
+        data={Array.isArray(data) ? data : []}
         renderItem={({item: list}) => {
           const completedTasksCount = list.tasksAmount - list.tasksInProgressAmount;
           return (
