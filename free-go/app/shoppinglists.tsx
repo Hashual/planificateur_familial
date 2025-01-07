@@ -28,7 +28,7 @@ export default function ShoppingLists() {
 
   const loadData = async () => {
     try {
-      const data = await useFetchQuery("/shopping-list");
+      const data = await useFetchQuery<API['/shopping-list']>("/shopping-list");
       setData(data.data);
     } catch (error) {
       console.error("Error loading data:", error);
