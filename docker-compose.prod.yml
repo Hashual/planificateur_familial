@@ -1,0 +1,50 @@
+services:
+  api:
+    image: ghcr.io/hashual/planificateur_familial/api:latest
+    build:
+      context: ./api
+      dockerfile: Dockerfile.prod
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ./api/.env
+    depends_on:
+      - db
+    ports:
+      - 80:3000
+    restart: unless-stopped
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: MySecurePwd
+      MYSQL_DATABASE: freego
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: monpassword
+    ports:
+      - 3306:3306
+  phpmya:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      PMA_USER: myuser
+      PMA_PASSWORD: monpassword
+      UPLOAD_LIMIT: 20M
+    ports:
+      - 8899:80
+  cloudflare-tunnel:
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    network_mode: host
+    command: tunnel run --url http://localhost:80
+    env_file:
+      - ./cloudflare-tunnel/.env
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    command: --interval 30
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json

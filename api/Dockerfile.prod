@@ -1,0 +1,5 @@
+FROM ghcr.io/hashual/planificateur_familial/api:latest
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
