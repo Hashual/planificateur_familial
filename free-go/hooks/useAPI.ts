@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.free-go.tech';
+export const BASE_URL = 'https://api.free-go.tech';
 
 export type API = {
     '/todo-list': {

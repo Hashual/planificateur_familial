@@ -1,7 +1,7 @@
-import { API } from "@/constants/API";
 import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { BASE_URL } from "@/hooks/useAPI";
 
 export default function RegisterForm() {
   const [lastName, setLastName] = useState("");
@@ -16,7 +16,7 @@ export default function RegisterForm() {
       return;
     }
 
-    fetch(`${API.URL}/auth/local/register`, {
+    fetch(`${BASE_URL}/auth/local/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
