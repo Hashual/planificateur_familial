@@ -1,5 +1,23 @@
 const BASE_URL = 'http://localhost:3000';
 
+export type API_RESPONSE<T> = {
+    code: number;
+    message: string;
+    data:  T
+}
+
+type shoppingListArticles = {
+    id: number;
+    title: string;
+    quantity: number;
+    dueDate: Date;
+    completedAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    shoppingListId: number;
+}
+
+
 export type API = {
     '/todo-list': {
         id: number;
@@ -29,8 +47,10 @@ export type API = {
         id: number;
         title: string;
         numberOfArticles: number;
+        numberOfInProgressArticles: number;
         createdAt: Date;
         updatedAt: Date;
+        articles: Array<shoppingListArticles>
     },
     '/shopping-list': {
         id: number;
@@ -45,7 +65,7 @@ export type API = {
 }
 
 
-export async function useFetchQuery<T extends keyof API>(path: string, query: Record<string, string | number> = {}) {
+export async function useFetchQuery<T>(path: string, query: Record<string, string | number | object> = {}) {
     const url = new URL(`${BASE_URL}${path}`);
 
     if (query.method) {
@@ -56,12 +76,12 @@ export async function useFetchQuery<T extends keyof API>(path: string, query: Re
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(res => res.json() as unknown as API[T]);
+        }).then(res => res.json() as unknown as API_RESPONSE<T>);
     } else {
         Object.entries(query).forEach(([key, value]) => {
             url.searchParams.append(key, value.toString());
         });
 
-        return await fetch(url.toString()).then(res => res.json() as unknown as API[T]);
+        return await fetch(url.toString()).then(res => res.json() as unknown as API_RESPONSE<T>);
     }
 }
