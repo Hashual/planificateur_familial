@@ -2,7 +2,6 @@ import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 
-import { addArticle, deleteArticle, getMockData, updateArticle } from "@/mockapi/mockData";
 import { Article } from "@/mockapi/types";
 
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
@@ -14,7 +13,7 @@ import { SetBackPage } from "@/utils/SetBackPage";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
-import {useFetchQuery} from "@/hooks/useAPI";
+import {API, useFetchQuery} from "@/hooks/useAPI";
 
 
 export default function ShoppingList() {
@@ -27,9 +26,6 @@ export default function ShoppingList() {
   const params = useLocalSearchParams();
 
   const listId = Number(params.id);
-  const [shoppingData, setShoppingData] = useState<{ shoppingLists: any[] }>({
-    shoppingLists: [],
-  });
   const [list, setList] = useState<any | undefined>(undefined);
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -72,6 +68,7 @@ export default function ShoppingList() {
         title: articleNameInput,
         quantity: numberOfArticle,
         isChecked: false,
+        completedAt: null,
       };
       const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles", {method: "POST", body: newArticle});
       closeModal();
@@ -86,8 +83,8 @@ export default function ShoppingList() {
 
   const handlePurchaseArticle = async (articleId: number) => {
     try {
-      const shoppingList = await useFetchQuery("/shopping-list/" + listId);
-      const article = shoppingList.data.articles.find((article: Article) => article.id === articleId);
+      const shoppingList = await useFetchQuery<API['/shoppinglists/[id]']> ("/shopping-list/" + listId);
+      const article = shoppingList.data.articles.find((article: any) => article.id === articleId);
       if (!article) {
         Error("Erreur", "L'article n'existe pas ou n'est pas trouvé");
         return;

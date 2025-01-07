@@ -2,9 +2,6 @@ import React, { useState, useCallback } from "react";
 import { FlatList } from "react-native";
 import { useFocusEffect } from "expo-router";
 
-import { createShoppingList, deleteShoppingList, getMockData } from "@/mockapi/mockData";
-import { MockData } from "@/mockapi/types";
-
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
 import AppListModal from "@/components/modals/AddListModal";
@@ -25,23 +22,13 @@ export default function ShoppingLists() {
 
   SetBackPage('./homePage/OpenDoorPage');
 
-  const [mockData, setMockData] = useState<MockData>({ toDoLists: [], shoppingLists: [] });
   const [data, setData] = useState<API["/shopping-list"]>();
   const [isModalVisible, setModalVisible] = useState(false);
   const [nameInputValue, setNameInputValue] = useState("");
 
-  const loadMockData = async () => {
-    try {
-      const data = await getMockData();
-      setMockData(data);
-    } catch (error) {
-      Error("Erreur", "Il y a eu un problème lors du chargement des données.", error);
-    }
-  };
-
   const loadData = async () => {
     try {
-      const data = await useFetchQuery("/shopping-list");
+      const data = await useFetchQuery<API['/shopping-list']>("/shopping-list");
       setData(data.data);
     } catch (error) {
       console.error("Error loading data:", error);
@@ -81,8 +68,8 @@ export default function ShoppingLists() {
   const handleDeleteShoppingList = async (id: number) => {
     Confirmation("Supprimer la liste", "Êtes-vous sûr de vouloir supprimer la liste ?", async () => {
       try {
-        await deleteShoppingList(id);
-        await loadMockData();
+        await useFetchQuery(`/shopping-list/${id}`, {method: "DELETE"});
+        await loadData();
       } catch (error) {
         Error("Erreur", "Il y a eu un problème lors de la suppression de la liste.", error);
       }
@@ -111,7 +98,7 @@ export default function ShoppingLists() {
               totalItems={list.numberOfArticles}
               completedItems={completedTasksCount}
               handleDeleteList={async () => {
-                handleDeleteShoppingList(list.id)
+                await handleDeleteShoppingList(list.id)
               }}
               itemName={"article"}
               listIcon={"basket-outline"}

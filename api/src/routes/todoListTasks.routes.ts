@@ -8,7 +8,7 @@ import HttpError from '../utils/exceptions/HttpError';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const router = Router();
-
+// make dueDate and completedDate date type
 router.post('/:listId/tasks', handler({
 	use: todoListIdMiddleware,
 	params: {
@@ -16,15 +16,18 @@ router.post('/:listId/tasks', handler({
 	},
 	body: z.object({
 		title: z.string(),
-		date: z.date().optional()
+		dueDate: z.string().optional().nullable(),
+		completedDate: z.string().optional().nullable()
 	}),
 	handler: async (req, res) => {
 		
-		const { title, date } = req.body;
+		const { title, dueDate, completedDate } = req.body;
 
 		const { todoList } = req;
 
-		await createTodoListTask(todoList.id, title, date);
+		const dueDateConverted = dueDate ? new Date(dueDate) : null;
+		
+		await createTodoListTask(todoList.id, title, dueDateConverted);
 		const newTasks = await getTodoListTasks(todoList.id)!;
 
 		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: newTasks });

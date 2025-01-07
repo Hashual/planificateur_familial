@@ -1,6 +1,6 @@
 export type Task = {
   id: number;
-  name: string;
+  title: string;
   dueDate: Date | null;
   completedDate: Date | null;
 };
@@ -19,6 +19,7 @@ export type Article = {
   category?: string;
   quantity: number;
   isChecked: boolean;
+  completedAt: Date | null;
 };
 
 export type ShoppingList = {
