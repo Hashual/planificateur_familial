@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, ActionSheetIOS } from 'react-native';
 
 import { Task } from "@/mockapi/types";
 
@@ -6,6 +6,8 @@ import { TimeDurations } from "@/constants/TimeDuration";
 import { CheckBox } from "../utilities/CheckBox";
 import { ThemedText } from "../utilities/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { useState } from 'react';
+import { router } from 'expo-router';
 
 type TaskItemProps = {
     task: Task;
@@ -48,6 +50,25 @@ export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }:
       if (minutes >= 1) return formatTime(minutes, 'minute', isOverdue);
       return isOverdue ? "Retard de moins d'une minute" : "Moins d'une minute restante";
     };
+
+    const showActionSheet = () =>
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ['Annuler', 'Détails', 'Supprimer'],
+          destructiveButtonIndex: 2,
+          cancelButtonIndex: 0,
+          userInterfaceStyle: 'dark',
+        },
+        buttonIndex => {
+          if (buttonIndex === 0) {
+            // cancel action
+          } else if (buttonIndex === 1) {
+            router.push(`/todolist/task/${task.id}`);
+          } else if (buttonIndex === 2) {
+            handleDeleteTask();
+          }
+        },
+      );
     
 
     return (
@@ -76,11 +97,11 @@ export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }:
                 </View>
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={handleDeleteTask}
-            style={styles.deleteButtonContainer}
+            onPress={showActionSheet}
+            style={styles.actionContainer}
             
             >
-            <ThemedText variant="fs20" color="danger">✕</ThemedText>
+            <ThemedText variant="fs20" color="primary">⸱⸱⸱</ThemedText>
             </TouchableOpacity>
         </View>
     )
@@ -96,13 +117,13 @@ const styles = StyleSheet.create({
       overflow: "hidden",
     },
     taskInfoContainer: {
-      flex: 15, 
+      flex: 10, 
       padding: 10,
       flexDirection: "row", 
       gap: 10, 
-      alignItems: "center"
+      alignItems: "center",
     },
-    deleteButtonContainer: {
+    actionContainer: {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
