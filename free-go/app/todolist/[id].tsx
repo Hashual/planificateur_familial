@@ -14,6 +14,7 @@ import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import {useFetchQuery} from "@/hooks/useAPI";
 import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
+import Header from "@/components/Header";
 
 const ToDoList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/todolists");
@@ -183,7 +184,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <ThemedText variant="title" color="primaryText">{list.title}</ThemedText>
+      <Header title={list.title} />
       <FlatList
         data={list.tasks}
         keyExtractor={(task) => task.id.toString()}
