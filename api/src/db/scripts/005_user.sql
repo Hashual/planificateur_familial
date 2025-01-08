@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS user (
 	lastName VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	password VARCHAR(255) NULL,
-	avatarUrl TEXT NOT NULL,
+	avatarUrl TEXT NULL,
 	provider ENUM('google', 'local') NOT NULL DEFAULT 'local',
 	providerId VARCHAR(50) NULL,
 	createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
