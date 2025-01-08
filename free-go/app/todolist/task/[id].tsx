@@ -18,7 +18,7 @@ export default function Task() {
 
     const loadTaskData = async () => {
         try {
-            const taskData = await useFetchQuery("/todo-list/" + listId);
+            const taskData = await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId);
             setTask(taskData.data);
         } catch (error) {
           Error("Erreur", "Erreur de chargement des données", error);
@@ -54,7 +54,7 @@ export default function Task() {
 
     return (
         <RootView color="background" padding={20}>
-            <ThemedText variant="title">Nom de la tâche</ThemedText>
+            <ThemedText variant="title">{task.title}</ThemedText>
             <View style={{flex: 1}}>
                 <ThemedText style={styles.text}>Créée le : {createdAt}</ThemedText>
                 <ThemedText style={styles.text}>Dernière mise à jour : {updatedAt}</ThemedText>
