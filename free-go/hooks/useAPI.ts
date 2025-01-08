@@ -64,7 +64,7 @@ export type API = {
 
 }
 
-
+// TODO: Update type of query parameter
 export async function useFetchQuery<T>(path: string, query: Record<string, string | number | object> = {}) {
     const url = new URL(`${BASE_URL}${path}`);
 
