@@ -12,6 +12,7 @@ import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import {API, useFetchQuery} from "@/hooks/useAPI";
+import Header from "@/components/Header";
 
 export default function ToDoLists() {
   SetBackPage('./homePage/OpenDoorPage');
@@ -78,12 +79,7 @@ export default function ToDoLists() {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <View style={styles.titleContainer}>
-        <TouchableOpacity style={styles.arrowContainer} onPress={() => router.back()}>
-          <ThemedText variant="title" color="primaryText">{"<"}</ThemedText>
-        </TouchableOpacity>
-        <ThemedText variant="title" color="primaryText" align="center">Mes To-Do List</ThemedText>
-      </View>
+      <Header title={"Mes To-Do List"} />
       
 
       <FlatList
@@ -118,16 +114,3 @@ export default function ToDoLists() {
     </RootView>
     );
 }
-
-const styles = StyleSheet.create({
-  titleContainer : {
-    justifyContent: "space-around",
-    alignContent: "center",
-    flexDirection: "row"
-  },
-  arrowContainer : {
-    position: "absolute",
-    left: 5,
-    paddingRight: 40,
-  }
-})
