@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "191696564422",
+    "project_id": "free-go-c7367",
+    "storage_bucket": "free-go-c7367.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191696564422:android:f3524f55acc265048367c7",
+        "android_client_info": {
+          "package_name": "com.daltons.freego"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvfvK_4WVGUs3ua4f2irCAf2fV_s5F7qo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
