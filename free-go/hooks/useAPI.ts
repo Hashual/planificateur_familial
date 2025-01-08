@@ -62,8 +62,6 @@ export type API = {
         createdAt: Date;
         updatedAt: Date;
     }[],
-
-
 }
 
 // TODO: Update type of query parameter
