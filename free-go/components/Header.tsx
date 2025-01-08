@@ -1,45 +1,49 @@
-import { router } from "expo-router"
-import { TouchableOpacity, View, StyleSheet } from "react-native"
-import { ThemedText } from "./utilities/ThemedText"
+import { router } from "expo-router";
+import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { ThemedText } from "./utilities/ThemedText";
 
 type HeaderProps = {
     title: string;
     Component?: React.ComponentType<any>;
-}
+};
 
-export default function Header({title, Component}:HeaderProps) {
+export default function Header({ title, Component }: HeaderProps) {
     return (
-        <View style={[styles.titleContainer, !Component && styles.centered]}>
+        <View style={styles.container}>
             <TouchableOpacity
-                style={[styles.arrowContainer, !Component && styles.arrowWhitoutComponent]}
+                style={styles.arrowContainer}
                 onPress={() => router.back()}
             >
                 <ThemedText variant="title" color="primaryText">
                     {"<"}
                 </ThemedText>
             </TouchableOpacity>
-            <ThemedText variant="title" color="primaryText">
+            <ThemedText
+                style={styles.centerItem}
+                variant="title"
+                color="primaryText"
+            >
                 {title}
             </ThemedText>
-            {Component && <Component />}
+            {Component && <Component style={styles.component} />}
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
-    titleContainer: {
-        justifyContent: "space-around",
-        alignContent: "center",
+    container: {
+        justifyContent: "center",
+        alignContent: "flex-start",
         flexDirection: "row",
     },
-    centered: {
-        justifyContent: 'center', // Si pas de Component, centre les éléments
-    },
     arrowContainer: {
-        paddingRight: 10,
+        paddingRight: 20,
     },
-    arrowWhitoutComponent: {
-        position: 'absolute',
-        left: 5,
+    centerItem: {
+        flex: 1,
+        alignItems: "center",
     },
+    component: {
+        paddingLeft: 20,
+    }
 });
