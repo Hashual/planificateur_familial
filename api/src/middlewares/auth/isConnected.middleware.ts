@@ -22,5 +22,5 @@ export const isConnectedMiddleware = async (req: Request) => {
 
 	const sessionUser = await getUserById(session.userId)!;
 
-	return Object.assign(req, { user: sessionUser as User });
+	return Object.assign(req, { user: sessionUser });
 }

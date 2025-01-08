@@ -1,8 +1,10 @@
 import { SqlQuery } from "../../db";
 import { QueryResult, ResultSetHeader, RowDataPacket } from "mysql2";
+import { User } from "../user/user";
 
 export type TodoList = {
     id: number;
+    userId: number;
     title: string;
     tasksAmount: number;
     tasksInProgressAmount: number;
@@ -10,8 +12,8 @@ export type TodoList = {
     updatedAt: Date;
 }
 
-export const createTodoList = async (title: string): Promise<number> => {
-    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO todoList (title) VALUES (?)", [title]);
+export const createTodoList = async (title: string, user: User): Promise<number> => {
+    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO todoList (title, userId) VALUES (?, ?)", [title, user.id]);
     return result.insertId;
 }
 
@@ -55,6 +57,7 @@ export const getTodoListById = async (id: number): Promise<TodoList | undefined>
         SELECT 
             todoList.id,
             todoList.title,
+            todoList.userId,
             todoList.createdAt,
             todoList.updatedAt,
             COUNT(todoListTask2.id) AS tasksAmount,
@@ -74,6 +77,7 @@ export const getTodoListById = async (id: number): Promise<TodoList | undefined>
 
     return {
         id: row.id,
+        userId: row.userId,
         title: row.title,
         tasksAmount: row.tasksAmount,
         tasksInProgressAmount: row.tasksInProgressAmount,

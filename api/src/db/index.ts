@@ -10,7 +10,8 @@ export const connection = createConnection({
 	user: process.env.SQL_USER,
 	password: process.env.SQL_PASSWORD,
 	database: process.env.SQL_DATABASE,
-	charset: "utf8mb4"
+	charset: "utf8mb4",
+	multipleStatements: true
 })
 
 let isConnected = false;
