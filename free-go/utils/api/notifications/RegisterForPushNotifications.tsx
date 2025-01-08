@@ -27,11 +27,7 @@ export default async function RegisterForPushNotifications() {
 		Error("Notifications", "Impossible de récupérer l'identifiant du projet.");
 	}
     try {
-		const pushTokenString = (
-			await Notifications.getExpoPushTokenAsync({
-				projectId,
-			})
-		).data;
+		const pushTokenString = (await Notifications.getExpoPushTokenAsync({ projectId, })).data;
 	
 		useFetchQuery(`/notifications/push/token`, {
 			method: 'POST',
