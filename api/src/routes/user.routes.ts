@@ -1,34 +1,22 @@
 import { Request, Response, Router } from "express";
-import { getSessionByToken } from "../models/sessions/sessions";
-import { getUserById } from "../models/user/user";
+import { handler } from "../utils/handler";
+import { isConnectedMiddleware } from "../middlewares/auth/isConnected.middleware";
+import { StatusCodes } from "http-status-codes";
 
 const router = Router();
 
-router.get('/me', async (req: Request, res: Response): Promise<void> => {
-	const authorizationHeader = req.headers['authorization'];
-	if (!authorizationHeader) {
-		res.status(401).json({ error: 'Unauthorized' });
-		return;
+router.get('/me', handler({
+	use: isConnectedMiddleware,
+	handler: async (req, res) => {
+		const { user } = req;
+
+		res.status(StatusCodes.OK).json({
+			code: 200,
+			data: user
+		})
 	}
+}))
 
-	const [tokenType, token] = authorizationHeader.split(' ');
-	if (tokenType !== 'Bearer' || !token) {
-		res.status(401).json({ error: 'Unauthorized' });
-		return;
-	}
-
-	const session = await getSessionByToken(token);
-	if (!session) {
-		res.status(401).json({ error: 'Unauthorized' });
-		return;
-	}
-
-	const sessionUser = await getUserById(session.userId)!;
-
-	res.status(200).json({
-		code: 200,
-		data: sessionUser
-	})
-})
+// TODO: A /logout route that will delete the session from the database
 
 export default router;
