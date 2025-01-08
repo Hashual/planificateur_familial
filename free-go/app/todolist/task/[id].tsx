@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import { RootView } from "@/components/utilities/RootView";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { ThemedText } from "@/components/utilities/ThemedText";
@@ -56,7 +57,7 @@ export default function Task() {
 
     return (
         <RootView color="background" padding={20}>
-            <ThemedText variant="title">{task.title}</ThemedText>
+            <Header title={task.title} />
             <View style={{flex: 1}}>
                 <ThemedText style={styles.text}>Créée le : {createdAt}</ThemedText>
                 <ThemedText style={styles.text}>Dernière mise à jour : {updatedAt}</ThemedText>
