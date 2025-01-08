@@ -71,17 +71,3 @@ export async function checkNotificationsTickets(tickets: ExpoPushTicket[], token
 
 	return Promise.all(promises);
 }
-
-
-// (async() => {
-// 	const user = await getUserById(1);
-// 	sendNotificationToUser({
-// 		body: "Hello",
-// 		data: {},
-// 		title: "Hello"
-// 	}, user!);
-// })()
-
-export function Load() {
-	return null;
-}

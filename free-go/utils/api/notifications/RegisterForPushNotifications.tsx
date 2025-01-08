@@ -5,6 +5,14 @@ import Constants from "expo-constants";
 import * as Notifications from 'expo-notifications';
 import { useFetchQuery } from "@/hooks/useAPI";
 
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+	  shouldShowAlert: true,
+	  shouldPlaySound: true,
+	  shouldSetBadge: false,
+	}),
+});  
+
 export default async function RegisterForPushNotifications() {
 	if (!(await IsLogin()) || !Device.isDevice) {
 		return;
