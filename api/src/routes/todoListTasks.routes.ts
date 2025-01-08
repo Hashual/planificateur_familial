@@ -8,6 +8,20 @@ import HttpError from '../utils/exceptions/HttpError';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const router = Router();
+
+router.get('/:listId/tasks/:taskId', handler({
+	use: [todoListIdMiddleware, todoListTaskIdMiddleware],
+	params: z.object({
+		listId: TODO_LIST_ID_TYPE,
+		taskId: TODO_LIST_TASK_ID_TYPE
+	}),
+	handler: async (req, res) => {
+		const { task } = req;
+
+		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: task });
+	}
+}))
+
 // make dueDate and completedDate date type
 router.post('/:listId/tasks', handler({
 	use: todoListIdMiddleware,
