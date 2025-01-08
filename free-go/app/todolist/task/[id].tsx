@@ -4,6 +4,7 @@ import { ThemedText } from "@/components/utilities/ThemedText";
 import { useFetchQuery } from "@/hooks/useAPI";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import Error from "@/utils/alerts/Error";
+import { SetBackPage } from "@/utils/SetBackPage";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
@@ -13,6 +14,7 @@ export default function Task() {
     const colors = useThemeColor();
     const taskId = Number(params.id);
     const listId = Number(params.listId);
+    SetBackPage(`./todolist/${listId}`);
 
     const [task, setTask] = useState<any | undefined>(undefined);
 
