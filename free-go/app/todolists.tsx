@@ -1,10 +1,9 @@
 import React, { useState, useCallback } from "react";
-import { FlatList } from "react-native";
-import { useFocusEffect } from "expo-router";
+import { Button, FlatList, View, StyleSheet, TouchableOpacity } from "react-native";
+import { router, useFocusEffect } from "expo-router";
 
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
-import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import Confirmation from "@/utils/alerts/Confirmation";
 import AppListModal from "@/components/modals/AddListModal";
@@ -15,11 +14,6 @@ import { RootView } from "@/components/utilities/RootView";
 import {API, useFetchQuery} from "@/hooks/useAPI";
 
 export default function ToDoLists() {
-  const loadedError = LoadFont({
-    "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
-  })
-  if (loadedError) { return loadedError; }
-
   SetBackPage('./homePage/OpenDoorPage');
 
   const [data, setData] = useState<API["/todo-list"]>();
@@ -84,7 +78,13 @@ export default function ToDoLists() {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <ThemedText variant="title" color="primaryText" align="center">Mes To-Do Lists</ThemedText>
+      <View style={styles.titleContainer}>
+        <TouchableOpacity style={styles.arrowContainer} onPress={() => router.back()}>
+          <ThemedText variant="title" color="primaryText">{"<"}</ThemedText>
+        </TouchableOpacity>
+        <ThemedText variant="title" color="primaryText" align="center">Mes To-Do List</ThemedText>
+      </View>
+      
 
       <FlatList
         data={Array.isArray(data) ? data : []}
@@ -107,7 +107,9 @@ export default function ToDoLists() {
         title="Ajouter une liste"
         icon="plus"
         onPress={openModal}
-        type="primary"/><AppListModal
+        type="primary"/>
+
+      <AppListModal
         isModalVisible={isModalVisible}
         closeModal={closeModal}
         listNameInput={toDoListNameInputValue}
@@ -116,3 +118,16 @@ export default function ToDoLists() {
     </RootView>
     );
 }
+
+const styles = StyleSheet.create({
+  titleContainer : {
+    justifyContent: "space-around",
+    alignContent: "center",
+    flexDirection: "row"
+  },
+  arrowContainer : {
+    position: "absolute",
+    left: 5,
+    paddingRight: 40,
+  }
+})
