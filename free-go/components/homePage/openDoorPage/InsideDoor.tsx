@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, StatusBar } from 'react-native';
+import { View, StyleSheet, ScrollView, StatusBar, Button } from 'react-native';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/utilities/ThemedButton';
 import { useRouter } from 'expo-router';
@@ -7,11 +7,11 @@ import { MeUserInfos } from '@/components/user/UserInfos';
 import NavLoginButton from '@/components/auth/nav/LoginButton';
 
 interface InsideDoorProps {
-  children?: React.ReactNode; // Permet d'ajouter des enfants
+  children?: React.ReactNode;
 }
 
 const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
-  const router = useRouter(); // Initialisation du router pour la navigation
+  const router = useRouter();
 
   return (
     <View style={styles.insideContainer}>
@@ -24,7 +24,7 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               type="primary"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
-              icon='check'
+              icon="check"
               onTop={true}
             />
             <DoorShelfs />
@@ -34,7 +34,7 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               type="primary"
               textStyle={{ fontSize: 10 }}
               style={styles.button}
-              icon='basket'
+              icon="basket"
               onTop={true}
             />
             <DoorShelfs />
@@ -61,24 +61,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inside: {
-    width: '95%', // Largeur relative pour s'adapter à la porte
-    height: '95%', // Hauteur relative pour s'adapter à la porte
-    backgroundColor: '#FFFFFF', // Couleur blanche
-    borderRadius: 20, // Coins légèrement arrondis
-    transform: [{ skewX: '-0deg' }, { skewY: '-0deg' }], // Déformation horizontale et verticale
+    width: '95%', 
+    height: '95%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    transform: [{ skewX: '-0deg' }, { skewY: '-0deg' }],
   },
   shelfContainer: {
     flex: 1,
-    justifyContent: 'space-between', // Espacement uniforme des étagères
+    justifyContent: 'space-between',
     paddingVertical: 10,
   },
   button: {
-    marginVertical: 10, // Espacement entre les boutons
+    marginVertical: 10,
     alignSelf: 'center',
-    width: '80%', // Largeur ajustée pour un bon alignement    
+    width: '80%',
+  },
+  notificationButton: {
+    marginTop: 20,
+    alignSelf: 'center',
   },
   childrenContainer: {
-    position: 'absolute', // Permet de superposer les enfants sans affecter les étagères
+    position: 'absolute',
     width: '100%',
     height: '100%',
     justifyContent: 'center',
