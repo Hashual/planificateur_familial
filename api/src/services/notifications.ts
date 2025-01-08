@@ -1,3 +1,4 @@
+import { NOTIFICATION_SOUNDS } from "../constants/sounds";
 import { getUserNotificationTokens, removeNotificationToken, UserNotificationToken } from "../models/notifications/tokens";
 import { getUserById, User } from "../models/user/user";
 import { Expo, ExpoPushMessage, ExpoPushTicket } from "expo-server-sdk";
@@ -33,7 +34,6 @@ export async function sendNotification(notification: Notification, tokens: UserN
 	for (const chunk of chunks) {
 		promises.push(new Promise<void>((resolve, reject) => {
 			expo.sendPushNotificationsAsync(chunk).then((ticketChunk) => {
-				console.log(ticketChunk);
 				tickets.push(...ticketChunk);
 				resolve();
 			}).catch((error) => {
@@ -50,6 +50,8 @@ export async function sendNotification(notification: Notification, tokens: UserN
 
 export async function sendNotificationToUser(notification: Notification, user: User) {
 	const tokens = await getUserNotificationTokens(user);
+	notification.sound = notification.sound ?? NOTIFICATION_SOUNDS[Math.floor(Math.random() * NOTIFICATION_SOUNDS.length)];
+
 	return sendNotification(notification, tokens);
 }
 
@@ -72,7 +74,7 @@ export async function checkNotificationsTickets(tickets: ExpoPushTicket[], token
 
 
 // (async() => {
-// 	const user = await getUserById(2);
+// 	const user = await getUserById(1);
 // 	sendNotificationToUser({
 // 		body: "Hello",
 // 		data: {},
