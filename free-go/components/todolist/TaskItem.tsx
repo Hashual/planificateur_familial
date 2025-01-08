@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, StyleSheet, ActionSheetIOS } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
 import { Task } from "@/mockapi/types";
 
@@ -6,17 +6,15 @@ import { TimeDurations } from "@/constants/TimeDuration";
 import { CheckBox } from "../utilities/CheckBox";
 import { ThemedText } from "../utilities/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useState } from 'react';
-import { router } from 'expo-router';
+import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 type TaskItemProps = {
-    listId: number,
     task: Task;
-    handleDeleteTask: () => void;
-    handleCompleteTask: () => void;
+    handleCompleteTask: () => void,
+    handleTaskMenu: () => void,
 };
 
-export default function TaskItem({ listId, task, handleDeleteTask, handleCompleteTask }: TaskItemProps) {
+const TaskItem= ({ task, handleCompleteTask, handleTaskMenu }: TaskItemProps) => {
     const colors = useThemeColor();
 
     const getTaskStyle = ({ completedDate, dueDate }: Task): keyof typeof colors => {
@@ -52,26 +50,6 @@ export default function TaskItem({ listId, task, handleDeleteTask, handleComplet
       return isOverdue ? "Retard de moins d'une minute" : "Moins d'une minute restante";
     };
 
-    const showActionSheet = () =>
-      ActionSheetIOS.showActionSheetWithOptions(
-        {
-          options: ['Annuler', 'Détails', 'Supprimer'],
-          destructiveButtonIndex: 2,
-          cancelButtonIndex: 0,
-          userInterfaceStyle: 'dark',
-        },
-        buttonIndex => {
-          if (buttonIndex === 0) {
-            // cancel action
-          } else if (buttonIndex === 1) {
-            router.push(`/todolist/task/${task.id}?listId=${listId}`);
-          } else if (buttonIndex === 2) {
-            handleDeleteTask();
-          }
-        },
-      );
-    
-
     return (
         <View style={[styles.taskItem, {backgroundColor: colors.elementBackground}]}>
             <TouchableOpacity
@@ -98,7 +76,7 @@ export default function TaskItem({ listId, task, handleDeleteTask, handleComplet
                 </View>
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={showActionSheet}
+            onPress={handleTaskMenu}
             style={styles.actionContainer}
             
             >
@@ -131,3 +109,5 @@ const styles = StyleSheet.create({
       padding: 10,
     }
   });
+
+export default connectActionSheet(TaskItem);
