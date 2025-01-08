@@ -1,5 +1,6 @@
 import { BASE_URL } from "@/hooks/useAPI";
 import { SaveAPIToken } from "@/utils/api/auth/SaveAPIToken";
+import RegisterForPushNotifications from "@/utils/api/notifications/RegisterForPushNotifications";
 import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
 
@@ -25,6 +26,7 @@ const LoginForm: React.FC = () => {
               alert(res.errors[0].message);
             }
           } else if (res.code == 200) {
+            RegisterForPushNotifications();
             SaveAPIToken(res.data.token);
           }
         });
