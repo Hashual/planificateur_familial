@@ -12,6 +12,7 @@ type UserInfos = {
 }
 
 export async function GetUserInfos(): Promise<UserInfos> {
+	// TODO: Use useFetchQuery instead of fetch
 	return new Promise( (resolve, reject) => {
 		AsyncStorage.getItem("session-token").then((token) => {
 			if (!token) { 
