@@ -5,6 +5,7 @@ import shoppingListRoutes from './routes/shoppingList.routes';
 import GoogleAuthRoutes from './routes/auth.google.routes';
 import LocalAuthRoutes from './routes/auth.local.routes';
 import UserRoutes from './routes/user.routes';
+import NotificationRoutes from './routes/notifications.routes';
 import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';
 import session from 'express-session';
@@ -17,6 +18,7 @@ const cors = require('cors');
 const app = express();
 
 // log all requests
+// TODO: Add response status
 app.use((req, res, next) => {
 	console.log(`${req.method} ${req.path}`);
 	console.log(req.params);
@@ -41,6 +43,7 @@ app.use('/auth/local', LocalAuthRoutes);
 app.use('/todo-list', todoListRoutes);
 app.use('/shopping-list', shoppingListRoutes);
 app.use('/users', UserRoutes);
+app.use('/notifications', NotificationRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: Function) => {
 	if (err instanceof ZodError) {
