@@ -88,7 +88,9 @@ const DoorPage: React.FC = () => {
                 <Handle>
                   <HandleReflection />
                 </Handle>
-                <DoorReflection />
+                <View style={styles.reflexion}>
+                  <DoorReflection />
+                </View>
               </Fridge>
           </FridgeDoorAnimation>
         </Swipeable>
@@ -120,6 +122,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+  },
+  reflexion: {
+    flex: 1,
+    height: '100%',
+    width: "100%",
   }
 });
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Colors } from '@/constants/Colors';
 
 const DoorReflection: React.FC = () => {
   return <View style={styles.reflection} />;
@@ -8,15 +7,13 @@ const DoorReflection: React.FC = () => {
 
 const styles = StyleSheet.create({
   reflection: {
-    width: '100%',
-    height: 10,
+    width: '2%',
+    height: '60%',
     backgroundColor: "white",
+    left: '5%',
+    top: '5%',
     opacity: 0.5,
     borderRadius: 5,
-    position: 'absolute',
-    top: '30%',
-    right: '40%',
-    transform: [{ rotate: '90deg' }],
   },
 });
 
