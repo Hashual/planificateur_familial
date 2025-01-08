@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export const BASE_URL = 'https://api.free-go.tech';
 
 export type API_RESPONSE<T> = {
@@ -69,13 +71,19 @@ export async function useFetchQuery<T>(path: string, query: Record<string, strin
     const url = new URL(`${BASE_URL}${path}`);
 
     if (query.method) {
-        console.log(query.body)
+        const token = await AsyncStorage.getItem("session-token");
+
+        const headers: Headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        if (token) {
+            headers.append('Authorization', `Bearer ${token}`);
+        }
+
         return await fetch(url.toString(), {
             method: query.method as string,
             body: JSON.stringify(query.body),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: headers
         }).then(res => res.json() as unknown as API_RESPONSE<T>);
     } else {
         Object.entries(query).forEach(([key, value]) => {
