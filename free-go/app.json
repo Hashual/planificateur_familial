@@ -30,7 +30,16 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "sounds": [
+            "./assets/sounds/goutte.wav",
+            "./assets/sounds/gratte.wav" 
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

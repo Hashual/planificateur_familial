@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const BASE_URL = 'https://api.free-go.tech';
+export const BASE_URL = 'http://192.168.1.40:3000';
 
 export type API_RESPONSE<T> = {
     code: number;
