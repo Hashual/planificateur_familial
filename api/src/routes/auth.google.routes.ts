@@ -3,7 +3,7 @@ import { Session } from 'express-session';
 import { google } from "googleapis";
 import { randomBytes } from 'node:crypto';
 import { appendFile } from 'node:fs';
-import { createUser, getUserByEmail, getUserByProvider, Provider } from '../models/user/user';
+import { createUser, getUserByEmail, getUserByProvider, UserProvider } from '../models/user/user';
 import { createSessionForUser, getSessionById } from '../models/sessions/sessions';
 import dotenv from 'dotenv';
 
@@ -66,7 +66,7 @@ router.get('/callback', async (req, res) => {
 
 	const { data } = await oauth2.userinfo.get();
 
-	let user = await getUserByProvider(Provider.Google, data.id!);
+	let user = await getUserByProvider(UserProvider.Google, data.id!);
 	if (!user) {
 		const userByMail = await getUserByEmail(data.email!);
 		if (userByMail) {
@@ -80,11 +80,11 @@ router.get('/callback', async (req, res) => {
 			firstName: data.given_name!,
 			lastName: data.family_name!,
 			avatarUrl: data.picture!,
-			provider: Provider.Google,
+			provider: UserProvider.Google,
 			providerId: data.id!
 		})
 
-		user = await getUserByProvider(Provider.Google, data.id!);
+		user = await getUserByProvider(UserProvider.Google, data.id!);
 	}
 
 	if (!user) {
