@@ -35,6 +35,7 @@ export default function RegisterForm() {
               alert(res.errors[0].message);
             }
           } else if (res.status == 200) {
+            // TODO: Redirect to login page
             alert("Inscription réussie");
           }
         });
