@@ -6,7 +6,7 @@ export enum NotificationTokenProvider {
 	Android = 'android',
 }
 
-type UserNotiifcationToken = {
+export type UserNotificationToken = {
 	id: number;
 	userId: number;
 	provider: NotificationTokenProvider,
@@ -28,9 +28,30 @@ export async function registerUserNotificationToken(user: User, provider: Notifi
 
 export async function isTokenRegistred(user: User, provider: NotificationTokenProvider, token: string): Promise<boolean> {
 	const result = await SqlQuery<RowDataPacket[]>(`
-		SELECT * FROM user_notification_token
+		SELECT userId FROM user_notification_token
 		WHERE userId = ? AND provider = ? AND token = ?
 	`, [user.id, provider, token]);
 
 	return result.length > 0;
+}
+
+export async function removeNotificationToken(token: UserNotificationToken): Promise<void> {
+	await SqlQuery<ResultSetHeader>(`
+		DELETE FROM user_notification_token
+		WHERE id = ?
+	`, [token.id]);
+}
+
+export async function getUserNotificationTokens(user: User): Promise<UserNotificationToken[]> {
+	const result = await SqlQuery<RowDataPacket[]>(`
+		SELECT id, userId, provider, token FROM user_notification_token
+		WHERE userId = ?
+	`, [user.id]);
+
+	return result.map(row => ({
+		id: row.id,
+		userId: row.userId,
+		provider: row.provider,
+		token: row.token
+	}));
 }
