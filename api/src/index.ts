@@ -11,7 +11,6 @@ import { ZodError } from 'zod';
 import session from 'express-session';
 import HttpError from './utils/exceptions/HttpError';
 import dotenv from 'dotenv';
-import { Load } from './services/notifications';
 
 dotenv.config();
 
@@ -45,8 +44,6 @@ app.use('/todo-list', todoListRoutes);
 app.use('/shopping-list', shoppingListRoutes);
 app.use('/users', UserRoutes);
 app.use('/notifications', NotificationRoutes);
-
-Load();
 
 app.use((err: Error, req: Request, res: Response, next: Function) => {
 	if (err instanceof ZodError) {
