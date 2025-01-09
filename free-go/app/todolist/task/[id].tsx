@@ -21,7 +21,7 @@ export default function Task() {
 
     const loadTaskData = async () => {
         try {
-            const taskData = await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId);
+            const taskData = await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId, { method: "GET" });
             setTask(taskData.data);
         } catch (error) {
           Error("Erreur", "Erreur de chargement des données", error);
