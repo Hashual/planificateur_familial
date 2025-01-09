@@ -26,7 +26,7 @@ export const deleteTodoList = async (id: number): Promise<void> => {
     await SqlQuery<QueryResult>("DELETE FROM todoList WHERE id = ?", [id]);
 }
 
-export const getAllTodoLists = async (): Promise<TodoList[]> => {
+export const getAllTodoLists = async (user: User): Promise<TodoList[]> => {
     const result = await SqlQuery<RowDataPacket[]>(`
         SELECT
             todoList.id,
@@ -37,8 +37,9 @@ export const getAllTodoLists = async (): Promise<TodoList[]> => {
             COUNT(CASE WHEN todoListTask.completedDate IS NULL AND todoListTask.id IS NOT NULL THEN 1 END) AS tasksInProgressAmount
         FROM todoList
                  LEFT JOIN todoListTask ON todoList.id = todoListTask.todoListId
+        WHERE todoList.ownerId = ?
         GROUP BY todoList.id
-    `);
+    `, [user.id]);
 
     return result.map((row: RowDataPacket) => {
         return {
