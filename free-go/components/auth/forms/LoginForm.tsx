@@ -1,10 +1,13 @@
+import { ThemedText } from "@/components/utilities/ThemedText";
 import { BASE_URL } from "@/hooks/useAPI";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { SaveAPIToken } from "@/utils/api/auth/SaveAPIToken";
 import RegisterForPushNotifications from "@/utils/api/notifications/RegisterForPushNotifications";
 import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const LoginForm: React.FC = () => {
+  const colors = useThemeColor();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -34,18 +37,25 @@ const LoginForm: React.FC = () => {
       .catch(console.error);
   };
 
+  const inputStyles = {
+    ...styles.input,
+    backgroundColor: colors.elementBackground
+  }
+
   return (
     <View>
-      <Text style={styles.title}>Connexion</Text>
+      <ThemedText variant="title">Connexion</ThemedText>
       <TextInput
-        style={styles.input}
+        style={inputStyles}
         placeholder="Email"
+        placeholderTextColor={colors.placeHolderText}
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
-        style={styles.input}
+        style={inputStyles}
         placeholder="Mot de passe"
+        placeholderTextColor={colors.placeHolderText}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -58,11 +68,6 @@ const LoginForm: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
   input: {
     width: "100%",
     padding: 15,
@@ -70,7 +75,6 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 8,
     marginBottom: 15,
-    backgroundColor: "#f9f9f9",
   },
   button: {
     width: "100%",

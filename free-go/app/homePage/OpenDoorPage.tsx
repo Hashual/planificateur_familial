@@ -5,6 +5,7 @@ import FridgeDoor from '../../components/homePage/openDoorPage/FridgeDoor';
 import FridgeBottom from '../../components/homePage/shared/FridgeBottom';
 import { useRouter } from 'expo-router';
 import { SetBackPage } from '@/utils/SetBackPage';
+import { RootView } from '@/components/utilities/RootView';
 
 const OpenDoorPage: React.FC = () => {
   const router = useRouter();
@@ -16,21 +17,20 @@ const OpenDoorPage: React.FC = () => {
   SetBackPage('/');
 
   return (
-    <View style={styles.container}>
+    <RootView style={styles.container}>
       <Fridge>
         <FridgeDoor />
         <TouchableOpacity onPress={handleFridgeClick} style={styles.fridgeBottom}>
           <FridgeBottom />
         </TouchableOpacity>
       </Fridge>
-    </View>
+    </RootView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -5,6 +5,7 @@ import { ThemedButton } from '@/components/utilities/ThemedButton';
 import { useRouter } from 'expo-router';
 import { MeUserInfos } from '@/components/user/UserInfos';
 import NavLoginButton from '@/components/auth/nav/LoginButton';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 interface InsideDoorProps {
   children?: React.ReactNode;
@@ -12,10 +13,11 @@ interface InsideDoorProps {
 
 const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
   const router = useRouter();
+  const colors = useThemeColor();
 
   return (
     <View style={styles.insideContainer}>
-      <View style={styles.inside}>
+      <View style={[styles.inside, {backgroundColor: colors.background}]}>
         <View style={styles.shelfContainer}>
           <ScrollView style={styles.scrollView}>
             <ThemedButton

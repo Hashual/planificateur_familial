@@ -1,13 +1,20 @@
+import { useThemeColor } from '@/hooks/useThemeColor';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 const FridgeShelves = () => {
+  const colors = useThemeColor();
+  
+  const shelfStyle = {
+    ...styles.shelf,
+    backgroundColor: colors.shelf
+  }
   return (
     <View style={styles.shelfContainer}>
-      <View style={styles.shelf} />
-      <View style={styles.shelf} />
-      <View style={styles.shelf} />
-      <View style={styles.shelf} />
+      <View style={shelfStyle} />
+      <View style={shelfStyle} />
+      <View style={shelfStyle} />
+      <View style={shelfStyle} />
     </View>
   );
 };

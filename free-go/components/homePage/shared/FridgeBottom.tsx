@@ -2,12 +2,15 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import FridgeShelves from './FridgeShelf';
 import { Colors } from '@/constants/Colors';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 const FridgeBottom = () => {
+  const colors = useThemeColor();
+
   return (
     <View style={styles.container}>
-      <View style={styles.outerBorder}>
-        <View style={styles.innerContainer}>
+      <View style={[styles.outerBorder, {backgroundColor: colors.fridge}]}>
+        <View style={[styles.innerContainer, {backgroundColor: colors.background}]}>
           <FridgeShelves />
         </View>
       </View>
@@ -26,14 +29,12 @@ const styles = StyleSheet.create({
   outerBorder: {
     width: '95%',
     height: '95%',
-    backgroundColor: Colors.light.fridge, // Jaune pour l'extérieur
     borderRadius: 20, // Coins arrondis
     
     
   },
   innerContainer: {
     flex: 1,
-    backgroundColor: "white", // Blanc pour l'intérieur
     borderRadius: 15,
     justifyContent: 'space-between', // Espacement uniforme
   },
