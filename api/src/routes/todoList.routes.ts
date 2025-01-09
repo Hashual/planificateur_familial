@@ -24,12 +24,12 @@ const router = Router();
  * {
  *  "code": 200,
  *  "message": "OK",
- *  "data": {[
+ *  "data": [{
  * 		"id": 1,
  *  	"title": "Todo list 1",
  * 		"createdAt": "2025-01-07T18:51:44.000Z",
  * 		"updatedAt": "2025-01-07T18:51:44.000Z"
- * 		]}
+ * 		}]
  * }
  * 
  * @apiSuccessExample {json} Success	
@@ -61,12 +61,12 @@ const router = Router();
  * {
  *  "code": 200,
  *  "message": "OK",
- *  "data": {[
+ *  "data": [{
  * 		"id": 1,
  * 		"title": "Todo list 1",
  * 		"createdAt": "2025-01-07T18:51:44.000Z",
  * 		"updatedAt": "2025-01-07T18:51:44.000Z"
- * 		]}
+ * 		}]
  * }
  * 
  * @apiSuccessExample {json} Success	
@@ -87,9 +87,10 @@ const router = Router();
  * @api {get} /todo-list/:listId Get Todo List Tasks by Todo List Id
  * @apiName GetTodoListById
  * @apiGroup Todo List
- * @apiParam {Number} listId Todo list id
+ * @apiParam {Number} todoListId Todo list id
  * @apiSuccess {Object} data Todo list
- * @apiSuccess {Number} data.id Todo list id
+ * @apiSuccess {Number} data.id Task id
+ * @apiSuccess {Number} data.todoListId Todo list id
  * @apiSuccess {String} data.title Todo list title
  * @apiSuccess {Date} data.createdAt Todo list creation date
  * @apiSuccess {Date} data.updatedAt Todo list update date
@@ -100,12 +101,13 @@ const router = Router();
  * {
  *  "code": 200,
  *  "message": "OK",
- *  "data": {[
+ *  "data": [{
  * 		"id": 1,
  * 		"title": "Todo list 1",
  * 		"createdAt": "2025-01-07T18:51:44.000Z",
  * 		"updatedAt": "2025-01-07T18:51:44.000Z",
  * 		"tasks": [{
+ * 				"id": 1,	
  * 				"todoListId": 1,
  * 				"title": "Task 1",
  * 				"dueDate": "2025-01-07T18:51:44.000Z",
@@ -121,7 +123,7 @@ const router = Router();
  * {
  *  "code": 200,
  *  "message": "OK",
- *  "data": {[
+ *  "data": [{
  * 		"id": 1,
  * 		"title": "Todo list 1",
  * 		"createdAt": "2025-01-07T18:51:44.000Z",
