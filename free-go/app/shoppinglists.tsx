@@ -32,7 +32,7 @@ export default function ShoppingLists() {
     const loadData = async () => {
         try {
             const data = await useFetchQuery<API["/shopping-list"]>(
-                "/shopping-list"
+                "/shopping-list", { method: "GET" }
             );
             setData(data.data);
         } catch (error) {
