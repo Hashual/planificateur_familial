@@ -1,21 +1,22 @@
 import React from 'react';
 import { View, StyleSheet} from 'react-native';
 import DoorPage from './DoorPage';
+import { RootView } from '@/components/utilities/RootView';
 
 const HomePage: React.FC = () => {
 
   return (
-    <View style = {styles.container}>
+    <RootView style = {styles.container}>
       <DoorPage/>
-    </View>
+    </RootView>
     
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'FFF',  },
+    flex: 1, 
+  },
 });
 
 export default HomePage;

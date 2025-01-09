@@ -3,6 +3,7 @@ export const Colors = {
       fridge: "#FFD700",
       background: "#F7FAFA",
       elementBackground: "#FFF",
+      shelf: "#D3D3D3",
       handleGray: '#C0C0C0',
       primary: "#F5C754",
       secondary: "#E3E8F2",
@@ -19,9 +20,10 @@ export const Colors = {
     },
   
     dark: {
-      fridge: "#FFD700",
+      fridge: "#F5C754",
       background: "#121C24",
       elementBackground: "#29384D",
+      shelf: "#767676",
       handleGray: '#C0C0C0',
       primary: "#F5C754",
       secondary: "#E3E8F2",

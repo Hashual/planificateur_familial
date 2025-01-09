@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/Colors';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 interface HandleProps { 
   children?: React.ReactNode;
 }
 
 const Handle: React.FC<HandleProps> = ({ children }) => {
-  return <View style={styles.handle}>{children}</View>;
+  const colors = useThemeColor();
+  return <View style={[styles.handle, {backgroundColor: colors.handleGray}]}>{children}</View>;
 };
 
 const styles = StyleSheet.create({
@@ -17,7 +19,6 @@ const styles = StyleSheet.create({
     top: '45%', // Ajuste pour qu'elle soit environ au centre verticalement
     width: 60,
     height: 13,
-    backgroundColor: Colors.light.handleGray, // Couleur de la poignée
     borderRadius: 5, // Coins arrondis pour la poignée
   },
 });

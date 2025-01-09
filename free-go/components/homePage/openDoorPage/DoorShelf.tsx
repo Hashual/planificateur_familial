@@ -1,9 +1,11 @@
+import { useThemeColor } from '@/hooks/useThemeColor';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 const Shelf = () => {
+  const colors = useThemeColor();
   return (
-    <View style={styles.shelf}/>
+    <View style={[styles.shelf, {backgroundColor: colors.shelf}]}/>
   );
 };
 
@@ -13,7 +15,6 @@ const styles = StyleSheet.create({
     width: '80%', // Largeur de l'étagère relative à la porte
     height: 10, // Hauteur de l'étagère
     borderRadius: 10, // Coins arrondis pour le design
-    backgroundColor: '#D3D3D3', // Couleur de fond de l'étagère (ivoire, ajustable)
     left: '10%', // Décalage horizontal pour centrer l'étagère
     marginTop: 'auto', 
   },
