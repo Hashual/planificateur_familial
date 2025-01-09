@@ -29,7 +29,7 @@ export default function ToDoLists() {
 
   const loadData = async () => {
     try {
-      const data = await useFetchQuery<API['/todo-list']>("/todo-list");
+      const data = await useFetchQuery<API['/todo-list']>("/todo-list", { method: "GET" });
       setData(data.data);
     } catch (error) {
         console.error("Error loading data:", error);

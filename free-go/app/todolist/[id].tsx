@@ -32,7 +32,7 @@ export default function ToDoList() {
   
   const loadToDoData = async () => {
     try {
-        const taskData = await useFetchQuery("/todo-list/" + listId);
+        const taskData = await useFetchQuery("/todo-list/" + listId, { method: "GET" })
         setList(taskData.data);
     } catch (error) {
       Error("Erreur", "Erreur de chargement des données", error);
@@ -41,7 +41,7 @@ export default function ToDoList() {
 
   const handleDeleteTask = async (taskId: number) => {
     try {
-      const updatedData =  await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId, { method: "delete"});
+      const updatedData =  await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId, { method: "DELETE"});
       if (updatedData) {
         setList((prevList: any) => ({
           ...prevList,
