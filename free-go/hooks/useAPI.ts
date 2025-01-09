@@ -64,30 +64,32 @@ export type API = {
     }[],
 }
 
+type QueryType = {
+    method: "GET" | "POST" | "PUT" | "DELETE";
+    body?: any;
+    searchParams?: {[key: string]: string | number}
+}
+
 // TODO: Update type of query parameter
-export async function useFetchQuery<T>(path: string, query: Record<string, string | number | object> = {}) {
+export async function useFetchQuery<T>(path: string, query: QueryType) {
     const url = new URL(`${BASE_URL}${path}`);
 
-    if (query.method) {
-        const token = await AsyncStorage.getItem("session-token");
+    Object.entries(query.searchParams ?? {}).forEach(([key, value]) => {
+        url.searchParams.append(key, value.toString());
+    });
 
-        const headers: Headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+    const token = await AsyncStorage.getItem("session-token");
 
-        if (token) {
-            headers.append('Authorization', `Bearer ${token}`);
-        }
+    const headers: Headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-        return await fetch(url.toString(), {
-            method: query.method as string,
-            body: JSON.stringify(query.body),
-            headers: headers
-        }).then(res => res.json() as unknown as API_RESPONSE<T>);
-    } else {
-        Object.entries(query).forEach(([key, value]) => {
-            url.searchParams.append(key, value.toString());
-        });
-
-        return await fetch(url.toString()).then(res => res.json() as unknown as API_RESPONSE<T>);
+    if (token) {
+        headers.append('Authorization', `Bearer ${token}`);
     }
+
+    return await fetch(url.toString(), {
+        method: query.method as string,
+        body: typeof query.body == "object" ? JSON.stringify(query.body) : undefined,   
+        headers: headers
+    }).then(res => res.json() as unknown as API_RESPONSE<T>);
 }

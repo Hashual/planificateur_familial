@@ -34,7 +34,7 @@ export default function ShoppingList() {
   
   const loadShoppingData = async () => {
     try {
-      const data = await useFetchQuery("/shopping-list/" + listId);
+      const data = await useFetchQuery("/shopping-list/" + listId, { method: "GET" });
       setList(data.data);
     } catch (error) {
       Error("Erreur", "Erreur de chargement des données", error);
@@ -83,7 +83,7 @@ export default function ShoppingList() {
 
   const handlePurchaseArticle = async (articleId: number) => {
     try {
-      const shoppingList = await useFetchQuery<API['/shoppinglists/[id]']> ("/shopping-list/" + listId);
+      const shoppingList = await useFetchQuery<API['/shoppinglists/[id]']> ("/shopping-list/" + listId, { method: "GET" })
       const article = shoppingList.data.articles.find((article: any) => article.id === articleId);
       if (!article) {
         Error("Erreur", "L'article n'existe pas ou n'est pas trouvé");
