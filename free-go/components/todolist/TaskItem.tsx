@@ -6,14 +6,15 @@ import { TimeDurations } from "@/constants/TimeDuration";
 import { CheckBox } from "../utilities/CheckBox";
 import { ThemedText } from "../utilities/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { connectActionSheet } from '@expo/react-native-action-sheet';
 
 type TaskItemProps = {
     task: Task;
-    handleDeleteTask: () => void;
-    handleCompleteTask: () => void;
+    handleCompleteTask: () => void,
+    handleTaskMenu: () => void,
 };
 
-export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }: TaskItemProps) {
+const TaskItem= ({ task, handleCompleteTask, handleTaskMenu }: TaskItemProps) => {
     const colors = useThemeColor();
 
     const getTaskStyle = ({ completedDate, dueDate }: Task): keyof typeof colors => {
@@ -48,7 +49,6 @@ export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }:
       if (minutes >= 1) return formatTime(minutes, 'minute', isOverdue);
       return isOverdue ? "Retard de moins d'une minute" : "Moins d'une minute restante";
     };
-    
 
     return (
         <View style={[styles.taskItem, {backgroundColor: colors.elementBackground}]}>
@@ -76,11 +76,11 @@ export default function TaskItem({ task, handleDeleteTask, handleCompleteTask }:
                 </View>
             </TouchableOpacity>
             <TouchableOpacity
-            onPress={handleDeleteTask}
-            style={styles.deleteButtonContainer}
+            onPress={handleTaskMenu}
+            style={styles.actionContainer}
             
             >
-            <ThemedText variant="fs20" color="danger">✕</ThemedText>
+            <ThemedText variant="fs20" color="primary">⸱⸱⸱</ThemedText>
             </TouchableOpacity>
         </View>
     )
@@ -96,16 +96,18 @@ const styles = StyleSheet.create({
       overflow: "hidden",
     },
     taskInfoContainer: {
-      flex: 15, 
+      flex: 10, 
       padding: 10,
       flexDirection: "row", 
       gap: 10, 
-      alignItems: "center"
+      alignItems: "center",
     },
-    deleteButtonContainer: {
+    actionContainer: {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
       padding: 10,
     }
   });
+
+export default connectActionSheet(TaskItem);

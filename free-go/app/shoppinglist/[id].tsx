@@ -14,6 +14,7 @@ import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import {API, useFetchQuery} from "@/hooks/useAPI";
+import Header from "@/components/Header";
 
 
 export default function ShoppingList() {
@@ -143,7 +144,7 @@ export default function ShoppingList() {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <ThemedText variant="title" color="primaryText">{list.title}</ThemedText>
+      <Header title={list.title} />
       <FlatList
         data={sortArticlesByIsChecked(list.articles)}
         renderItem={({ item: article }) => (

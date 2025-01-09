@@ -1,4 +1,4 @@
-import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 
@@ -6,7 +6,6 @@ import {Task} from "@/mockapi/types";
 
 import TaskItem from "@/components/todolist/TaskItem";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
-import LoadFont from "@/utils/LoadFont";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
 import AddTaskModal from "@/components/modals/AddTaskModal";
@@ -14,13 +13,11 @@ import { SetBackPage } from "@/utils/SetBackPage";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import {useFetchQuery} from "@/hooks/useAPI";
+import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
+import Header from "@/components/Header";
 
-export default function ToDoList() {
+const ToDoList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/todolists");
-  const loadedError = LoadFont({
-    "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
-  })
-  if (loadedError) { return loadedError; }
 
   const params = useLocalSearchParams();
   const listId = Number(params.id);
@@ -147,6 +144,29 @@ export default function ToDoList() {
     setSelectedTime(null);
   };
 
+  const onPress = (taskId: number) => {
+    const options = ['Annuler', 'Détails', 'Supprimer'];
+    const destructiveButtonIndex = 2;
+    const cancelButtonIndex = 0;
+
+    showActionSheetWithOptions({
+      options,
+      cancelButtonIndex,
+      destructiveButtonIndex
+    }, (selectedIndex: number | void) => {
+      switch (selectedIndex) {
+        case 1:
+          router.push(`/todolist/task/${taskId}?listId=${listId}`);
+          break;
+        case destructiveButtonIndex:
+          handleDeleteTask(taskId);
+          break;
+
+        case cancelButtonIndex:
+          // Canceled
+      }});
+  }
+
   useFocusEffect(
     useCallback(() => {
       loadToDoData();
@@ -164,15 +184,15 @@ export default function ToDoList() {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <ThemedText variant="title" color="primaryText">{list.title}</ThemedText>
+      <Header title={list.title} />
       <FlatList
         data={list.tasks}
         keyExtractor={(task) => task.id.toString()}
         renderItem={({ item: task }) => (
           <TaskItem
             task={task}
-            handleDeleteTask={() => handleDeleteTask(task.id)}
             handleCompleteTask={() => handleCompleteTask(task.id)}
+            handleTaskMenu={() => onPress(task.id)}
           />
         )}
       />
@@ -196,3 +216,15 @@ export default function ToDoList() {
     </RootView>
   );
 }
+
+
+const ConnectedToDoList = connectActionSheet(ToDoList);
+
+export default function WrappedToDoList() {
+  return (
+    <ActionSheetProvider>
+      <ConnectedToDoList />
+    </ActionSheetProvider>
+  )
+}
+
