@@ -9,6 +9,45 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const router = Router();
 
+/**
+ * @api {get} /todo-list Get Todo Lists
+ * @apiName GetTodoLists
+ * @apiGroup TodoList
+ * @apiParam {none} none
+ * @apiSuccess {Object[]} data List of todo lists
+ * @apiSuccess {Number} data.id Todo list id
+ * @apiSuccess {String} data.title Todo list title
+ * @apiSuccess {Date} data.createdAt Todo list creation date
+ * @apiSuccess {Date} data.updatedAt Todo list update date
+ * @apiSuccessExample {json} Success
+ *  * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": 
+ * [{	
+*  		"id": 1,
+*  		"title": "Todo list 1",
+* 		"createdAt": "2025-01-07T18:51:44.000Z",
+* 		"updatedAt": "2025-01-07T18:51:44.000Z"
+* }]
+ * }
+ * 
+ * @apiSuccessExample {json} Success	
+ * HTTP/1.1 200 OK
+ * {
+ * "code": 200,
+ * "message": "OK",
+ * "data": []
+ * }
+ * 	 
+ *@apiErrorExample {none} Error
+ * {
+ * 
+ * }
+ *  
+*/
+
 router.get('/', async (req, res) => {
     const todoList = await getAllTodoLists();
 
