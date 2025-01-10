@@ -19,7 +19,10 @@ export default function NavLoginButton(customProps?: ThemedButtonVisualProps) {
 
 	// TODO: Improve the design?
 	useEffect( () => {
-		IsLogin().then( (isLogin) => {
+		IsLogin().then( (isLogin) => { 
+			if (isLogin) {
+				return;
+			}
 			setButton(
 				<ThemedButton
 					title={ isLogin ? 'Déconnexion' : 'Connexion' }
