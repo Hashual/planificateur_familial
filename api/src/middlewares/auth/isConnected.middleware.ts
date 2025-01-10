@@ -2,7 +2,7 @@ import { Request } from "express";
 import { StatusCodes } from "http-status-codes";
 import HttpError from "../../utils/exceptions/HttpError";
 import { getSessionByToken } from "../../models/sessions/sessions";
-import { getUserById, User } from "../../models/user/user";
+import { getUserById } from "../../models/user/user";
 
 export const isConnectedMiddleware = async (req: Request) => {
 	const authorizationHeader = req.headers['authorization'];
