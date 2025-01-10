@@ -1,4 +1,5 @@
 import { ThemedText } from "@/components/utilities/ThemedText";
+import { ThemedTextInput } from "@/components/utilities/ThemedTextInput";
 import { BASE_URL } from "@/hooks/useAPI";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { SaveAPIToken } from "@/utils/api/auth/SaveAPIToken";
@@ -10,6 +11,13 @@ const LoginForm: React.FC = () => {
   const colors = useThemeColor();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  
+
+  const [errors, setErrors] = useState({
+      email: "",
+      password: "",
+    });
 
   const handleLogin = () => {
     fetch(`${BASE_URL}/auth/local/login`, {
@@ -52,13 +60,18 @@ const LoginForm: React.FC = () => {
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
-        style={inputStyles}
+      <ThemedTextInput
         placeholder="Mot de passe"
-        placeholderTextColor={colors.placeHolderText}
         value={password}
-        onChangeText={setPassword}
-        secureTextEntry
+        onChangeText={(text) => {
+          setPassword(text);
+          setErrors((prev) => ({ ...prev, password: "" }));
+        }}
+        secureTextEntry={!showPassword}
+        icon={showPassword ? "eye" : "eye-off"}
+        onIconPress={() => setShowPassword(!showPassword)}
+        error={!!errors.password}
+        errorText={errors.password}
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Se connecter</Text>

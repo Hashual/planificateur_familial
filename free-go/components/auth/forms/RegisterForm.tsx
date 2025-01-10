@@ -5,6 +5,7 @@ import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { ThemedTextInput } from "@/components/utilities/ThemedTextInput";
 import { BASE_URL } from "@/hooks/useAPI";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { router } from "expo-router";
 
 export default function RegisterForm() {
   const [lastName, setLastName] = useState("");
@@ -12,15 +13,47 @@ export default function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Pour le champ "Mot de passe"
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false); // Pour le champ "Confirmer le mot de passe"
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
+  const [errors, setErrors] = useState({
+    lastName: "",
+    firstName: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
 
   const colors = useThemeColor();
 
   const handleRegister = () => {
+    const newErrors: typeof errors = {
+      lastName: "",
+      firstName: "",
+      email: "",
+      password: "",
+      passwordConfirm: "",
+    };
+
+    if (!lastName.trim()) {
+      newErrors.lastName = "Nom requis";
+    }
+    if (!firstName.trim()) {
+      newErrors.firstName = "Prénom requis";
+    }
+    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = "Email invalide";
+    }
+    if (!password.trim() || password.length < 6) {
+      newErrors.password = "Mot de passe invalide (6 caractères min.)";
+    }
     if (password !== passwordConfirm) {
-      alert("Les mots de passe ne correspondent pas");
+      newErrors.passwordConfirm = "Les mots de passe ne correspondent pas";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.values(newErrors).some((error) => error)) {
       return;
     }
 
@@ -38,10 +71,19 @@ export default function RegisterForm() {
     })
       .then((response) => response.json())
       .then((res) => {
+        console.log(res);
         if (res.code === 400 && res.errors?.[0]) {
-          alert("Champ(s) invalide(s): ");
-        } else if (res.status === 200) {
-          alert("Inscription réussie");
+          const serverErrors = res.errors.reduce(
+            (acc: typeof errors, error: { path: string }) => {
+              if (error.path === "email") acc.email = "Email déjà utilisé";
+              return acc;
+            },
+            { ...errors }
+          );
+          setErrors(serverErrors);
+        } else if (res.code === 200) {
+          router.replace("/auth/login");
+          
         }
       })
       .catch(console.error);
@@ -55,33 +97,58 @@ export default function RegisterForm() {
       <ThemedTextInput
         placeholder="Nom*"
         value={lastName}
-        onChangeText={setLastName}
+        onChangeText={(text) => {
+          setLastName(text);
+          setErrors((prev) => ({ ...prev, lastName: "" }));
+        }}
+        error={!!errors.lastName}
+        errorText={errors.lastName}
       />
       <ThemedTextInput
         placeholder="Prénom*"
         value={firstName}
-        onChangeText={setFirstName}
+        onChangeText={(text) => {
+          setFirstName(text);
+          setErrors((prev) => ({ ...prev, firstName: "" }));
+        }}
+        error={!!errors.firstName}
+        errorText={errors.firstName}
       />
       <ThemedTextInput
         placeholder="Email*"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(text) => {
+          setEmail(text);
+          setErrors((prev) => ({ ...prev, email: "" }));
+        }}
+        error={!!errors.email}
+        errorText={errors.email}
       />
       <ThemedTextInput
         placeholder="Mot de passe*"
         value={password}
-        onChangeText={setPassword}
-        secureTextEntry
+        onChangeText={(text) => {
+          setPassword(text);
+          setErrors((prev) => ({ ...prev, password: "" }));
+        }}
+        secureTextEntry={!showPassword}
         icon={showPassword ? "eye" : "eye-off"}
         onIconPress={() => setShowPassword(!showPassword)}
+        error={!!errors.password}
+        errorText={errors.password}
       />
       <ThemedTextInput
         placeholder="Confirmer le mot de passe*"
         value={passwordConfirm}
-        onChangeText={setPasswordConfirm}
-        secureTextEntry
+        onChangeText={(text) => {
+          setPasswordConfirm(text);
+          setErrors((prev) => ({ ...prev, passwordConfirm: "" }));
+        }}
+        secureTextEntry={!showPasswordConfirm}
         icon={showPasswordConfirm ? "eye" : "eye-off"}
         onIconPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+        error={!!errors.passwordConfirm}
+        errorText={errors.passwordConfirm}
       />
       <ThemedButton
         onPress={handleRegister}
