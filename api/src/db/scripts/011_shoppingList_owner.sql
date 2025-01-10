@@ -1,4 +1,4 @@
-DROP PROCEDURE IF EXISTS todoList_owner;
+DROP PROCEDURE IF EXISTS shoppingList_owner;
 
 CREATE PROCEDURE shoppingList_owner()
 BEGIN
