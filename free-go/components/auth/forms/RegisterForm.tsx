@@ -44,8 +44,8 @@ export default function RegisterForm() {
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Email invalide";
     }
-    if (!password.trim() || password.length < 6) {
-      newErrors.password = "Mot de passe invalide (6 caractères min.)";
+    if (!password.trim() || password.length < 8) {
+      newErrors.password = "Mot de passe invalide (8 caractères min.)";
     }
     if (password !== passwordConfirm) {
       newErrors.passwordConfirm = "Les mots de passe ne correspondent pas";
