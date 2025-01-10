@@ -44,7 +44,6 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               style={styles.button}
             />
             <DoorShelfs />
-            <MeUserInfos />
             
           </ScrollView>
         </View>
