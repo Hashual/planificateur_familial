@@ -4,6 +4,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "../utilities/ThemedText";
 
 type AddArticleModalProps = {
+  isNewArticle?: boolean;
 	isModalVisible: boolean;
 	closeModal: () => void;
 	articleNameInput: string;
@@ -13,7 +14,8 @@ type AddArticleModalProps = {
 	handleAddArticle: () => void;
 };
 
-export default function AddArticleModal({
+export default function ArticleModal({
+    isNewArticle,
     isModalVisible, 
     closeModal, 
     articleNameInput, 
@@ -64,7 +66,7 @@ export default function AddArticleModal({
       >
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
-            <ThemedText variant="title">Ajouter un article</ThemedText>
+            <ThemedText variant="title">{isNewArticle ? "Ajouter un " : "Modifer l'"}article</ThemedText>
             <TextInput
               style={[inputStyle, textColor]}
               placeholder="Nom de l'article"
@@ -108,7 +110,7 @@ export default function AddArticleModal({
                 type="secondary"
               />
               <ThemedButton
-                title="Ajouter"
+                title={isNewArticle ? "Ajouter" : "Modifier"}
                 onPress={handleAddArticle}
                 type="primary"
               />

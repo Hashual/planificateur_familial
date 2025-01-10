@@ -17,6 +17,7 @@ import {API, useFetchQuery} from "@/hooks/useAPI";
 import Header from "@/components/Header";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
 import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
+import ArticleModal from "@/components/modals/AddArticleModal";
 
 
 const ShoppingList = ({ showActionSheetWithOptions } : any) => {
@@ -31,9 +32,11 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   const listId = Number(params.id);
   const [list, setList] = useState<any | undefined>(undefined);
 
+  const [isNewArticle, setIsNewArticle] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [articleNameInput, setArticleNameInput] = useState("");
   const [numberOfArticle, setNumberOfArticle] = useState(1);
+  const [currentArticleId, setCurrentArticleId] = useState(-1);
   
   const loadShoppingData = async () => {
     try {
@@ -84,6 +87,34 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
     }
   };
 
+  const handleModifyArticle = async (articleId: number) => {
+    try {
+      const updatedArticle = {
+        title: articleNameInput,
+        quantity: numberOfArticle,
+      };
+
+      const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles/" + articleId, {
+        method: "PUT",
+        body: updatedArticle,
+      });
+
+      if (updatedData) {
+        setList((prevList: any) => ({
+          ...prevList,
+          articles: prevList.articles.map((a: any) =>
+              a.id === articleId ? { ...a, ...updatedArticle } : a
+          ),
+        }));
+      } else {
+        Error("Erreur", "Erreur lors de la mise à jour de la tâche");
+      }
+      closeModal();
+    } catch (error) {
+      Error("Erreur", "Erreur lors de la modification de l'article", error);
+    }
+  }
+
   const handlePurchaseArticle = async (articleId: number) => {
     try {
       const shoppingList = await useFetchQuery<API['/shoppinglists/[id]']> ("/shopping-list/" + listId, { method: "GET" })
@@ -110,7 +141,12 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   };
 
 
-  const openModal = () => {
+  const openModal = (isNewArticle: boolean, articleName?: string, numberOfArticle?: number) => {
+    setIsNewArticle(isNewArticle);
+    if (!isNewArticle && articleName && numberOfArticle) {
+      setArticleNameInput(articleName);
+      setNumberOfArticle(numberOfArticle);
+    }
     setModalVisible(true);
   };
 
@@ -120,7 +156,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
     setNumberOfArticle(1);
   };
 
-  const openActionSheet = (articleId: number) => {
+  const openActionSheet = (articleId: number, articleTitle: string, articleQuantity: number) => {
     const options = ['Annuler', 'Modifier', 'Supprimer'];
     const destructiveButtonIndex = 2;
     const cancelButtonIndex = 0;
@@ -132,7 +168,8 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
     }, (selectedIndex: number | void) => {
       switch (selectedIndex) {
         case 1:
-          alert("MDOFICATION")
+          setCurrentArticleId(articleId);
+          openModal(false, articleTitle, articleQuantity);
           break;
         case destructiveButtonIndex:
           handleDeleteArticle(articleId);
@@ -173,7 +210,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
         renderItem={({ item: article }) => (
           <ArticleItem
             article={article}
-            handleArticleMenu={() => openActionSheet(article.id)}
+            handleArticleMenu={() => openActionSheet(article.id, article.title, article.quantity)}
             handleCompleteArticle={() => handlePurchaseArticle(article.id)}
           />
         )}
@@ -181,18 +218,19 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       <ThemedButton
         title={"Ajouter un article"}
         icon="plus"
-        onPress={openModal}
+        onPress={() => {openModal(true)}}
         type="primary"
       />
 
-      <AddArticleModal 
+      <ArticleModal
+        isNewArticle={isNewArticle}
         isModalVisible={isModalVisible} 
         closeModal={closeModal} 
         articleNameInput={articleNameInput} 
         setArticleNameInput={setArticleNameInput} 
         numberOfArticle={numberOfArticle} 
         setNumberOfArticle={setNumberOfArticle} 
-        handleAddArticle={handleAddArticle} 
+        handleAddArticle={isNewArticle ? handleAddArticle : () => {handleModifyArticle(currentArticleId)}} 
       />
 
     </RootView>
