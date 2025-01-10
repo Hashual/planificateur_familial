@@ -11,7 +11,6 @@ export default function App() {
     CheckToken();
     RegisterForPushNotifications();
 
-    // Need a timeout here. Else, w'll have an infinite waiting screen
     setTimeout(() => {
         IsLogin().then( (isLogin) => {
             if (isLogin) {

@@ -14,7 +14,7 @@ export default function NavLoginButton(customProps?: ThemedButtonVisualProps) {
 	function handleLoginDisconnectClick() {
 		// TODO: Add a confirmation dialog
 		ClearUserInfos();
-		router.push('/homePage/OpenDoorPage');
+		router.push('/auth/login');
 	}
 
 	// TODO: Improve the design?
