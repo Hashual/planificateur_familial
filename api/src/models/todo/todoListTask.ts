@@ -11,6 +11,18 @@ type TodoListTask = {
     completedDate: boolean;
 }
 
+function formatRowData(row: RowDataPacket): TodoListTask {
+    return {
+        id: row.id,
+        title: row.title,
+        dueDate: row.dueDate ? new Date(row.dueDate) : null,
+        createdAt: new Date(row.createdAt),
+        updatedAt: new Date(row.updatedAt),
+        todoListId: row.todoListId,
+        completedDate: row.completedDate
+    };
+}
+
 export const createTodoListTask = async(todoListId: number, title: string, dueDate: Date | null | undefined): Promise<number> => {
     const result : ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO todoListTask (title, dueDate, todoListId) VALUES (?, ?, ?)", [title, dueDate, todoListId]);
     return result.insertId;
@@ -33,15 +45,7 @@ export const deleteTodoListTask = async(id: number): Promise<void> => {
 export const getTodoListTasks = async(todoListId: number): Promise<TodoListTask[]> => {
     const result : RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT * FROM todoListTask WHERE todoListId = ?", [todoListId]);
     return result.map((row: RowDataPacket) => {
-        return {
-            id: row.id,
-            title: row.title,
-            dueDate: row.dueDate ? new Date(row.dueDate) : null,
-            createdAt: new Date(row.createdAt),
-            updatedAt: new Date(row.updatedAt),
-            todoListId: row.todoListId,
-            completedDate: row.completedDate
-        }
+        return formatRowData(row)
     }) as TodoListTask[];
 }
 
@@ -51,15 +55,7 @@ export const getTodoListTaskById = async(id: number): Promise<TodoListTask | nul
         return null;
     }
     const row = result[0];
-    return {
-        id: row.id,
-        title: row.title,
-        dueDate: row.dueDate ? new Date(row.dueDate) : null,
-        createdAt: new Date(row.createdAt),
-        updatedAt: new Date(row.updatedAt),
-        todoListId: row.todoListId,
-        completedDate: row.completedDate
-    } as TodoListTask;
+    return formatRowData(row);
 }
 
 export const getTasksAmount = async(todoListId: number, isComplete: boolean): Promise<number> => {
@@ -70,4 +66,11 @@ export const getTasksAmount = async(todoListId: number, isComplete: boolean): Pr
         const result : RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT COUNT(*) as amount FROM todoListTask WHERE todoListId = ? AND completedDate IS NULL", [todoListId]);
         return result[0].amount;
     }
+}
+
+export const getTasksBetweenTwoDates = async(startDate: Date, endDate: Date): Promise<TodoListTask[]> => { 
+    const result : RowDataPacket[] = await SqlQuery<RowDataPacket[]>("SELECT * FROM todoListTask WHERE dueDate BETWEEN ? AND ?", [startDate, endDate]);
+    return result.map((row: RowDataPacket) => {
+        return formatRowData(row)
+    }) as TodoListTask[];
 }
