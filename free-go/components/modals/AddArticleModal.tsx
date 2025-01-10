@@ -1,4 +1,4 @@
-import { Modal, View, TextInput, Text, StyleSheet } from "react-native";
+import { Modal, View, TextInput, StyleSheet } from "react-native";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "../utilities/ThemedText";
