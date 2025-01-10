@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
 
   shelfContainer: {
     flex: 1,
-    justifyContent: 'space-evenly', // Espacement uniforme
-    paddingHorizontal: 15,
+    justifyContent: 'space-between', // Espacement uniforme
+    padding: 15,
   },
 });
 
