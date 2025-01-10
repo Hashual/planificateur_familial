@@ -11,6 +11,7 @@ import { ZodError } from 'zod';
 import session from 'express-session';
 import HttpError from './utils/exceptions/HttpError';
 import dotenv from 'dotenv';
+import { loadWorkers } from './workers';
 
 dotenv.config();
 
@@ -71,3 +72,5 @@ app.listen(3000, () => {
 connection.addListener('connect', () => {
 	RunScripts();
 })
+
+loadWorkers();
