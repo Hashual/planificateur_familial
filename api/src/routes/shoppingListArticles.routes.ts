@@ -15,9 +15,9 @@ const router = Router();
  * @apiName CreateShoppingListArticle
  * @apiGroup ShoppingListArticles
  * @apiParam {String} listId The id of the shopping list
- * @apiParam {String} title The title of the article
- * @apiParam {Date} [dueDate] The due date of the article
- * @apiParam {Number} quantity The quantity of the article
+ * @apiBody {String} title The title of the article
+ * @apiBody {Date} [dueDate] The due date of the article
+ * @apiBody {Number} quantity The quantity of the article
  * @apiSuccess {Object} data The list of articles
  * @apiSuccess {Number} data.id The id of the article
  * @apisuccess {Number} data.shoppingListId The id of the shopping list
@@ -60,9 +60,9 @@ const router = Router();
  * @apiGroup ShoppingListArticles
  * @apiParam {String} listId The id of the shopping list
  * @apiParam {String} articleId The id of the article
- * @apiParam {String} title The title of the article
- * @apiParam {Date} [dueDate] The due date of the article
- * @apiParam {Date} [completedAt] The completion date of the article
+ * @apiBody {String} title The title of the article
+ * @apiBody {Date} [dueDate] The due date of the article
+ * @apiBody {Date} [completedAt] The completion date of the article
  * @apiSuccess {Object} data The list of articles
  * @apiSuccess {Number} data.id The id of the article
  * @apisuccess {Number} data.shoppingListId The id of the shopping list
