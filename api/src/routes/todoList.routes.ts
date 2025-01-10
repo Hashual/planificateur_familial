@@ -50,7 +50,8 @@ const router = Router();
  * @api {post} /todo-list Create Todo List
  * @apiName CreateTodoList
  * @apiGroup Todo List
- * @apiParam {String} title Todo list title
+ * @apiParam {none} none
+ * @apiBody {String} title Todo list title
  * @apiSuccess {Object} data Todo list
  * @apiSuccess {Number} data.id Todo list id
  * @apiSuccess {String} data.title Todo list title
@@ -153,8 +154,7 @@ const router = Router();
  * }
 */ 
 
-/**
- * API DELETE
+/** API DELETE
  * @api {delete} /todo-list/:listId Delete Todo List by Todo List Id
  * @apiName DeleteTodoList
  * @apiGroup Todo List

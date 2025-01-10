@@ -51,7 +51,7 @@ const router = Router();
  * @api {post} /shopping-list Create Shopping List
  * @apiName CreateShoppingList
  * @apiGroup ShoppingList
- * @apiParam {String} title Shopping list title
+ * @apiBody {String} title Shopping list title
  * @apiSuccess {Object} data Shopping list
  * @apiSuccess {Number} data.id Shopping list id
  * @apiSuccess {String} data.title Shopping list title

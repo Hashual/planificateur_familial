@@ -72,9 +72,9 @@ const router = Router();
  * @apiName CreateTodoListTask
  * @apiGroup Todo List Task
  * @apiParam {Number} listId Todo list id
- * @apiParam {String} title Todo list task title
- * @apiParam {Date} dueDate Todo list task due date
- * @apiParam {Date} completedDate Todo list task completed date
+ * @apiBody {String} title Todo list task title
+ * @apiBody {Date} dueDate Todo list task due date
+ * @apiBody {Date} completedDate Todo list task completed date
  * @apiSuccess {Object} data Todo list tasks
  * @apiSuccess {Number} data.id Todo list task id
  * @apiSuccess {Number} data.todoListId Todo list id
@@ -135,9 +135,9 @@ const router = Router();
  * @apiGroup Todo List Task
  * @apiParam {Number} listId Todo list id
  * @apiParam {Number} taskId Todo list task id
- * @apiParam {String} title Todo list task title
- * @apiParam {Date} dueDate Todo list task due date
- * @apiParam {Number} isComplete Todo list task is complete
+ * @apiBody {String} title Todo list task title
+ * @apiBody {Date} dueDate Todo list task due date
+ * @apiBody {Number} isComplete Todo list task is complete
  * @apiSuccess {Object} data Todo list
  * @apiSuccess {Number} data.id Todo list id
  * @apiSuccess {String} data.title Todo list title
