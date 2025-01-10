@@ -17,9 +17,9 @@ export const Colors = {
     logoBackground: "#e4eaf1",
     listBackground: "#FFFFFF",
     progressBarCompleted: "#149414",
-    inputBorder: "#DDD", // Bordure par défaut des inputs
-    icon: "#666", // Couleur des icônes par défaut
-    error: "#D32F2F", // Couleur pour les erreurs
+    inputBorder: "#DDD", 
+    icon: "#666",
+    error: "#D32F2F",
   },
 
   dark: {
@@ -40,8 +40,8 @@ export const Colors = {
     logoBackground: "#F5C754",
     listBackground: "#FFFFFF",
     progressBarCompleted: "#149414",
-    inputBorder: "#3C4A5A", // Bordure par défaut des inputs
-    icon: "#AAA", // Couleur des icônes par défaut
-    error: "#FF3B30", // Couleur pour les erreurs
+    inputBorder: "#3C4A5A",
+    icon: "#AAA",
+    error: "#FF3B30",
   },
 };
