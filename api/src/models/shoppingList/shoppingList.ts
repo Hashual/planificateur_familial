@@ -13,7 +13,7 @@ type shoppingList = {
 }
 
 export const createShoppingList = async (title: string, owner: User): Promise<number> => {
-    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO shoppingList (title, owner) VALUES (?, ?)", [title, owner.id]);
+    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO shoppingList (title, ownerId) VALUES (?, ?)", [title, owner.id]);
     return result.insertId;
 }
 
