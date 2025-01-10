@@ -6,24 +6,32 @@ import { getShoppingListArticles } from '../models/shoppingList/shoppingListArti
 import * as shoppingListArticlesRoutes from './shoppingListArticles.routes';
 import { SHOPPING_LIST_ID_TYPE, shoppingListIdMiddleware } from '../middlewares/shoppingList/shoppingList.middleware';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
+import {isConnectedMiddleware} from "../middlewares/auth/isConnected.middleware";
 
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-    const shoppingLists = await getAllShoppingLists();
+router.get('/', handler({
+    use: isConnectedMiddleware,
+    handler: async (req, res) => {
+    const { user } = req;
+
+    const shoppingLists = await getAllShoppingLists(user);
 
     res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: shoppingLists });
-});
+    }
+}));
 
 router.post('/', handler({
     body: z.object({
         title: z.string(),
     }),
+    use: isConnectedMiddleware,
     handler: async (req, res) => {
+        const { user } = req;
         const { title } = req.body;
 
-        const shoppingListId = await createShoppingList(title);
+        const shoppingListId = await createShoppingList(title, user);
         const shoppingList = await getShoppingListById(shoppingListId);
 
         if (!shoppingList) {
