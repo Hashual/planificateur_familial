@@ -9,6 +9,240 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const router = Router();
 
+/** API GET 
+ * @api {get} /api/todo-lists/:listId/tasks/:taskId Get Todo List Task by Id
+ * @apiName GetTodoListTask 
+ * @apiGroup Todo List Task
+ * @apiParam {Number} listId Todo list id
+ * @apiParam {Number} taskId Todo list task id
+ * @apiSuccess {Object} data Todo list task
+ * @apiSuccess {Number} data.id Todo list task id
+ * @apiSuccess {Number} data.todoListId Todo list id
+ * @apiSuccess {String} data.title Todo list task title
+ * @apiSuccess {Date} data.dueDate Todo list task due date
+ * @apiSuccess {Date} data.completedDate Todo list task completed date
+ * @apiSuccess {Date} data.createdAt Todo list task creation date
+ * @apiSuccess {Date} data.updatedAt Todo list task update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ * 		"id": 1,
+ *		"todoListId": 1,
+ *  		"title": "Todo list task 1",
+ * 		"dueDate": "2025-01-07T18:51:44.000Z",
+ * 		"completedDate": "2025-01-07T18:51:44.000Z",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 		}]
+ * }
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ * 		"id": 1,
+ *		"todoListId": 1,
+ *  	"title": "Todo list task 1",
+ * 		"dueDate": null,
+ * 		"completedDate": null,
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 		}]
+ * }
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": []
+ * }
+ * 
+ * @apiErrorExample {none} Error
+ * {
+ * 
+ * }
+*/
+
+/** API POST
+ * @api {post} /api/todo-lists/:listId/tasks Create Todo List Task
+ * @apiName CreateTodoListTask
+ * @apiGroup Todo List Task
+ * @apiParam {Number} listId Todo list id
+ * @apiBody {String} title Todo list task title
+ * @apiBody {Date} dueDate Todo list task due date
+ * @apiBody {Date} completedDate Todo list task completed date
+ * @apiSuccess {Object} data Todo list tasks
+ * @apiSuccess {Number} data.id Todo list task id
+ * @apiSuccess {Number} data.todoListId Todo list id
+ * @apiSuccess {String} data.title Todo list task title
+ * @apiSuccess {Date} data.dueDate Todo list task due date
+ * @apiSuccess {Date} data.completedDate Todo list task completed date
+ * @apiSuccess {Date} data.createdAt Todo list task creation date
+ * @apiSuccess {Date} data.updatedAt Todo list task update date
+ * @apiSuccessExample {json} Success
+ * // If the todo list has multiples tasks
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ *  	"id": 1,
+ * 		"todoListId": 1,
+ * 		"title": "Todo list task 1",
+ * 		"dueDate": "2025-01-07T18:51:44.000Z",
+ * 		"completedDate": "2025-01-07T18:51:44.000Z",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 		}, {
+ * 		"id": 2,
+ * 		"todoListId": 1,
+ * 		"title": "Todo list task 2",
+ * 		"dueDate": "2025-01-07T18:51:44.000Z",
+ * 		"completedDate": "2025-01-07T18:51:44.000Z",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 		}]
+ * }
+ * @apiSuccessExample {json} Success
+ * // If the todo list has only one task
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ * 		"id": 1,
+ * 		"todoListId": 1,
+ * 		"title": "Todo list task 1",
+ * 		"dueDate": null,
+ * 		"completedDate": null,
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 		}]
+ * }
+ * @apiErrorExample {none} Error
+ * {
+ * 
+ * }
+ */
+
+/** API PUT
+ * @api {put} /api/todo-lists/:listId/tasks/:taskId Update Todo List Task By Id
+ * @apiName UpdateTodoListTask
+ * @apiGroup Todo List Task
+ * @apiParam {Number} listId Todo list id
+ * @apiParam {Number} taskId Todo list task id
+ * @apiBody {String} title Todo list task title
+ * @apiBody {Date} dueDate Todo list task due date
+ * @apiBody {Number} isComplete Todo list task is complete
+ * @apiSuccess {Object} data Todo list
+ * @apiSuccess {Number} data.id Todo list id
+ * @apiSuccess {String} data.title Todo list title
+ * @apiSuccess {Date} data.createdAt Todo list creation date
+ * @apiSuccess {Date} data.updatedAt Todo list update date
+ * @apiSuccess {Object[]} data.tasks Todo list tasks
+ * @apiSuccess {Number} data.tasks.id Todo list task id
+ * @apiSuccess {Number} data.tasks.todoListId Todo list id
+ * @apiSuccess {String} data.tasks.title Todo list task title
+ * @apiSuccess {Date} data.tasks.dueDate Todo list task due date
+ * @apiSuccess {Date} data.tasks.completedDate Todo list task completed date
+ * @apiSuccess {Date} data.tasks.createdAt Todo list task creation date
+ * @apiSuccess {Date} data.tasks.updatedAt Todo list task update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ * 		"id": 1,
+ * 		"title": "Todo list 1",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z",
+ * 		"tasks": [{
+ * 				"todoListId": 1,
+ * 				"title": "Task 1",
+ * 				"dueDate": null,
+ * 				"completedDate": null,
+ * 				"createdAt": "2025-01-07T18:51:44.000Z",
+ * 				"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 			}]
+ * 		}]
+ * }
+ * @apiErrorExample {none} Error
+ * {
+ * 
+ * } 
+ */
+
+/** API DELETE
+ * @api {delete} /api/todo-lists/:listId/tasks/:taskId Delete Todo List Task By Id
+ * @apiName DeleteTodoListTask
+ * @apiGroup Todo List Task
+ * @apiParam {Number} listId Todo list id
+ * @apiParam {Number} taskId Todo list task id
+ * @apiSuccess {Object} data Todo list 
+ * @apiSuccess {Number} data.id Todo list id
+ * @apiSuccess {String} data.title Todo list title
+ * @apiSuccess {Date} data.createdAt Todo list creation date
+ * @apiSuccess {Date} data.updatedAt Todo list update date
+ * @apiSuccessExample {json} Success
+ * // If the todo list has multiples tasks
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": {[
+ * 		"id": 1,
+ * 		"title": "Todo list 1",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z",
+ * 		"tasks": [{
+ * 				"todoListId": 1,
+ * 				"title": "Task 1",
+ * 				"dueDate": null,
+ * 				"completedDate": null,
+ * 				"createdAt": "2025-01-07T18:51:44.000Z",
+ * 				"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 			}]
+ * 		]}
+ * }
+ *  * @apiSuccessExample {json} Success
+ * // If the todo list has only one task
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": {[
+ * 		"id": 1,
+ * 		"title": "Todo list 1",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z",
+ * 		"tasks": []
+ * 		]}
+ * }
+ *  * @apiSuccessExample {json} Success
+ * // If the todo list has no tasks
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": {[
+ * 		"id": 1,
+ * 		"title": "Todo list 1",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z",
+ * 		"tasks": []
+ * 		]}
+ * }
+ * @apiErrorExample {none} Error
+ * {
+ * 
+ * }
+ */
+
 router.get('/:listId/tasks/:taskId', handler({
 	use: [todoListIdMiddleware, todoListTaskIdMiddleware],
 	params: z.object({
