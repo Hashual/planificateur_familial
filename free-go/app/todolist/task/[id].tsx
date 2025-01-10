@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import { RootView } from "@/components/utilities/RootView";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { ThemedText } from "@/components/utilities/ThemedText";
+import WaitingScreen from "@/components/utilities/WaitingScreen";
 import { useFetchQuery } from "@/hooks/useAPI";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import Error from "@/utils/alerts/Error";
@@ -37,10 +38,7 @@ export default function Task() {
 
     if (!task) {
         return (
-            <RootView color="background" padding={20} style={{flex:1, justifyContent: "center", alignItems:"center"}}>
-                <ActivityIndicator size="large" color={colors.primary} />
-                <ThemedText style={{marginTop: 20}}>Chargement ou liste introuvable...</ThemedText>
-            </RootView>
+            <WaitingScreen />
         );
     }
 
