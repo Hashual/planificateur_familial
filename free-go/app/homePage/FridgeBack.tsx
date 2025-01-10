@@ -5,6 +5,7 @@ import FridgeBottom from '@/components/homePage/shared/FridgeBottom';
 import { useRouter } from 'expo-router';
 import { SetBackPage } from '@/utils/SetBackPage';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { RootView } from '@/components/utilities/RootView';
 
 const FridgeBack: React.FC = () => {
   const router = useRouter();
@@ -17,24 +18,17 @@ const FridgeBack: React.FC = () => {
   SetBackPage('/homePage/OpenDoorPage');
 
   return (
-    <View style={[styles.container, {backgroundColor: colors.background}]}>
+    <RootView>
       <TouchableOpacity onPress={handleFridgeClick} style={styles.fridgeBottom}>
         <Fridge>
           <FridgeBottom />
         </Fridge>
       </TouchableOpacity>
-    </View>
+    </RootView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   fridgeBottom: {
     flex: 1,
     width: '100%',
