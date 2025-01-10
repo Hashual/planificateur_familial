@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
+import React from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import Fridge from '@/components/homePage/shared/Fridge';
 import FridgeBottom from '@/components/homePage/shared/FridgeBottom';
 import { useRouter } from 'expo-router';
@@ -12,7 +12,7 @@ const FridgeBack: React.FC = () => {
   const colors = useThemeColor();
 
   const handleFridgeClick = () => {
-    router.replace('/homePage/OpenDoorPage'); // Retourner à Page B
+    router.replace('/homePage/OpenDoorPage');
   };
 
   SetBackPage('/homePage/OpenDoorPage');

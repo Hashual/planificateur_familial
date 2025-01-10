@@ -11,7 +11,6 @@ import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import { SetBackPage } from "@/utils/SetBackPage";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
-import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import {API, useFetchQuery} from "@/hooks/useAPI";
 import Header from "@/components/Header";
