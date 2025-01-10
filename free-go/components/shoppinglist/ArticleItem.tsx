@@ -3,14 +3,15 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { CheckBox } from "../utilities/CheckBox";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "../utilities/ThemedText";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
 
 type ArticleItemProps = {
     article: Article;
-    handleDeleteArticle: () => void;
+    handleArticleMenu: () => void;
     handleCompleteArticle: () => void;
 };
 
-export default function ArticleItem({ article, handleDeleteArticle, handleCompleteArticle }: ArticleItemProps) {
+const ArticleItem = ({ article, handleArticleMenu, handleCompleteArticle }: ArticleItemProps) => {
     const colors = useThemeColor();
 
     return (
@@ -31,10 +32,10 @@ export default function ArticleItem({ article, handleDeleteArticle, handleComple
             </TouchableOpacity>
             
             <TouchableOpacity
-            onPress={handleDeleteArticle}
+            onPress={handleArticleMenu}
             style={styles.deleteButtonContainer}
             >
-            <ThemedText variant="fs20" color="danger">✕</ThemedText>
+            <ThemedText variant="fs20" color="primary">⸱⸱⸱</ThemedText>
             </TouchableOpacity>
         </View>
     )
@@ -55,10 +56,12 @@ const styles = StyleSheet.create({
       padding: 10,
     },
     articleInfoContainer: {
-      flex: 15, 
+      flex: 10, 
       padding: 10,
       flexDirection: "row", 
       gap: 10, 
       alignItems: "center"
     }
 });
+
+export default connectActionSheet(ArticleItem);
