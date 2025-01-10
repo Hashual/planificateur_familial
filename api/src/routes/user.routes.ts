@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import { handler } from "../utils/handler";
 import { isConnectedMiddleware } from "../middlewares/auth/isConnected.middleware";
 import { StatusCodes } from "http-status-codes";
