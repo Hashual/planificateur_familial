@@ -1,0 +1,30 @@
+{
+  "name": "planificateur_familial",
+  "version": "1.0.0",
+  "description": "API documentation for Planificateur Familial",
+  "title": "API Documentation",
+  "url": "http://localhost:3000",
+  "sampleUrl": false,
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  },
+  "header": {
+    "title": "Overview",
+    "content": "<h1>Welcome to the API documentation</h1>"
+  },
+  "footer": {
+    "title": "Footer",
+    "content": "<p>Generated with apidoc</p>"
+  },
+  "order": [
+    "GetShoppingList",
+    "CreateShoppingList",
+    "DeleteShoppingList"
+  ],
+  "template": {
+    "forceLanguage": "fr"
+  },
+  "input": "api/src",
+  "output": "api/doc"
+}
