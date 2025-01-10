@@ -82,7 +82,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
 
     try {
       const newTask: Task = {
-        id: Date.now(),
+        id: -1,
         title: taskNameInput,
         dueDate: createDate(),
         completedDate: null,
