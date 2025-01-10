@@ -291,20 +291,20 @@ router.put('/:listId/tasks/:taskId', handler({
 	body: z.object({
 		title: z.string(),
 		dueDate: z.string().optional().nullable(),
-		isComplete: z.number()
+		completedDate: z.string().optional().nullable(),
 	}),
 	handler: async (req, res) => {
 		const { todoList, task } = req;
-		const { title, dueDate, isComplete } = req.body;
+		const { title, dueDate, completedDate } = req.body;
 
 		const date = dueDate ? new Date(dueDate) : null;
-		const updated = await updateTodoListTask(task.id, title, date, isComplete === 1);
+		const updated = await updateTodoListTask(task.id, title, date, completedDate ? new Date(completedDate) : null);
 		if (!updated) {
 			throw new HttpError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to update todo');
 		}
 
 		const updatedTodo = await getTodoListTasks(todoList.id);
-		
+
 		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: updatedTodo });
 	}
 }))

@@ -28,12 +28,13 @@ export const createTodoListTask = async(todoListId: number, title: string, dueDa
     return result.insertId;
 }
 
-export const updateTodoListTask = async(id: number, title: string, dueDate: Date | null | undefined, isComplete: boolean): Promise<boolean> => {
+export const updateTodoListTask = async(id: number, title: string, dueDate: Date | null | undefined, completedDate: Date | null | undefined): Promise<boolean> => {
     let result;
-    if (isComplete) {
-        result = await SqlQuery<ResultSetHeader>("UPDATE todoListTask SET title = ?, dueDate = ?, completedDate = NOW() WHERE id = ?", [title, dueDate, id]);
-    } else
+    if (completedDate) {
+        result = await SqlQuery<ResultSetHeader>("UPDATE todoListTask SET title = ?, dueDate = ?, completedDate = ? WHERE id = ?", [title, dueDate, completedDate, id]);
+    } else {
         result = await SqlQuery<ResultSetHeader>("UPDATE todoListTask SET title = ?, dueDate = ?, completedDate = null WHERE id = ?", [title, dueDate, id]);
+    }
 
     return result.affectedRows > 0;
 }
