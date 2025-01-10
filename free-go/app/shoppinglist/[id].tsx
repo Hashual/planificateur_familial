@@ -15,6 +15,7 @@ import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import {API, useFetchQuery} from "@/hooks/useAPI";
 import Header from "@/components/Header";
+import WaitingScreen from "@/components/utilities/WaitingScreen";
 
 
 export default function ShoppingList() {
@@ -135,9 +136,7 @@ export default function ShoppingList() {
 
   if (!list) {
     return (
-      <RootView color="background" padding={20}>
-        <ThemedText>Chargement ou liste introuvable... {listId}</ThemedText>
-      </RootView>
+      <WaitingScreen />
     );
   }
 

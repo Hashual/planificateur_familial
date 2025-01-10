@@ -15,6 +15,7 @@ import { RootView } from "@/components/utilities/RootView";
 import {useFetchQuery} from "@/hooks/useAPI";
 import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
 import Header from "@/components/Header";
+import WaitingScreen from "@/components/utilities/WaitingScreen";
 
 const ToDoList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/todolists");
@@ -175,9 +176,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
 
   if (!list) {
     return (
-      <RootView color="background" padding={20}>
-        <ThemedText>Chargement ou liste introuvable... {listId}</ThemedText>
-      </RootView>
+      <WaitingScreen />
     );
   }
 
