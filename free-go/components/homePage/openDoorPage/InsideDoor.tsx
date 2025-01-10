@@ -40,7 +40,12 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               onTop={true}
             />
             <DoorShelfs />
+            <NavLoginButton
+              style={styles.button}
+            />
+            <DoorShelfs />
             <MeUserInfos />
+            
           </ScrollView>
         </View>
         {children ? <View style={styles.childrenContainer}>{children}</View> : null}
