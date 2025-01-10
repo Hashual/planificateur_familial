@@ -50,7 +50,8 @@ export default function RegisterForm() {
 
   const inputStyles = {
     ...styles.input,
-    backgroundColor: colors.elementBackground
+    backgroundColor: colors.elementBackground,
+    color: colors.primaryText
   }
 
   return (
