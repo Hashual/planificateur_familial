@@ -84,7 +84,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
       const newTask: Task = {
         id: -1,
         title: taskNameInput,
-        dueDate: createDate(),
+        dueDate: dueDate,
         completedDate: null,
       };
       const updatedData= await useFetchQuery("/todo-list/" + listId + "/tasks/" , { method: "POST", body: newTask });

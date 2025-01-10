@@ -75,11 +75,21 @@ export default function TaskDetails() {
     };
 
     const modifyTask = async () => {
+        const dueDate = createDate();
+        if (!taskNameInput.trim()) {
+            Error("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
+            return;
+        }
+    
+        if(dueDate && dueDate < new Date()) {
+            Error("Entrée invalide", "Veuillez ne pas choisir une date passée.");
+            return;
+        }
         try {
               const newTask: Task = {
                 id: task.id,
                 title: taskNameInput,
-                dueDate: createDate(),
+                dueDate: dueDate,
                 completedDate: task.completedDate,
               };
 
