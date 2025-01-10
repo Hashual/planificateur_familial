@@ -16,9 +16,10 @@ import { RootView } from "@/components/utilities/RootView";
 import {API, useFetchQuery} from "@/hooks/useAPI";
 import Header from "@/components/Header";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
+import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
 
 
-export default function ShoppingList() {
+const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/shoppinglists");
   const loadedError = LoadFont({
     "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
@@ -119,6 +120,29 @@ export default function ShoppingList() {
     setNumberOfArticle(1);
   };
 
+  const openActionSheet = (articleId: number) => {
+    const options = ['Annuler', 'Modifier', 'Supprimer'];
+    const destructiveButtonIndex = 2;
+    const cancelButtonIndex = 0;
+
+    showActionSheetWithOptions({
+      options,
+      cancelButtonIndex,
+      destructiveButtonIndex
+    }, (selectedIndex: number | void) => {
+      switch (selectedIndex) {
+        case 1:
+          alert("MDOFICATION")
+          break;
+        case destructiveButtonIndex:
+          handleDeleteArticle(articleId);
+          break;
+
+        case cancelButtonIndex:
+          // Canceled
+      }});
+  }
+
   const sortArticlesByIsChecked = (articles: Article[]): Article[] =>  {
     return [...articles].sort((a, b) => {
       if (a.isChecked === b.isChecked) {
@@ -149,7 +173,7 @@ export default function ShoppingList() {
         renderItem={({ item: article }) => (
           <ArticleItem
             article={article}
-            handleDeleteArticle={() => handleDeleteArticle(article.id)}
+            handleArticleMenu={() => openActionSheet(article.id)}
             handleCompleteArticle={() => handlePurchaseArticle(article.id)}
           />
         )}
@@ -174,3 +198,13 @@ export default function ShoppingList() {
     </RootView>
   );
 };
+
+const ConnectedShoppingList = connectActionSheet(ShoppingList);
+
+export default function WrappedToDoList() {
+  return (
+    <ActionSheetProvider>
+      <ConnectedShoppingList/>
+    </ActionSheetProvider>
+  )
+}
