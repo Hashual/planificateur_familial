@@ -1,0 +1,1 @@
+export const TODO_LIST_REMING_LAST_CHECK_SETTING_NAME = 'todoListRemindLastCheck';
