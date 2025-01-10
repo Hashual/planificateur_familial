@@ -1,8 +1,5 @@
-import { Router, Request } from 'express';
-import { Session } from 'express-session';
+import { Router } from 'express';
 import { google } from "googleapis";
-import { randomBytes } from 'node:crypto';
-import { appendFile } from 'node:fs';
 import { createUser, getUserByEmail, getUserByProvider, UserProvider } from '../models/user/user';
 import { createSessionForUser, getSessionById } from '../models/sessions/sessions';
 import dotenv from 'dotenv';
