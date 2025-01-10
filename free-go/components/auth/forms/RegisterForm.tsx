@@ -35,7 +35,6 @@ export default function RegisterForm() {
       passwordConfirm: "",
     };
 
-    // Validation des champs
     if (!lastName.trim()) {
       newErrors.lastName = "Nom requis";
     }
