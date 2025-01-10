@@ -35,14 +35,14 @@ router.post('/:listId/tasks', handler({
 	}),
 	handler: async (req, res) => {
 		
-		const { title, dueDate, completedDate } = req.body;
+		const { title, dueDate } = req.body;
 
 		const { todoList } = req;
 
 		const dueDateConverted = dueDate ? new Date(dueDate) : null;
 		
 		await createTodoListTask(todoList.id, title, dueDateConverted);
-		const newTasks = await getTodoListTasks(todoList.id)!;
+		const newTasks = await getTodoListTasks(todoList.id);
 
 		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: newTasks });
 	}
@@ -69,7 +69,7 @@ router.put('/:listId/tasks/:taskId', handler({
 			throw new HttpError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to update todo');
 		}
 
-		const updatedTodo = await getTodoListTasks(todoList.id)!;
+		const updatedTodo = await getTodoListTasks(todoList.id);
 		
 		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: updatedTodo });
 	}

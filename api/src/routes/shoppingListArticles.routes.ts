@@ -1,10 +1,9 @@
 import { Router } from 'express';
 import { handler } from '../utils/handler';
 import { z } from 'zod';
-import { createShoppingListArticle, getShoppingListArticleById, getShoppingListArticles, updateShoppingListArticle, deleteShoppingListArticle } from '../models/shoppingList/shoppingListArticle';
+import { createShoppingListArticle, getShoppingListArticles, updateShoppingListArticle, deleteShoppingListArticle } from '../models/shoppingList/shoppingListArticle';
 import { SHOPPING_LIST_ID_TYPE, shoppingListIdMiddleware } from '../middlewares/shoppingList/shoppingList.middleware';
 import { SHOPPING_LIST_ARTICLE_ID_TYPE, shoppingListArticleIdMiddleware } from '../middlewares/shoppingList/shoppingListArticle.middleware';
-import HttpError from '../utils/exceptions/HttpError';
 import {getShoppingListById} from "../models/shoppingList/shoppingList";
 import {StatusCodes, ReasonPhrases} from 'http-status-codes';
 
