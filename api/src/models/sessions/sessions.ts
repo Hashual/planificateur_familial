@@ -54,6 +54,15 @@ export async function getSessionByToken(token: string): Promise<UserSession | nu
 	return (result[0] || null) as UserSession | null;
 }
 
+export async function deleteSessionById(user: User): Promise<boolean> {
+	const result = await SqlQuery<ResultSetHeader>(`
+		DELETE FROM user_session
+		WHERE userId = ?
+	`, [user.id]);
+	
+	return result.affectedRows > 0;
+}
+
 // Automatically clean up expired sessions
 setInterval(async () => {
 	await SqlQuery<ResultSetHeader>(`
