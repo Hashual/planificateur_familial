@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { BASE_URL } from "@/hooks/useAPI";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { ThemedButton } from "@/components/utilities/ThemedButton";
+import { RootView } from "@/components/utilities/RootView";
+import { ThemedText } from "@/components/utilities/ThemedText";
 
 export default function RegisterForm() {
+  const colors = useThemeColor();
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
@@ -43,45 +48,53 @@ export default function RegisterForm() {
       .catch(console.error);
   };
 
+  const inputStyles = {
+    ...styles.input,
+    backgroundColor: colors.elementBackground
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Inscription</Text>
+    <RootView padding={20} style={styles.container}>
+      <ThemedText variant="title" align="center">Inscription</ThemedText>
       <TextInput
-        style={styles.input}
+        style={inputStyles}
         placeholder="Nom"
+        placeholderTextColor={colors.placeHolderText}
         value={lastName}
         onChangeText={setLastName}
       />
       <TextInput
-        style={styles.input}
+        style={inputStyles}
         placeholder="Prénom"
+        placeholderTextColor={colors.placeHolderText}
         value={firstName}
         onChangeText={setFirstName}
       />
       <TextInput
-        style={styles.input}
+        style={inputStyles}
         placeholder="Email"
+        placeholderTextColor={colors.placeHolderText}
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
-        style={styles.input}
+        style={inputStyles}
         placeholder="Mot de passe"
+        placeholderTextColor={colors.placeHolderText}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
       <TextInput
-        style={styles.input}
+        style={inputStyles}
         placeholder="Confirmer le mot de passe"
+        placeholderTextColor={colors.placeHolderText}
         value={passwordConfirm}
         onChangeText={setPasswordConfirm}
         secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>S'inscrire</Text>
-      </TouchableOpacity>
-    </View>
+      <ThemedButton onPress={handleRegister} title="S'inscrire" style={{alignSelf: 'stretch', width: '100%'}}/>
+    </RootView>
   );
 }
 
@@ -89,8 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
+    alignItems: "stretch",
   },
   title: {
     fontSize: 24,
@@ -104,7 +116,6 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 8,
     marginBottom: 15,
-    backgroundColor: "#f9f9f9",
   },
   button: {
     width: "100%",
