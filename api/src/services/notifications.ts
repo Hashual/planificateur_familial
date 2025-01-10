@@ -1,6 +1,6 @@
 import { NOTIFICATION_SOUNDS } from "../constants/sounds";
 import { getUserNotificationTokens, removeNotificationToken, UserNotificationToken } from "../models/notifications/tokens";
-import { getUserById, User } from "../models/user/user";
+import { User } from "../models/user/user";
 import { Expo, ExpoPushMessage, ExpoPushTicket } from "expo-server-sdk";
 
 type Notification = {
@@ -38,7 +38,7 @@ export async function sendNotification(notification: Notification, tokens: UserN
 				resolve();
 			}).catch((error) => {
 				console.log(error);
-				reject(error);
+				reject(new Error(error));
 			})
 		}))
 	}
