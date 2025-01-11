@@ -8,14 +8,13 @@ import TaskItem from "@/components/todolist/TaskItem";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
-import AddTaskModal from "@/components/modals/TaskModal";
 import { SetBackPage } from "@/utils/SetBackPage";
-import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import {useFetchQuery} from "@/hooks/useAPI";
 import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
 import Header from "@/components/Header";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
+import TaskModal from "@/components/modals/TaskModal";
 
 const ToDoList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/todolists");
@@ -23,10 +22,12 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
   const params = useLocalSearchParams();
   const listId = Number(params.id);
   const [list, setList] = useState<any | undefined>(undefined);
+  const [isNewTask, setIsNewTask] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [taskNameInput, setTaskNameInput] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
+  const [currentTaskId, setCurrentTaskId] = useState(-1);
   
   const loadToDoData = async () => {
     try {
@@ -99,6 +100,47 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
 
   };
 
+  const handleModifyTask = async (taskId: number) => {
+      const dueDate = createDate();
+      if (!taskNameInput.trim()) {
+          Error("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
+          return;
+      }
+  
+      if(dueDate && dueDate < new Date()) {
+          Error("Entrée invalide", "Veuillez ne pas choisir une date passée.");
+          return;
+      }
+      try {
+            const task = list?.tasks.find(
+              (task: { id: number }) => task.id === taskId
+            );
+
+            const updatedTask: Task = {
+              id: taskId,
+              title: taskNameInput,
+              dueDate: dueDate,
+              completedDate: task.completedDate,
+            };
+
+            const updatedData =  await useFetchQuery("/todo-list/" + listId + "/tasks/" + taskId, { method: "PUT", body: updatedTask });
+
+            if (updatedData) {
+              setList((prevList: any) => ({
+                ...prevList,
+                tasks: prevList.tasks.map((t: any) =>
+                    t.id === taskId ? { ...t, ...updatedTask } : t
+                ),
+              }));
+            } else {
+              Error("Erreur", "Erreur lors de la mise à jour de la tâche");
+            }
+            closeModal();
+          } catch (error) {
+            Error("Erreur", "Erreur lors de l'ajout de la tâche", error);
+          }
+  }
+
   const handleCompleteTask = async (taskId: number) => {
     try {
       const task = list?.tasks.find(
@@ -134,7 +176,18 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
     }
   };
 
-  const openModal = () => {
+  const openModal = (isNewTask: boolean, taskTitle?: string, taskDueDate?: Date) => {
+    setIsNewTask(isNewTask);
+    if (!isNewTask && taskTitle) {
+      setTaskNameInput(taskTitle);
+      if(taskDueDate) {
+          setSelectedDate(new Date(taskDueDate));
+          setSelectedTime(new Date(taskDueDate));
+      } else {
+          setSelectedDate(null);
+          setSelectedTime(null);
+      }
+    }
     setModalVisible(true);
   };
 
@@ -145,9 +198,11 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
     setSelectedTime(null);
   };
 
-  const onPress = (taskId: number) => {
-    const options = ['Annuler', 'Détails', 'Supprimer'];
-    const destructiveButtonIndex = 2;
+  const onPress = (taskId: number, taskTitle: string, taskDueDate: Date) => {
+    const options = ['Annuler', 'Modifier', 'Détails', 'Supprimer'];
+    const destructiveButtonIndex = 3;
+    const detailButtonIndex = 2;
+    const modifyButtonIndex = 1;
     const cancelButtonIndex = 0;
 
     showActionSheetWithOptions({
@@ -156,8 +211,12 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
       destructiveButtonIndex
     }, (selectedIndex: number | void) => {
       switch (selectedIndex) {
-        case 1:
+        case detailButtonIndex:
           router.push(`/todolist/task/${taskId}?listId=${listId}`);
+          break;
+        case modifyButtonIndex:
+          setCurrentTaskId(taskId);
+          openModal(isNewTask, taskTitle, taskDueDate);
           break;
         case destructiveButtonIndex:
           handleDeleteTask(taskId);
@@ -191,18 +250,18 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
           <TaskItem
             task={task}
             handleCompleteTask={() => handleCompleteTask(task.id)}
-            handleTaskMenu={() => onPress(task.id)}
+            handleTaskMenu={() => onPress(task.id, task.title, task.dueDate)}
           />
         )}
       />
       <ThemedButton
         title={"Ajouter une tâche"}
         icon="plus"
-        onPress={openModal}
+        onPress={() => openModal(true)}
         type="primary"
       />
 
-      <AddTaskModal 
+      <TaskModal 
         isModalVisible={isModalVisible} 
         closeModal={closeModal} 
         taskNameInput={taskNameInput} 
@@ -211,7 +270,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
         setSelectedDate={setSelectedDate} 
         selectedTime={selectedTime} 
         setSelectedTime={setSelectedTime} 
-        handleAddTask={handleAddTask} />
+        handleAddTask={isNewTask ? handleAddTask : () => handleModifyTask(currentTaskId)} />
     </RootView>
   );
 }
