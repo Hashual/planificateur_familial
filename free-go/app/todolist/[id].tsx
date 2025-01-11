@@ -8,7 +8,7 @@ import TaskItem from "@/components/todolist/TaskItem";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
 import Error from "@/utils/alerts/Error";
-import AddTaskModal from "@/components/modals/AddTaskModal";
+import AddTaskModal from "@/components/modals/TaskModal";
 import { SetBackPage } from "@/utils/SetBackPage";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";

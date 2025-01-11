@@ -1,7 +1,6 @@
-import { Modal, View, TextInput, StyleSheet, Platform, Pressable } from "react-native";
+import { Modal, View, TextInput, StyleSheet, Platform } from "react-native";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import Error from "@/utils/alerts/Error";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -9,7 +8,8 @@ import React from "react";
 import { ThemedText } from "../utilities/ThemedText";
 import { DateInput } from "../utilities/DateInput";
 
-type AddArticleModalProps = {
+type TaskModalProps = {
+    isNewTask?: boolean;
     isModalVisible: boolean;
     closeModal: () => void;
     taskNameInput: string;
@@ -21,7 +21,8 @@ type AddArticleModalProps = {
 	handleAddTask: () => void;
 };
 
-export default function AddArticleModal({
+export default function TaskModal({
+    isNewTask,
     isModalVisible, 
     closeModal, 
     taskNameInput, 
@@ -31,7 +32,7 @@ export default function AddArticleModal({
     selectedTime, 
     setSelectedTime, 
     handleAddTask
-} : AddArticleModalProps) { 
+} : TaskModalProps) { 
     const colors = useThemeColor();
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [isTimePickerVisible, setTimePickerVisible] = useState(false);
@@ -75,7 +76,7 @@ export default function AddArticleModal({
       >
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
-            <ThemedText variant="title">Ajouter une tâche</ThemedText>
+            <ThemedText variant="title">{isNewTask ? "Ajouter une" : "Modifier la"} tâche</ThemedText>
             <TextInput
               style={[inputStyle, textColor]}
               placeholder="Nom de la tâche"
@@ -134,7 +135,7 @@ export default function AddArticleModal({
                 type="secondary"
               />
               <ThemedButton
-                title="Ajouter"
+                title={isNewTask ? "Ajouter" : "Modifier"}
                 onPress={handleAddTask}
                 type="primary"
               />
