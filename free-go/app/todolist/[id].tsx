@@ -199,10 +199,10 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
   };
 
   const onPress = (taskId: number, taskTitle: string, taskDueDate: Date) => {
-    const options = ['Annuler', 'Modifier', 'Détails', 'Supprimer'];
+    const options = ['Annuler', 'Détails', 'Modifier', 'Supprimer'];
     const destructiveButtonIndex = 3;
-    const detailButtonIndex = 2;
-    const modifyButtonIndex = 1;
+    const modifyButtonIndex = 2;
+    const detailButtonIndex = 1;
     const cancelButtonIndex = 0;
 
     showActionSheetWithOptions({

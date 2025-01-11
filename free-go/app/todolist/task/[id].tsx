@@ -9,13 +9,14 @@ import Error from "@/utils/alerts/Error";
 import { SetBackPage } from "@/utils/SetBackPage";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View } from "react-native";
 import { Task } from "@/mockapi/types";
 import TaskModal from "@/components/modals/TaskModal";
+import IconInSquare from "@/components/utilities/IconInSquare";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function TaskDetails() {
     const params = useLocalSearchParams();
-    const colors = useThemeColor();
     const taskId = Number(params.id);
     const listId = Number(params.listId);
     const [isModalVisible, setModalVisible] = useState(false);
@@ -106,45 +107,50 @@ export default function TaskDetails() {
         return <WaitingScreen />;
     }
 
-    const formatDate = (dateString: string) => {
-        if (!dateString) return "Non définie";
+    function formatDateTimeToFrench(dateString: string): string {
         const date = new Date(dateString);
-        return `${date.getDate().toString().padStart(2, "0")}/${(
-            date.getMonth() + 1
-        )
-            .toString()
-            .padStart(2, "0")}/${date.getFullYear()} à ${date
-            .getHours()
-            .toString()
-            .padStart(2, "0")}:${date
-            .getMinutes()
-            .toString()
-            .padStart(2, "0")}`;
-    };
+    
+        if (isNaN(date.getTime())) {
+            Error("Erreur", "La date fournie est invalide.");
+        }
+    
+        const options: Intl.DateTimeFormatOptions = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+    
+        return date.toLocaleDateString('fr-FR', options).replace(',', ' à');
+    }
 
-    const createdAt = formatDate(task.createdAt);
-    const updatedAt = formatDate(task.updatedAt);
+    const createdAt = formatDateTimeToFrench(task.createdAt);
+    const updatedAt = formatDateTimeToFrench(task.updatedAt);
     const dueDate = task.dueDate
-        ? formatDate(task.dueDate)
-        : "Pas de date limite";
+        ? formatDateTimeToFrench(task.dueDate)
+        : null;
     const completedDate = task.completedDate
-        ? formatDate(task.completedDate)
-        : "Non terminée";
+        ? formatDateTimeToFrench(task.completedDate)
+        : null;
+
+    const InfoWithLogo = (text: string, logo: keyof typeof MaterialCommunityIcons.glyphMap) => {
+        return (
+            <View style={{flexDirection: "row", alignItems: "center", marginBottom: 15}}>
+                <IconInSquare listIcon={logo} size={40} />
+                <ThemedText>{text}</ThemedText>
+            </View>
+        )
+    }
 
     return (
         <RootView color="background" padding={20}>
             <Header title={task.title} />
             <View style={{ flex: 1 }}>
-                <ThemedText style={styles.text}>
-                    Créée le : {createdAt}
-                </ThemedText>
-                <ThemedText style={styles.text}>
-                    Dernière mise à jour : {updatedAt}
-                </ThemedText>
-                <ThemedText style={styles.text}>
-                    Date limite : {dueDate}
-                </ThemedText>
-                <ThemedText>Complétée le : {completedDate}</ThemedText>
+                {InfoWithLogo(`Créée le ${createdAt}`, "calendar")}
+                {InfoWithLogo(`Dernière mise à jour le ${updatedAt}`, "pencil-outline")}
+                {InfoWithLogo(dueDate ? `Date d'échéance : ${dueDate}` : "Aucune date d'échéance", "clock-outline")}
+                {completedDate ? InfoWithLogo(`Terminée le ${completedDate}`, "check") : InfoWithLogo(`Non terminée`, "close")}
             </View>
             <ThemedButton
                 title={"Modifier la tâche"}
@@ -167,9 +173,3 @@ export default function TaskDetails() {
         </RootView>
     );
 }
-
-const styles = StyleSheet.create({
-    text: {
-        marginBottom: 15,
-    },
-});
