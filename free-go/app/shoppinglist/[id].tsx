@@ -6,18 +6,16 @@ import { Article } from "@/mockapi/types";
 
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
-import AddArticleModal from "@/components/modals/AddArticleModal";
 import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import { SetBackPage } from "@/utils/SetBackPage";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
-import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import {API, useFetchQuery} from "@/hooks/useAPI";
 import Header from "@/components/Header";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
 import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
-import ArticleModal from "@/components/modals/AddArticleModal";
+import ArticleModal from "@/components/modals/ArticleModal";
 
 
 const ShoppingList = ({ showActionSheetWithOptions } : any) => {

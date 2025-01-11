@@ -3,7 +3,7 @@ import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "../utilities/ThemedText";
 
-type AddArticleModalProps = {
+type ArticleModalProps = {
   isNewArticle?: boolean;
 	isModalVisible: boolean;
 	closeModal: () => void;
@@ -23,7 +23,7 @@ export default function ArticleModal({
     numberOfArticle, 
     setNumberOfArticle, 
     handleAddArticle
-} : AddArticleModalProps) {
+} : ArticleModalProps) {
     const MAX_NUMBER_OF_ARTICLE = 999999;
     const colors = useThemeColor();
     const handleIncrement = () => {
