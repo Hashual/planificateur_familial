@@ -5,6 +5,7 @@ import ProgressBar from "./todolist/ProgressBar";
 import { Shadows } from "@/constants/Shadows";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "./utilities/ThemedText";
+import IconInSquare from "./utilities/IconInSquare";
 
 type Props = {
     id: number,
@@ -32,9 +33,7 @@ export default function ListItem({ id, name, itemName, totalItems, completedItem
       >
         <Pressable onLongPress={async () => handleDeleteList(id)}>
           <View style={dynamicPressableStyle}>
-            <View style={[styles.logoContainer, {backgroundColor: colors.logoBackground}]}>
-              <MaterialCommunityIcons name={listIcon} size={24} color={colors.logo} />
-            </View>
+            <IconInSquare listIcon={listIcon} size={40} />
 
             <View style={styles.textContainer}>
               <ThemedText variant="subtitle">{name}</ThemedText>
@@ -59,14 +58,6 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         marginHorizontal: 1,
         borderRadius: 8,
-      },
-      logoContainer: {
-        width: 40,
-        height: 40,
-        borderRadius: 8,
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: 16,
       },
       textContainer: {
         flex: 1,
