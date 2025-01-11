@@ -7,6 +7,7 @@ import Error from "@/utils/alerts/Error";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import React from "react";
 import { ThemedText } from "../utilities/ThemedText";
+import { DateInput } from "../utilities/DateInput";
 
 type AddArticleModalProps = {
     isModalVisible: boolean;
@@ -14,9 +15,9 @@ type AddArticleModalProps = {
     taskNameInput: string;
     setTaskNameInput: (value: string) => void;
     selectedDate: Date | null;
-    setSelectedDate: (value: Date) => void;
+    setSelectedDate: (value: Date | null) => void;
     selectedTime: Date | null;
-    setSelectedTime: (value: Date) => void;
+    setSelectedTime: (value: Date | null) => void;
 	handleAddTask: () => void;
 };
 
@@ -102,18 +103,9 @@ export default function AddArticleModal({
                 </>
             ) : (
               <>
-              <Pressable onPress={showDatePicker}>
-                <View style={[inputStyle, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    {selectedDate ? <ThemedText variant="fs14">{selectedDate.toLocaleDateString()}</ThemedText> : <ThemedText variant="fs14" color="placeHolderText">Date (optionnel)</ThemedText>}
-                    <MaterialCommunityIcons name="calendar-edit" size={20} color={colors.primaryText} />
-                </View>
-              </Pressable>
-              <Pressable onPress={showTimePicker}>
-                <View style={[inputStyle, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    {selectedTime ? <ThemedText variant="fs14">{selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}</ThemedText> : <ThemedText variant="fs14" color="placeHolderText">Heure (optionnel)</ThemedText>}
-                        <MaterialCommunityIcons name="clock-edit-outline" size={20} color={colors.primaryText} />
-                </View>
-              </Pressable>
+              <DateInput style={inputStyle} isHour={false} onPress={showDatePicker} onCrossPress={() => {setSelectedDate(null); setSelectedTime(null);}} selectedDateTime={selectedDate} />
+              <DateInput style={inputStyle} isHour={true} onPress={showTimePicker} onCrossPress={() => {setSelectedTime(null)}} selectedDateTime={selectedTime} />
+
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
                 mode="date"
