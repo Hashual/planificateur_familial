@@ -1,5 +1,4 @@
 import Header from "@/components/Header";
-import ModifyTaskModal from "@/components/modals/ModifyTaskModal";
 import { RootView } from "@/components/utilities/RootView";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { ThemedText } from "@/components/utilities/ThemedText";
@@ -12,6 +11,7 @@ import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { Task } from "@/mockapi/types";
+import TaskModal from "@/components/modals/TaskModal";
 
 export default function TaskDetails() {
     const params = useLocalSearchParams();
@@ -152,7 +152,8 @@ export default function TaskDetails() {
                 onPress={openModal}
                 type="primary"
             />
-            <ModifyTaskModal
+            <TaskModal
+                isNewTask={false}
                 isModalVisible={isModalVisible}
                 closeModal={closeModal}
                 taskNameInput={taskNameInput}
@@ -161,7 +162,7 @@ export default function TaskDetails() {
                 setSelectedDate={setSelectedDate}
                 selectedTime={selectedTime}
                 setSelectedTime={setSelectedTime}
-                handleModifyTask={modifyTask}
+                handleTask={modifyTask}
             />
         </RootView>
     );

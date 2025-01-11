@@ -18,7 +18,7 @@ type TaskModalProps = {
     setSelectedDate: (value: Date | null) => void;
     selectedTime: Date | null;
     setSelectedTime: (value: Date | null) => void;
-	handleAddTask: () => void;
+	  handleTask: () => void;
 };
 
 export default function TaskModal({
@@ -31,7 +31,7 @@ export default function TaskModal({
     setSelectedDate, 
     selectedTime, 
     setSelectedTime, 
-    handleAddTask
+    handleTask
 } : TaskModalProps) { 
     const colors = useThemeColor();
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -136,7 +136,7 @@ export default function TaskModal({
               />
               <ThemedButton
                 title={isNewTask ? "Ajouter" : "Modifier"}
-                onPress={handleAddTask}
+                onPress={handleTask}
                 type="primary"
               />
             </View>
