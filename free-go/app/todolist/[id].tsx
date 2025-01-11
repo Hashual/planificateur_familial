@@ -216,7 +216,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
           break;
         case modifyButtonIndex:
           setCurrentTaskId(taskId);
-          openModal(isNewTask, taskTitle, taskDueDate);
+          openModal(false, taskTitle, taskDueDate);
           break;
         case destructiveButtonIndex:
           handleDeleteTask(taskId);
@@ -262,6 +262,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
       />
 
       <TaskModal 
+        isNewTask={isNewTask}
         isModalVisible={isModalVisible} 
         closeModal={closeModal} 
         taskNameInput={taskNameInput} 
@@ -270,7 +271,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
         setSelectedDate={setSelectedDate} 
         selectedTime={selectedTime} 
         setSelectedTime={setSelectedTime} 
-        handleAddTask={isNewTask ? handleAddTask : () => handleModifyTask(currentTaskId)} />
+        handleTask={isNewTask ? handleAddTask : () => handleModifyTask(currentTaskId)} />
     </RootView>
   );
 }
