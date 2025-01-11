@@ -59,6 +59,8 @@ const TaskItem= ({ task, handleCompleteTask, handleTaskMenu }: TaskItemProps) =>
                 <CheckBox isChecked={task.completedDate ? true : false}/>
                 <View style={{flex: 1}}>
                   <ThemedText 
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
                     color={getTaskStyle(task)} 
                     style={task.completedDate ? { textDecorationLine: "line-through" } : undefined}>
                     {task.title}
