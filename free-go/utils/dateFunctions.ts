@@ -5,7 +5,8 @@ export function createDate(date: Date | null, time: Date | null) {
         if (time) {
             date.setHours(time.getHours(), time.getMinutes());
         } else {
-            date.setHours(0, 0, 0, 0);
+            const now = new Date();
+            date.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
         }
         return date;
     } else {
