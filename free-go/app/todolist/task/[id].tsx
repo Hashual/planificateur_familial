@@ -15,7 +15,7 @@ import Error from "@/utils/alerts/Error";
 import { SetBackPage } from "@/utils/SetBackPage";
 
 import { Task } from "@/mockapi/types";
-import { createDate } from "@/utils/dateFunctions";
+import { createDate, formatDateTimeToFrench } from "@/utils/dateFunctions";
 
 
 export default function TaskDetails() {
@@ -94,24 +94,6 @@ export default function TaskDetails() {
 
     if (!task) {
         return <WaitingScreen />;
-    }
-
-    function formatDateTimeToFrench(dateString: string): string {
-        const date = new Date(dateString);
-    
-        if (isNaN(date.getTime())) {
-            Error("Erreur", "La date fournie est invalide.");
-        }
-    
-        const options: Intl.DateTimeFormatOptions = {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        };
-    
-        return date.toLocaleDateString('fr-FR', options).replace(',', ' à');
     }
 
     const createdAt = formatDateTimeToFrench(task.createdAt);
