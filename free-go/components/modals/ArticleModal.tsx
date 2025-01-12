@@ -2,7 +2,7 @@ import { Modal, View, TextInput, StyleSheet, Pressable } from "react-native";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "../utilities/ThemedText";
-import { useRef } from "react";
+import NumberInput from "../utilities/NumberInput";
 
 type ArticleModalProps = {
   isNewArticle?: boolean;
@@ -25,30 +25,7 @@ export default function ArticleModal({
     setNumberOfArticle, 
     handleAddArticle
 } : ArticleModalProps) {
-    const MAX_NUMBER_OF_ARTICLE = 999999;
     const colors = useThemeColor();
-    const inputRef = useRef<TextInput>(null);
-
-    const handleIncrement = () => {
-        if (numberOfArticle<MAX_NUMBER_OF_ARTICLE) {
-            setNumberOfArticle((prevNumber: number) => prevNumber + 1);
-        }
-    }
-    
-    const handleDecrement = () => {
-        if (numberOfArticle>1) {
-            setNumberOfArticle((prevNumber: number) => prevNumber - 1);
-        }
-    }
-
-    const handleInputChange = (text: string) => {
-        const numericValue = parseInt(text, 10);
-        if (isNaN(numericValue)) {
-          setNumberOfArticle(0);
-        } else {
-          setNumberOfArticle(numericValue);
-        }
-    };
 
     const inputStyle = {
       ...styles.input,
@@ -59,12 +36,6 @@ export default function ArticleModal({
     const textColor = {
       color: colors.primaryText
     }
-
-    const handleFocus = () => {
-      if (inputRef.current) {
-          inputRef.current.focus();
-      }
-    };
 
     return (
         <Modal
@@ -84,34 +55,7 @@ export default function ArticleModal({
               onChangeText={setArticleNameInput}
             />
 
-            <View style={inputStyle}> 
-                
-                <Pressable style={styles.quantity} onPress={handleFocus}>
-                    <ThemedText variant="fs14">Quantité : </ThemedText>
-                    <TextInput
-                      ref={inputRef}
-                      value={numberOfArticle.toString()}
-                      onChangeText={(text) => handleInputChange(text)}
-                      keyboardType="numeric"
-                      maxLength={6}
-                      style={[styles.textInput, textColor]}
-                    />
-                </Pressable>
-                <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                    <ThemedButton
-                        title="-"
-                        onPress={handleDecrement}
-                        type="primary"
-                        style={{paddingHorizontal: 18}}
-                    />
-                    <ThemedButton
-                        title="+"
-                        onPress={handleIncrement}
-                        type="primary"
-                        style={{marginLeft:10,paddingHorizontal: 17}}
-                    />
-                </View>
-            </View>
+            <NumberInput number={numberOfArticle} setNumber={setNumberOfArticle} minValue={1} maxValue={999999} maxLenght={6} style={inputStyle}/>
             
             <View style={styles.modalButtons}>
               <ThemedButton
