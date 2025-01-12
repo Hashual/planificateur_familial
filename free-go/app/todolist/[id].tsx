@@ -198,7 +198,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
     setSelectedTime(null);
   };
 
-  const onPress = (taskId: number, taskTitle: string, taskDueDate: Date) => {
+  const showActionSheet = (taskId: number, taskTitle: string, taskDueDate: Date) => {
     const options = ['Annuler', 'Détails', 'Modifier', 'Supprimer'];
     const destructiveButtonIndex = 3;
     const modifyButtonIndex = 2;
@@ -250,7 +250,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
           <TaskItem
             task={task}
             handleCompleteTask={() => handleCompleteTask(task.id)}
-            handleTaskMenu={() => onPress(task.id, task.title, task.dueDate)}
+            handleTaskMenu={() => showActionSheet(task.id, task.title, task.dueDate)}
           />
         )}
       />
