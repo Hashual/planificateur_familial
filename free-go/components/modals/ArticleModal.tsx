@@ -1,7 +1,8 @@
-import { Modal, View, TextInput, StyleSheet } from "react-native";
+import { Modal, View, TextInput, StyleSheet, Pressable } from "react-native";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "../utilities/ThemedText";
+import { useRef } from "react";
 
 type ArticleModalProps = {
   isNewArticle?: boolean;
@@ -26,6 +27,8 @@ export default function ArticleModal({
 } : ArticleModalProps) {
     const MAX_NUMBER_OF_ARTICLE = 999999;
     const colors = useThemeColor();
+    const inputRef = useRef<TextInput>(null);
+
     const handleIncrement = () => {
         if (numberOfArticle<MAX_NUMBER_OF_ARTICLE) {
             setNumberOfArticle((prevNumber: number) => prevNumber + 1);
@@ -50,12 +53,18 @@ export default function ArticleModal({
     const inputStyle = {
       ...styles.input,
       backgroundColor: colors.elementBackground,
-      borderColor: colors.primary
+      borderColor: colors.primary,
     }
 
     const textColor = {
       color: colors.primaryText
     }
+
+    const handleFocus = () => {
+      if (inputRef.current) {
+          inputRef.current.focus();
+      }
+    };
 
     return (
         <Modal
@@ -77,16 +86,17 @@ export default function ArticleModal({
 
             <View style={inputStyle}> 
                 
-                <View style={styles.quantity}>
-                  <ThemedText variant="fs14">Quantité : </ThemedText>
-                  <TextInput
-                    value={numberOfArticle.toString()}
-                    onChangeText={(text) => handleInputChange(text)}
-                    keyboardType="numeric"
-                    maxLength={6}
-                    style={[styles.textInput, textColor]}
-                  />
-                </View>
+                <Pressable style={styles.quantity} onPress={handleFocus}>
+                    <ThemedText variant="fs14">Quantité : </ThemedText>
+                    <TextInput
+                      ref={inputRef}
+                      value={numberOfArticle.toString()}
+                      onChangeText={(text) => handleInputChange(text)}
+                      keyboardType="numeric"
+                      maxLength={6}
+                      style={[styles.textInput, textColor]}
+                    />
+                </Pressable>
                 <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
                     <ThemedButton
                         title="-"

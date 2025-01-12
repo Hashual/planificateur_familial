@@ -37,11 +37,11 @@ export default function AddListModal(
 				<View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
 					<ThemedText variant="title">Ajouter une liste</ThemedText>
 					<TextInput
-					style={[inputStyle, {color: colors.primaryText}]}
-					placeholder="Nom de la liste"
-					placeholderTextColor={colors.placeHolderText}
-					value={listNameInput}
-					onChangeText={setListNameInput}
+						style={[inputStyle, {color: colors.primaryText}]}
+						placeholder="Nom de la liste"
+						placeholderTextColor={colors.placeHolderText}
+						value={listNameInput}
+						onChangeText={setListNameInput}
 					/>
 					<View style={styles.modalButtons}>
 					<ThemedButton
