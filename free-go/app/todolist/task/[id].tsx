@@ -15,6 +15,7 @@ import Error from "@/utils/alerts/Error";
 import { SetBackPage } from "@/utils/SetBackPage";
 
 import { Task } from "@/mockapi/types";
+import { createDate } from "@/utils/dateFunctions";
 
 
 export default function TaskDetails() {
@@ -59,26 +60,12 @@ export default function TaskDetails() {
         }
     };
 
-    const createDate = () => {
-        if (selectedDate) {
-          const date = new Date(selectedDate);
-          if (selectedTime) {
-            date.setHours(selectedTime.getHours(), selectedTime.getMinutes());
-          } else {
-            date.setHours(0, 0, 0, 0);
-          }
-          return date;
-        } else {
-          return null;
-        }
-      };
-
     const closeModal = () => {
         setModalVisible(false);
     };
 
     const modifyTask = async () => {
-        const dueDate = createDate();
+        const dueDate = createDate(selectedDate, selectedTime);
         if (!taskNameInput.trim()) {
             Error("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
             return;

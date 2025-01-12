@@ -15,6 +15,7 @@ import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-acti
 import Header from "@/components/Header";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
 import TaskModal from "@/components/modals/TaskModal";
+import { createDate } from "@/utils/dateFunctions";
 
 const ToDoList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/todolists");
@@ -55,22 +56,8 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
     }
   };
 
-  const createDate = () => {
-    if (selectedDate) {
-      const date = new Date(selectedDate);
-      if (selectedTime) {
-        date.setHours(selectedTime.getHours(), selectedTime.getMinutes());
-      } else {
-        date.setHours(0, 0, 0, 0);
-      }
-      return date;
-    } else {
-      return null;
-    }
-  };
-
   const handleAddTask = async () => {
-    const dueDate = createDate();
+    const dueDate = createDate(selectedDate, selectedTime);
     if (!taskNameInput.trim()) {
       Error("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
       return;
@@ -101,7 +88,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
   };
 
   const handleModifyTask = async (taskId: number) => {
-      const dueDate = createDate();
+    const dueDate = createDate(selectedDate, selectedTime);
       if (!taskNameInput.trim()) {
           Error("Entrée invalide", "Veuillez d'abord donner un nom à votre tâche.");
           return;
