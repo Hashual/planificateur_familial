@@ -1,5 +1,5 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
