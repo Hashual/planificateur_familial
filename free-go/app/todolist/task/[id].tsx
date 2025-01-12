@@ -1,19 +1,21 @@
+import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useState } from "react";
+import { View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import Header from "@/components/Header";
 import { RootView } from "@/components/utilities/RootView";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { ThemedText } from "@/components/utilities/ThemedText";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
-import { useFetchQuery } from "@/hooks/useAPI";
-import { useThemeColor } from "@/hooks/useThemeColor";
-import Error from "@/utils/alerts/Error";
-import { SetBackPage } from "@/utils/SetBackPage";
-import { useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useCallback, useState } from "react";
-import { View } from "react-native";
-import { Task } from "@/mockapi/types";
 import TaskModal from "@/components/modals/TaskModal";
 import IconInSquare from "@/components/utilities/IconInSquare";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFetchQuery } from "@/hooks/useAPI";
+import Error from "@/utils/alerts/Error";
+import { SetBackPage } from "@/utils/SetBackPage";
+
+import { Task } from "@/mockapi/types";
+
 
 export default function TaskDetails() {
     const params = useLocalSearchParams();
