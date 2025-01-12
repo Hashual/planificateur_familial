@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
-import { router, useFocusEffect } from "expo-router";
+import { FlatList } from "react-native";
+import { useFocusEffect } from "expo-router";
 
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
@@ -8,21 +8,12 @@ import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
-import LoadFont from "@/utils/LoadFont";
 import { SetBackPage } from "@/utils/SetBackPage";
-import { ThemedText } from "@/components/utilities/ThemedText";
 import { RootView } from "@/components/utilities/RootView";
 import { API, useFetchQuery } from "@/hooks/useAPI";
 import Header from "@/components/Header";
 
 export default function ShoppingLists() {
-    const loadedError = LoadFont({
-        Pacifico: require("@/assets/fonts/Pacifico.ttf"),
-    });
-    if (loadedError) {
-        return loadedError;
-    }
-
     SetBackPage("./homePage/OpenDoorPage");
 
     const [data, setData] = useState<API["/shopping-list"]>();
