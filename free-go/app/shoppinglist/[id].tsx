@@ -6,7 +6,6 @@ import { Article } from "@/mockapi/types";
 
 import ArticleItem from "@/components/shoppinglist/ArticleItem";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
-import LoadFont from "@/utils/LoadFont";
 import Error from "@/utils/alerts/Error";
 import { SetBackPage } from "@/utils/SetBackPage";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
@@ -20,10 +19,6 @@ import ArticleModal from "@/components/modals/ArticleModal";
 
 const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/shoppinglists");
-  const loadedError = LoadFont({
-    "Pacifico": require("@/assets/fonts/Pacifico.ttf"),
-  })
-  if (loadedError) { return loadedError; }
 
   const params = useLocalSearchParams();
 
