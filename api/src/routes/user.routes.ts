@@ -5,7 +5,7 @@ import { StatusCodes } from "http-status-codes";
 import { deleteSessionById } from "../models/sessions/sessions";
 import { z } from "zod";
 import comparePassword from "../utils/auth/comparePassword";
-import { updateUser } from "../models/user/user";
+import { Gender, updateUser } from "../models/user/user";
 
 const router = Router();
 
@@ -29,10 +29,12 @@ router.put('/me', handler({
 		email: z.string().email().optional(),
 		password: z.string().optional(),
 		oldPassword: z.string().optional(),
+		gender: z.nativeEnum(Gender).optional(),
+		nickname: z.string().optional(),
 	}),
 	handler: async (req, res) => {
 		const { user } = req;
-		const { firstName, lastName, email, password, oldPassword } = req.body;
+		const { firstName, lastName, email, password, oldPassword, gender, nickname } = req.body;
 
 		// If the user wants to update his password, if a password is already set, we check if the old password is correct
 		if (password && user.password) {
@@ -53,7 +55,9 @@ router.put('/me', handler({
 			firstName,
 			lastName,
 			email,
-			password
+			password,
+			gender,
+			nickname
 		});
 
 		if (updatedUser) {

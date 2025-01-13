@@ -7,12 +7,20 @@ export enum UserProvider {
 	Local = 'local'
 }
 
+export enum Gender {
+	Male = 'male',
+	Female = 'Female',
+	Other = 'other'
+}
+
 type UserUpdate = {
 	firstName: string;
 	lastName: string;
 	email: string;
 	password: string; 
 	avatarUrl: string;
+	gender: Gender;
+	nickname: string;
 }
 
 type UserCreate = {
@@ -21,9 +29,10 @@ type UserCreate = {
 	email: string;
 	password: string | null;
 	avatarUrl: string | null;
-	// TODO: Add a type or an enum for provider
 	provider: UserProvider | null;
 	providerId: string | null
+	gender: Gender | null;
+	nickname: string | null;
 }
 
 export type User = UserCreate & {
@@ -36,9 +45,9 @@ export async function createUser(user: UserCreate): Promise<number> {
 	const hashedPassword = user.password ? hashPassword(user.password) : null;
 
 	const result: ResultSetHeader = await SqlQuery<ResultSetHeader>(`
-		INSERT INTO user (email, firstName, lastName, password, avatarUrl, provider, providerId)
-		VALUES (?, ?, ?, ?, ?, ?, ?)
-	`, [user.email, user.firstName, user.lastName, hashedPassword, user.avatarUrl, user.provider, user.providerId]);
+		INSERT INTO user (email, firstName, lastName, password, avatarUrl, provider, providerId, gender, nickname)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+	`, [user.email, user.firstName, user.lastName, hashedPassword, user.avatarUrl, user.provider, user.providerId, user.gender, user.nickname]);
 
 	return result.insertId;
 }

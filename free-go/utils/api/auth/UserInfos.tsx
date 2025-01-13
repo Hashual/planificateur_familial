@@ -1,12 +1,20 @@
 import { BASE_URL } from "@/hooks/useAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+export enum Gender {
+	Male = 'male',
+	Female = 'female',
+	Other = 'other'
+}
+
 type UserInfos = {
 	id: string;
 	email: string;
 	firstName: string
 	lastName: string;
 	avatarUrl: string;
+	gender: Gender | null;
+	nickname: string | null;
 	createdAt: string;
 	updatedAt: string;
 }
