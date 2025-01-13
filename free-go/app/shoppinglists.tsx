@@ -1,32 +1,27 @@
 import React, { useState, useCallback } from "react";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
-import { router, useFocusEffect } from "expo-router";
+import { FlatList } from "react-native";
+import { useFocusEffect } from "expo-router";
 
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ListItem from "@/components/ListItem";
-import AppListModal from "@/components/modals/AddListModal";
 import Confirmation from "@/utils/alerts/Confirmation";
 import Error from "@/utils/alerts/Error";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
-import LoadFont from "@/utils/LoadFont";
 import { SetBackPage } from "@/utils/SetBackPage";
 import { RootView } from "@/components/utilities/RootView";
 import { API, useFetchQuery } from "@/hooks/useAPI";
 import Header from "@/components/Header";
+import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
+import ListModal from "@/components/modals/ListModal";
 
-export default function ShoppingLists() {
-    const loadedError = LoadFont({
-        Pacifico: require("@/assets/fonts/Pacifico.ttf"),
-    });
-    if (loadedError) {
-        return loadedError;
-    }
-
+const ShoppingLists = ({ showActionSheetWithOptions } : any) => {
     SetBackPage("./homePage/OpenDoorPage");
 
     const [data, setData] = useState<API["/shopping-list"]>();
     const [isModalVisible, setModalVisible] = useState(false);
     const [nameInputValue, setNameInputValue] = useState("");
+    const [currentListId, setCurrentListId] = useState(-1);
+    const [isNewList, setIsNewList] = useState(false);
 
     const loadData = async () => {
         try {
@@ -39,12 +34,17 @@ export default function ShoppingLists() {
         }
     };
 
-    const openModal = () => {
+    const openModal = (isNewList: boolean, listTitle?: string) => {
+        setIsNewList(isNewList);
+        if (!isNewList && listTitle) {
+            setNameInputValue(listTitle);
+        }
         setModalVisible(true);
     };
 
     const closeModal = () => {
         setModalVisible(false);
+        setNameInputValue("");
     };
 
     const handleAddShoppingList = async () => {
@@ -65,6 +65,35 @@ export default function ShoppingLists() {
                 Error(
                     "Erreur",
                     "Il y a eu un problème lors de la création de la liste.",
+                    error
+                );
+            }
+        } else {
+            Error(
+                "Entrée invalide",
+                "Veuillez d'abord donner un nom à votre liste."
+            );
+        }
+    };
+
+    const handleModifyShoppingList = async (listId: number) => {
+        const newShoppingListName = nameInputValue.trim();
+
+        if (newShoppingListName) {
+            try {
+                await useFetchQuery("/shopping-list/" + listId, {
+                    method: "PUT",
+                    body: {
+                        title: newShoppingListName,
+                    },
+                });
+                setNameInputValue("");
+                await loadData();
+                closeModal();
+            } catch (error) {
+                Error(
+                    "Erreur",
+                    "Il y a eu un problème lors de la modification de la liste.",
                     error
                 );
             }
@@ -97,6 +126,30 @@ export default function ShoppingLists() {
         );
     };
 
+    const openActionSheet = (listId: number, listTitle: string) => {
+        const options = ['Annuler', 'Modifier', 'Supprimer'];
+        const destructiveButtonIndex = 2;
+        const cancelButtonIndex = 0;
+    
+        showActionSheetWithOptions({
+          options,
+          cancelButtonIndex,
+          destructiveButtonIndex
+        }, (selectedIndex: number | void) => {
+          switch (selectedIndex) {
+            case 1:
+              setCurrentListId(listId);
+              openModal(false, listTitle);
+              break;
+            case destructiveButtonIndex:
+                handleDeleteShoppingList(listId);
+              break;
+    
+            case cancelButtonIndex:
+              // Canceled
+          }});
+      }
+
     useFocusEffect(
         useCallback(() => {
             loadData();
@@ -119,9 +172,7 @@ export default function ShoppingLists() {
                             name={list.title}
                             totalItems={list.numberOfArticles}
                             completedItems={completedTasksCount}
-                            handleDeleteList={async () => {
-                                await handleDeleteShoppingList(list.id);
-                            }}
+                            onLongPress={() => openActionSheet(list.id, list.title)}
                             itemName={"article"}
                             listIcon={"basket-outline"}
                             pathName={"/shoppinglist/[id]"}
@@ -132,17 +183,29 @@ export default function ShoppingLists() {
             <ThemedButton
                 title="Ajouter une liste"
                 icon="plus"
-                onPress={openModal}
+                onPress={() => openModal(true)}
                 type="primary"
             />
 
-            <AppListModal
+            <ListModal
+                isNewList={isNewList}
                 isModalVisible={isModalVisible}
                 closeModal={closeModal}
                 listNameInput={nameInputValue}
                 setListNameInput={setNameInputValue}
-                handleAddList={handleAddShoppingList}
+                handleList={isNewList ? handleAddShoppingList : () => handleModifyShoppingList(currentListId)}
             />
         </RootView>
     );
 }
+
+const ConnectedShoppingLists = connectActionSheet(ShoppingLists);
+
+export default function WrappedShoppingLists() {
+  return (
+    <ActionSheetProvider>
+      <ConnectedShoppingLists/>
+    </ActionSheetProvider>
+  )
+}
+

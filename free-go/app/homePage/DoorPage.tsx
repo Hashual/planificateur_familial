@@ -11,6 +11,7 @@ import FridgeDoorAnimation from '@/components/homePage/animation/FridgeDoorAnima
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView, Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { Audio } from 'expo-av';
+import { RootView } from '@/components/utilities/RootView';
 
 const DoorPage: React.FC = () => {
   const router = useRouter();
@@ -92,7 +93,7 @@ const DoorPage: React.FC = () => {
 
 
   return (
-    <View style={styles.container}>
+    <RootView>
       <GestureHandlerRootView style={styles.container}>
         <Swipeable
           ref={swipeableRef}
@@ -121,7 +122,7 @@ const DoorPage: React.FC = () => {
           </FridgeDoorAnimation>
         </Swipeable>
       </GestureHandlerRootView>
-    </View>
+    </RootView>
   );
 };
 
