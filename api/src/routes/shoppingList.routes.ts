@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import {createShoppingList, deleteShoppingList, getAllShoppingLists, getShoppingListById,} from '../models/shoppingList/shoppingList';
+import {
+    createShoppingList,
+    deleteShoppingList,
+    getAllShoppingLists,
+    getShoppingListById,
+    updateShoppingList,
+} from '../models/shoppingList/shoppingList';
 import { handler } from '../utils/handler';
 import { z } from 'zod';
 import { getShoppingListArticles } from '../models/shoppingList/shoppingListArticle';
@@ -182,6 +188,67 @@ router.post('/', handler({
         }
 
         res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: shoppingList });
+    },
+}));
+
+
+/**
+ * @api {put} /shopping-list/:listId Update Shopping List
+ * @apiName UpdateShoppingList
+ * @apiGroup ShoppingList
+ * @apiParam {Number} listId Shopping list id
+ * @apiBody {String} title Shopping list title
+ * @apiSuccess {Object} data Shopping list
+ * @apiSuccess {Number} data.id Shopping list id
+ * @apiSuccess {String} data.title Shopping list title
+ * @apiSuccess {Number} data.numberOfInProgressArticles Shopping list articles buy in progress
+ * @apiSuccess {Number} data.numberOfArticles Shopping list articles
+ * @apiSuccess {Date} data.createdAt Shopping list creation date
+ * @apiSuccess {Date} data.updatedAt Shopping list update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ * "code": 200,
+ * "message": "OK",
+ * "data": {
+ *         "id": 1,
+ *         "title": "Supermarché",
+ *         "numberOfInProgressArticles": 2,
+ *         "numberOfArticles": 2,
+ *         "createdAt": "2025-01-07T18:51:44.000Z",
+ *         "updatedAt": "2025-01-07T18:51:44.000Z"
+ *         }
+ *     }
+ * @apiErrorExample {none} Error
+ * {
+ * "code": 404,
+ * "message": "Shopping list not found"
+ * }
+ *
+**/
+
+router.put('/:listId', handler({
+    params: z.object({
+        listId: SHOPPING_LIST_ID_TYPE,
+    }),
+    body: z.object({
+        title: z.string(),
+    }),
+    use: shoppingListIdMiddleware,
+    handler: async (req, res) => {
+        const { shoppingList } = req;
+        const { title } = req.body;
+
+        if (!shoppingList) {
+            res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Shopping list not found' });
+            return;
+        }
+
+        await updateShoppingList(shoppingList.id, title);
+
+        const updatedShoppingList = await getShoppingListById(shoppingList.id);
+
+        res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: { updatedShoppingList } });
     },
 }));
 
