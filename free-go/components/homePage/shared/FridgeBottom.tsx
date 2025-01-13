@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Touchable, TouchableOpacity } from 'react-native';
 import FridgeShelves from './FridgeShelf';
 import { Colors } from '@/constants/Colors';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { MeUserInfos } from '@/components/user/UserInfos';
+import { router } from 'expo-router';
 
 const FridgeBottom = () => {
   const colors = useThemeColor();
@@ -15,7 +16,9 @@ const FridgeBottom = () => {
         <View style={[styles.innerContainer, {backgroundColor: colors.background}]}>
           <View style={styles.shelfContainer}>
             <FridgeShelves>
-              <MeUserInfos />
+              <TouchableOpacity onPress={() => router.push('/User/profile')}>
+                <MeUserInfos />
+              </TouchableOpacity>
             </FridgeShelves>
             <FridgeShelves/>
             <FridgeShelves/>
