@@ -36,7 +36,7 @@ export default function UserInfos({ avatarUrl, displayName }: UserInfosProps) {
 				source={{ uri: avatarUrl }}
 			/>
 			<View style={styles.text}>
-				<ThemedText>{displayName}</ThemedText>
+				<ThemedText variant='fs14'>{displayName}</ThemedText>
 			</View>
 		</View>
 	)
