@@ -15,10 +15,10 @@ type Props = {
     completedItems?: number,
     listIcon: keyof typeof MaterialCommunityIcons.glyphMap,
     pathName: "/todolist/[id]" | "/shoppinglist/[id]",
-    handleDeleteList: (id : number) => {},
+    onLongPress: () => void,
 }
 
-export default function ListItem({ id, name, itemName, totalItems, completedItems, listIcon, pathName, handleDeleteList }: Props) {
+export default function ListItem({ id, name, itemName, totalItems, completedItems, listIcon, pathName, onLongPress }: Props) {
     const colors = useThemeColor();
 
     const dynamicPressableStyle = [styles.category, {
@@ -31,7 +31,7 @@ export default function ListItem({ id, name, itemName, totalItems, completedItem
         href={{ pathname: pathName, params: { id: id } }}
         asChild
       >
-        <Pressable onLongPress={async () => handleDeleteList(id)}>
+        <Pressable onLongPress={() => onLongPress()}>
           <View style={dynamicPressableStyle}>
             <IconInSquare listIcon={listIcon} size={40} />
 
