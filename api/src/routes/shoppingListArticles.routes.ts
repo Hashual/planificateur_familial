@@ -259,22 +259,17 @@ router.put('/:listId/articles/:articleId', handler({
     }),
     body: z.object({
         title: z.string(),
-        dueDate: z.string().optional().nullable(),
-        completedAt: z.string().nullable(),
     }),
     handler: async (req, res) => {
         const { article } = req;
-        const { title, dueDate, completedAt } = req.body;
+        const { title } = req.body;
 
         if (!article) {
             res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Article not found' });
             return;
         }
-        
-        const dateOfDue = dueDate ? new Date(dueDate) : null;
-        const dateOfCompletedAt = completedAt ? new Date(completedAt) : null;
 
-        const updated = await updateShoppingListArticle(article.id, title, dateOfDue, dateOfCompletedAt);
+        const updated = await updateShoppingListArticle(article.id, title);
         if (!updated) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ code: StatusCodes.INTERNAL_SERVER_ERROR, message: 'Failed to update article' });
             return;
