@@ -28,7 +28,6 @@ export default function NavLoginButton(customProps?: ThemedButtonVisualProps) {
 					title={ isLogin ? 'Déconnexion' : 'Connexion' }
 					onPress={ isLogin ? handleLoginDisconnectClick : handleLoginButtonClick }
 					type="primary"
-					textStyle={{ fontSize: 10 }}
 					icon={ isLogin ? 'logout' : 'login' }
 					onTop={true}
 					{...customProps}
