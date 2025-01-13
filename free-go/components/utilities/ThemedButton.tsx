@@ -79,7 +79,7 @@ export function ThemedButton({
           </View>
         )}
         
-        {title && <ThemedText variant='bold' color="fixedPrimaryText">{title}</ThemedText>}
+        {title && <ThemedText variant='fs11Bold' color="fixedPrimaryText">{title}</ThemedText>}
       </View>
       </Animated.View>
     </Pressable>

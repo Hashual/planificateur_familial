@@ -57,5 +57,9 @@ const styles = StyleSheet.create({
   },
   fs20: {
     fontSize: 20,
-  }
+  },
+  fs11Bold: {
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
 });

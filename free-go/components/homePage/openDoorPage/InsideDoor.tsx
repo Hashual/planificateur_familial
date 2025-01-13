@@ -24,17 +24,15 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               title="To-Do"
               onPress={() => router.push('/todolists')}
               type="primary"
-              textStyle={{ fontSize: 10 }}
               style={styles.button}
               icon="check"
               onTop={true}
             />
             <DoorShelfs />
             <ThemedButton
-              title="Liste de course"
+              title="Shopping"
               onPress={() => router.push('/shoppinglists')}
               type="primary"
-              textStyle={{ fontSize: 10 }}
               style={styles.button}
               icon="basket"
               onTop={true}
