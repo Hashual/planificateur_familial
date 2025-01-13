@@ -3,22 +3,24 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { Modal, View, StyleSheet, TextInput } from "react-native";
 import { ThemedText } from "../utilities/ThemedText";
 
-type AddListModalProps = {
+type ListModalProps = {
+	isNewList?: boolean;
 	isModalVisible: boolean;
 	closeModal: () => void;
 	listNameInput: string;
 	setListNameInput: (value: string) => void;
-	handleAddList: () => void;
+	handleList: () => void;
 };
 
-export default function AddListModal(
+export default function ListModal(
 	{
+		isNewList,
 		isModalVisible,
 		closeModal,
 		listNameInput,
 		setListNameInput,
-		handleAddList
-	}: AddListModalProps
+		handleList
+	}: ListModalProps
 ) {
 	const colors = useThemeColor();
 	const inputStyle = {
@@ -35,13 +37,13 @@ export default function AddListModal(
 		>
 			<View style={styles.modalOverlay}>
 				<View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
-					<ThemedText variant="title">Ajouter une liste</ThemedText>
+					<ThemedText variant="title">{isNewList ? "Ajouter une" : "Modifier la"} liste</ThemedText>
 					<TextInput
-					style={[inputStyle, {color: colors.primaryText}]}
-					placeholder="Nom de la liste"
-					placeholderTextColor={colors.placeHolderText}
-					value={listNameInput}
-					onChangeText={setListNameInput}
+						style={[inputStyle, {color: colors.primaryText}]}
+						placeholder="Nom de la liste"
+						placeholderTextColor={colors.placeHolderText}
+						value={listNameInput}
+						onChangeText={setListNameInput}
 					/>
 					<View style={styles.modalButtons}>
 					<ThemedButton
@@ -50,8 +52,8 @@ export default function AddListModal(
 						type="secondary"
 					/>
 					<ThemedButton
-						title="Ajouter"
-						onPress={handleAddList}
+						title={isNewList ? "Ajouter" : "Modifier"}
+						onPress={handleList}
 						type="primary"
 					/>
 					</View>

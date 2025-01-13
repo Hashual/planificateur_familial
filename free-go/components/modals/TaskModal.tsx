@@ -1,26 +1,28 @@
-import { Modal, View, TextInput, StyleSheet, Platform, Pressable } from "react-native";
+import { Modal, View, TextInput, StyleSheet, Platform } from "react-native";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import Error from "@/utils/alerts/Error";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import React from "react";
 import { ThemedText } from "../utilities/ThemedText";
+import { DateInput } from "../utilities/DateInput";
 
-type AddArticleModalProps = {
+type TaskModalProps = {
+    isNewTask?: boolean;
     isModalVisible: boolean;
     closeModal: () => void;
     taskNameInput: string;
     setTaskNameInput: (value: string) => void;
     selectedDate: Date | null;
-    setSelectedDate: (value: Date) => void;
+    setSelectedDate: (value: Date | null) => void;
     selectedTime: Date | null;
-    setSelectedTime: (value: Date) => void;
-	handleAddTask: () => void;
+    setSelectedTime: (value: Date | null) => void;
+	  handleTask: () => void;
 };
 
-export default function AddArticleModal({
+export default function TaskModal({
+    isNewTask,
     isModalVisible, 
     closeModal, 
     taskNameInput, 
@@ -29,8 +31,8 @@ export default function AddArticleModal({
     setSelectedDate, 
     selectedTime, 
     setSelectedTime, 
-    handleAddTask
-} : AddArticleModalProps) { 
+    handleTask
+} : TaskModalProps) { 
     const colors = useThemeColor();
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [isTimePickerVisible, setTimePickerVisible] = useState(false);
@@ -74,7 +76,7 @@ export default function AddArticleModal({
       >
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
-            <ThemedText variant="title">Ajouter une tâche</ThemedText>
+            <ThemedText variant="title">{isNewTask ? "Ajouter une" : "Modifier la"} tâche</ThemedText>
             <TextInput
               style={[inputStyle, textColor]}
               placeholder="Nom de la tâche"
@@ -102,18 +104,9 @@ export default function AddArticleModal({
                 </>
             ) : (
               <>
-              <Pressable onPress={showDatePicker}>
-                <View style={[inputStyle, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    {selectedDate ? <ThemedText variant="fs14">{selectedDate.toLocaleDateString()}</ThemedText> : <ThemedText variant="fs14" color="placeHolderText">Date (optionnel)</ThemedText>}
-                    <MaterialCommunityIcons name="calendar-edit" size={20} color={colors.primaryText} />
-                </View>
-              </Pressable>
-              <Pressable onPress={showTimePicker}>
-                <View style={[inputStyle, {flexDirection: "row", justifyContent: "space-between"}]}>
-                    {selectedTime ? <ThemedText variant="fs14">{selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false})}</ThemedText> : <ThemedText variant="fs14" color="placeHolderText">Heure (optionnel)</ThemedText>}
-                        <MaterialCommunityIcons name="clock-edit-outline" size={20} color={colors.primaryText} />
-                </View>
-              </Pressable>
+              <DateInput style={inputStyle} isHour={false} onPress={showDatePicker} onCrossPress={() => {setSelectedDate(null); setSelectedTime(null);}} selectedDateTime={selectedDate} />
+              <DateInput style={inputStyle} isHour={true} onPress={showTimePicker} onCrossPress={() => {setSelectedTime(null)}} selectedDateTime={selectedTime} />
+
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
                 mode="date"
@@ -142,8 +135,8 @@ export default function AddArticleModal({
                 type="secondary"
               />
               <ThemedButton
-                title="Ajouter"
-                onPress={handleAddTask}
+                title={isNewTask ? "Ajouter" : "Modifier"}
+                onPress={handleTask}
                 type="primary"
               />
             </View>
