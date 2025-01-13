@@ -3,7 +3,11 @@ import { handler } from '../utils/handler';
 import { z } from 'zod';
 import { createShoppingListArticle, getShoppingListArticles, updateShoppingListArticle, deleteShoppingListArticle } from '../models/shoppingList/shoppingListArticle';
 import { SHOPPING_LIST_ID_TYPE, shoppingListIdMiddleware } from '../middlewares/shoppingList/shoppingList.middleware';
-import { SHOPPING_LIST_ARTICLE_ID_TYPE, shoppingListArticleIdMiddleware } from '../middlewares/shoppingList/shoppingListArticle.middleware';
+import {
+    SHOPPING_LIST_ARTICLE_ID_TYPE,
+    SHOPPING_LIST_QUANTITY_TYPE,
+    shoppingListArticleIdMiddleware
+} from '../middlewares/shoppingList/shoppingListArticle.middleware';
 import {getShoppingListById} from "../models/shoppingList/shoppingList";
 import {StatusCodes, ReasonPhrases} from 'http-status-codes';
 
@@ -259,17 +263,18 @@ router.put('/:listId/articles/:articleId', handler({
     }),
     body: z.object({
         title: z.string(),
+        quantity: SHOPPING_LIST_QUANTITY_TYPE
     }),
     handler: async (req, res) => {
         const { article } = req;
-        const { title } = req.body;
+        const { title, quantity } = req.body;
 
         if (!article) {
             res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Article not found' });
             return;
         }
 
-        const updated = await updateShoppingListArticle(article.id, title);
+        const updated = await updateShoppingListArticle(article.id, title, quantity);
         if (!updated) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ code: StatusCodes.INTERNAL_SERVER_ERROR, message: 'Failed to update article' });
             return;

@@ -17,8 +17,8 @@ export const createShoppingListArticle = async (shoppingListId: number, title: s
     return result.insertId;
 }
 
-export const updateShoppingListArticle = async (id: number, title: string): Promise<boolean> => {
-    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE shoppingListArticle SET title = ? WHERE id = ?", [title, id]);
+export const updateShoppingListArticle = async (id: number, title: string, quantity: number): Promise<boolean> => {
+    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE shoppingListArticle SET title = ? , quantity = ? WHERE id = ?", [title, quantity, id]);
     return result.affectedRows > 0;
 }
 
