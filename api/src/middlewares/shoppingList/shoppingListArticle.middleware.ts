@@ -22,4 +22,4 @@ export const shoppingListArticleIdMiddleware = async (req: Request) => {
 
 export const SHOPPING_LIST_ARTICLE_ID_TYPE = z.coerce.number().int();
 export const SHOPPING_LIST_QUANTITY_TYPE = z.number().int().positive();
-export const SHOPPING_LIST_IS_COMPLETED_TYPE = z.boolean();
+export const SHOPPING_LIST_COMPLETED_TYPE = z.string().optional().nullable();
