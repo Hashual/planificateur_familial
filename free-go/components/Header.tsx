@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
 import { ThemedText } from "./utilities/ThemedText";
 
@@ -8,6 +8,8 @@ type HeaderProps = {
 };
 
 export default function Header({ title, Component }: HeaderProps) {
+    const router = useRouter();
+    
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -41,7 +43,6 @@ const styles = StyleSheet.create({
     },
     centerItem: {
         flex: 1,
-        alignItems: "center",
     },
     component: {
         paddingLeft: 20,
