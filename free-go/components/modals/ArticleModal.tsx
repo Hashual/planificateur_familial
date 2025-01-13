@@ -1,9 +1,11 @@
-import { Modal, View, TextInput, Text, StyleSheet } from "react-native";
+import { Modal, View, TextInput, StyleSheet, Pressable } from "react-native";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "../utilities/ThemedText";
+import NumberInput from "../utilities/NumberInput";
 
-type AddArticleModalProps = {
+type ArticleModalProps = {
+  isNewArticle?: boolean;
 	isModalVisible: boolean;
 	closeModal: () => void;
 	articleNameInput: string;
@@ -13,7 +15,8 @@ type AddArticleModalProps = {
 	handleAddArticle: () => void;
 };
 
-export default function AddArticleModal({
+export default function ArticleModal({
+    isNewArticle,
     isModalVisible, 
     closeModal, 
     articleNameInput, 
@@ -21,34 +24,13 @@ export default function AddArticleModal({
     numberOfArticle, 
     setNumberOfArticle, 
     handleAddArticle
-} : AddArticleModalProps) {
-    const MAX_NUMBER_OF_ARTICLE = 999999;
+} : ArticleModalProps) {
     const colors = useThemeColor();
-    const handleIncrement = () => {
-        if (numberOfArticle<MAX_NUMBER_OF_ARTICLE) {
-            setNumberOfArticle((prevNumber: number) => prevNumber + 1);
-        }
-    }
-    
-    const handleDecrement = () => {
-        if (numberOfArticle>1) {
-            setNumberOfArticle((prevNumber: number) => prevNumber - 1);
-        }
-    }
-
-    const handleInputChange = (text: string) => {
-        const numericValue = parseInt(text, 10);
-        if (isNaN(numericValue)) {
-          setNumberOfArticle(0);
-        } else {
-          setNumberOfArticle(numericValue);
-        }
-    };
 
     const inputStyle = {
       ...styles.input,
       backgroundColor: colors.elementBackground,
-      borderColor: colors.primary
+      borderColor: colors.primary,
     }
 
     const textColor = {
@@ -64,7 +46,7 @@ export default function AddArticleModal({
       >
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContent, {backgroundColor: colors.elementBackground}]}>
-            <ThemedText variant="title">Ajouter un article</ThemedText>
+            <ThemedText variant="title">{isNewArticle ? "Ajouter un " : "Modifer l'"}article</ThemedText>
             <TextInput
               style={[inputStyle, textColor]}
               placeholder="Nom de l'article"
@@ -73,33 +55,7 @@ export default function AddArticleModal({
               onChangeText={setArticleNameInput}
             />
 
-            <View style={inputStyle}> 
-                
-                <View style={styles.quantity}>
-                  <ThemedText variant="fs14">Quantité : </ThemedText>
-                  <TextInput
-                    value={numberOfArticle.toString()}
-                    onChangeText={(text) => handleInputChange(text)}
-                    keyboardType="numeric"
-                    maxLength={6}
-                    style={[styles.textInput, textColor]}
-                  />
-                </View>
-                <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                    <ThemedButton
-                        title="-"
-                        onPress={handleDecrement}
-                        type="primary"
-                        style={{paddingHorizontal: 18}}
-                    />
-                    <ThemedButton
-                        title="+"
-                        onPress={handleIncrement}
-                        type="primary"
-                        style={{marginLeft:10,paddingHorizontal: 17}}
-                    />
-                </View>
-            </View>
+            <NumberInput number={numberOfArticle} setNumber={setNumberOfArticle} minValue={1} maxValue={999999} maxLenght={6} style={inputStyle}/>
             
             <View style={styles.modalButtons}>
               <ThemedButton
@@ -108,7 +64,7 @@ export default function AddArticleModal({
                 type="secondary"
               />
               <ThemedButton
-                title="Ajouter"
+                title={isNewArticle ? "Ajouter" : "Modifier"}
                 onPress={handleAddArticle}
                 type="primary"
               />

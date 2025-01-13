@@ -5,6 +5,7 @@ import ProgressBar from "./todolist/ProgressBar";
 import { Shadows } from "@/constants/Shadows";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedText } from "./utilities/ThemedText";
+import IconInSquare from "./utilities/IconInSquare";
 
 type Props = {
     id: number,
@@ -14,10 +15,10 @@ type Props = {
     completedItems?: number,
     listIcon: keyof typeof MaterialCommunityIcons.glyphMap,
     pathName: "/todolist/[id]" | "/shoppinglist/[id]",
-    handleDeleteList: (id : number) => {},
+    onLongPress: () => void,
 }
 
-export default function ListItem({ id, name, itemName, totalItems, completedItems, listIcon, pathName, handleDeleteList }: Props) {
+export default function ListItem({ id, name, itemName, totalItems, completedItems, listIcon, pathName, onLongPress }: Props) {
     const colors = useThemeColor();
 
     const dynamicPressableStyle = [styles.category, {
@@ -30,11 +31,9 @@ export default function ListItem({ id, name, itemName, totalItems, completedItem
         href={{ pathname: pathName, params: { id: id } }}
         asChild
       >
-        <Pressable onLongPress={async () => handleDeleteList(id)}>
+        <Pressable onLongPress={() => onLongPress()}>
           <View style={dynamicPressableStyle}>
-            <View style={[styles.logoContainer, {backgroundColor: colors.logoBackground}]}>
-              <MaterialCommunityIcons name={listIcon} size={24} color={colors.logo} />
-            </View>
+            <IconInSquare listIcon={listIcon} size={40} />
 
             <View style={styles.textContainer}>
               <ThemedText variant="subtitle">{name}</ThemedText>
@@ -59,14 +58,6 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         marginHorizontal: 1,
         borderRadius: 8,
-      },
-      logoContainer: {
-        width: 40,
-        height: 40,
-        borderRadius: 8,
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: 16,
       },
       textContainer: {
         flex: 1,
