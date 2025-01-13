@@ -47,13 +47,8 @@ const styles = StyleSheet.create({
 		paddingBottom: 5,
 		paddingHorizontal: 5,
 		flexDirection: 'row',
-		width: '100%',
-		height: '100%',
-		flex: 1,
 	},
 	text:{
-		width: '100%',
-		height: '100%',
 		marginLeft: 10,
 	}
 })
