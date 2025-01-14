@@ -16,6 +16,7 @@ import Header from "@/components/Header";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
 import TaskModal from "@/components/modals/TaskModal";
 import { createDate } from "@/utils/dateFunctions";
+import { sortTask } from "@/utils/sortFunctions";
 
 const ToDoList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/todolists");
@@ -163,7 +164,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
     }
   };
 
-  const openModal = (isNewTask: boolean, taskTitle?: string, taskDueDate?: Date) => {
+  const openModal = (isNewTask: boolean, taskTitle?: string, taskDueDate?: Date |null) => {
     setIsNewTask(isNewTask);
     if (!isNewTask && taskTitle) {
       setTaskNameInput(taskTitle);
@@ -185,7 +186,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
     setSelectedTime(null);
   };
 
-  const showActionSheet = (taskId: number, taskTitle: string, taskDueDate: Date) => {
+  const showActionSheet = (taskId: number, taskTitle: string, taskDueDate?: Date | null) => {
     const options = ['Annuler', 'Détails', 'Modifier', 'Supprimer'];
     const destructiveButtonIndex = 3;
     const modifyButtonIndex = 2;
@@ -231,7 +232,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
       <ThemedStatusBar isDark={isModalVisible} />
       <Header title={list.title} />
       <FlatList
-        data={list.tasks}
+        data={sortTask(list.tasks, "id", "asc")}
         keyExtractor={(task) => task.id.toString()}
         renderItem={({ item: task }) => (
           <TaskItem
