@@ -9,6 +9,169 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 
 const router = Router();
 
+/** API GET
+ * @api {GET} /:calendarId/events/:eventId
+ * @apiName Get calendar event
+ * @apiGroup Calendar event
+ * @apiDescription Get a calendar event by his id
+ * @apiParam {number} calendarId Calendar id
+ * @apiParam {number} eventId Event id
+ * @apiSuccessExample {json} Success
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": {
+ *      "id": 1,
+ *      "calendarId": 1,
+ *      "title": "Event title",
+ *      "description": "Event description",
+ *      "startDate": "2021-09-01T00:00:00.000Z",
+ *      "endDate": "2021-09-01T00:00:00.000Z",
+ *      "color": "#000000",
+ *      "isReccurent": false
+ * }
+ * @apiErrorExample {json} Event not found
+ * {
+ *  "code": 404,
+ *  "message": "Not Found"
+ * }
+ * @apiErrorExample {json} Internal server error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * {
+ * 
+ * }
+*/
+
+/** API POST 
+ * @api {POST} /:calendarId/events
+ * @apiName Create calendar event
+ * @apiGroup Calendar event
+ * @apiDescription Create a new calendar event
+ * @apiParam {number} calendarId Calendar id
+ * @apiParam {string} title Event title
+ * @apiParam {string} description Event description
+ * @apiParam {date} startDate Event start date
+ * @apiParam {date} endDate Event end date
+ * @apiParam {string} color Event color
+ * @apiParam {boolean} isReccurent Event is reccurent
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ *     "id": 1,
+ *     "calendarId": 1,
+ *     "title": "Event title",
+ *     "description": "Event description",
+ *     "startDate": "2021-09-01T00:00:00.000Z",
+ *     "endDate": "2021-09-01T00:00:00.000Z",
+ *     "color": "#000000",
+ *     "isReccurent": false},
+ *    {
+ *    "id": 2,
+ *    "calendarId": 1,
+ *    "title": "Event title",
+ *    "description": "Event description",
+ *    "startDate": "2021-09-01T00:00:00.000Z",
+ *    "endDate": "2021-09-01T00:00:00.000Z",
+ *    "color": "#000000",
+ *    "isReccurent": false
+ * }]
+ * }
+ * @apiErrorExample {json} Event not found
+ * {
+ *  "code": 404,
+ *  "message": "Not Found"
+ * }
+ * @apiErrorExample {json} Internal server error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * {
+ * 
+ * }
+*/
+
+/** API PUT
+ * @api {PUT} /:calendarId/events/:eventId
+ * @apiName Update calendar event
+ * @apiGroup Calendar event
+ * @apiDescription Update a calendar event by his id
+ * @apiParam {number} calendarId Calendar id
+ * @apiParam {number} eventId Event id
+ * @apiParam {string} title Event title
+ * @apiParam {string} description Event description
+ * @apiParam {date} startDate Event start date
+ * @apiParam {date} endDate Event end date
+ * @apiParam {string} color Event color
+ * @apiParam {boolean} isReccurent Event is reccurent
+ * @apiSuccessExample {json} Success
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ *    "id": 1,
+ *    "calendarId": 1,
+ *    "title": "Event title",
+ *    "description": "Event description",
+ *    "startDate": "2021-09-01T00:00:00.000Z",
+ *    "endDate": "2021-09-01T00:00:00.000Z",
+ *    "color": "#000000",
+ *    "isReccurent": false
+ * }]
+ * }
+ * @apiErrorExample {json} Event not found
+ * {
+ *  "code": 404,
+ *  "message": "Not Found"
+ * }
+ * @apiErrorExample {json} Internal server error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * {
+ * 
+ * }
+*/
+
+/** API DELETE
+ * @api {DELETE} /:calendarId/events/:eventId
+ * @apiName Delete calendar event
+ * @apiGroup Calendar event
+ * @apiDescription Delete a calendar event by his id
+ * @apiParam {number} calendarId Calendar id
+ * @apiParam {number} eventId Event id
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK"
+ * }
+ * @apiErrorExample {json} Event not found
+ * {
+ *  "code": 404,
+ *  "message": "Not Found"
+ * }
+ * @apiErrorExample {json} Internal server error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * {
+ * 
+ * }
+*/
+
 router.get('/:calendarId/events/:eventId', handler({
     use: [calendarIdMiddleware, calendarEventIdMiddleware],
     params: z.object({
