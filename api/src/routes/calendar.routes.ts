@@ -16,7 +16,209 @@ import { isConnectedMiddleware } from '../middlewares/auth/isConnected.middlewar
 
 const router = Router();
 
+/** API GET
+ * @api {get} /calendar Get Calendars
+ * @apiName GetCalendars
+ * @apiGroup Calendar
+ * @apiParam {none} none
+ * @apiSuccess {Object[]} data List of calendars
+ * @apiSuccess {Number} data.id Calendar id
+ * @apiSuccess {String} data.title Calendar title
+ * @apiSuccess {Date} data.createdAt Calendar creation date
+ * @apiSuccess {Date} data.updatedAt Calendar update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ *     "id": 1,
+ *     "title": "Calendrier n°1",
+ *     "createdAt": "2025-01-07T18:51:44.000Z",
+ *     "updatedAt": "2025-01-07T18:51:44.000Z"}]
+ * }
+ * @apiSuccessExample {json} Empty
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": []
+ * }
+ * @apiErrorExample {json} List error
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * HTTP/1.1 
+ * {
+ * 
+ * }
+*/
 
+/** API POST
+ * @api {post} /calendar Create Calendar
+ * @apiName CreateCalendar
+ * @apiGroup Calendar
+ * @apiParam {String} title Calendar title
+ * @apiSuccess {Object} data Calendar
+ * @apiSuccess {Number} data.id Calendar id
+ * @apiSuccess {String} data.title Calendar title
+ * @apiSuccess {Date} data.createdAt Calendar creation date
+ * @apiSuccess {Date} data.updatedAt Calendar update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ *    "id": 1,
+ *    "title": "Calendrier n°1",
+ *    "createdAt": "2025-01-07T18:51:44.000Z",
+ *    "updatedAt": "2025-01-07T18:51:44.000Z"}]
+ * }
+ * @apiErrorExample {json} List error
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * HTTP/1.1 
+ * {
+ * 
+ * }
+*/
+
+/** API PUT
+ * @api {put} /calendar/:calendarId Update Calendar
+ * @apiName UpdateCalendar 
+ * @apiGroup Calendar
+ * @apiParam {Number} calendarId Calendar id
+ * @apiParam {String} title Calendar title
+ * @apiSuccess {Object} data Calendar
+ * @apiSuccess {Number} data.id Calendar id
+ * @apiSuccess {String} data.title Calendar title
+ * @apiSuccess {Date} data.createdAt Calendar creation date
+ * @apiSuccess {Date} data.updatedAt Calendar update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ *    "id": 1,
+ *    "title": "Calendrier n°1",
+ *    "createdAt": "2025-01-07T18:51:44.000Z",
+ *    "updatedAt": "2025-01-07T18:51:44.000Z"}]
+ * }
+ * @apiErrorExample {json} List error
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * HTTP/1.1
+ * {
+ * 
+ * }
+*/
+
+/** API GET
+ * @api {get} /calendar/:calendarId Get Calendar
+ * @apiName GetCalendar
+ * @apiGroup Calendar
+ * @apiParam {Number} calendarId Calendar id
+ * @apiSuccess {Object} data Calendar
+ * @apiSuccess {Number} data.id Calendar id
+ * @apiSuccess {String} data.title Calendar title
+ * @apiSuccess {Date} data.createdAt Calendar creation date
+ * @apiSuccess {Date} data.updatedAt Calendar update date
+ * @apiSuccess {Object[]} data.events List of events
+ * @apiSuccess {Number} data.events.id Event id
+ * @apiSuccess {String} data.events.title Event title
+ * @apiSuccess {String} data.events.description Event description
+ * @apiSuccess {Date} data.events.startDate Event start date
+ * @apiSuccess {Date} data.events.endDate Event end date
+ * @apiSuccess {String} data.events.color Event color
+ * @apiSuccess {Boolean} data.events.isReccurent Event is reccurent
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ *      "id": 1,
+ *      "title": "Calendrier n°1",
+ *      "createdAt": "2025-01-07T18:51:44.000Z",
+ *      "updatedAt": "2025-01-07T18:51:44.000Z",
+ *      "events": [{
+ *            "id": 1,
+ *            "title": "Event n°1",
+ *            "description": "Description de l'événement",
+ *            "startDate": "2025-01-07T18:51:44.000Z",
+ *            "endDate": "2025-01-07T18:51:44.000Z",
+ *            "color": "#000000",
+ *            "isReccurent": false}]
+ * }
+ * @apiSuccessExample {json} Success 
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK",
+ *  "data": [{
+ *      "id": 1,
+ *      "title": "Calendrier n°1",
+ *      "createdAt": "2025-01-07T18:51:44.000Z",
+ *      "updatedAt": "2025-01-07T18:51:44.000Z",
+ *      "events": [{
+ *            "id": 1,
+ *            "title": "Event n°1",
+ *            "description": "Description de l'événement",
+ *            "startDate": "2025-01-07T18:51:44.000Z",
+ *            "endDate": "2025-01-07T18:51:44.000Z",
+ *            "color": null,
+ *            "isReccurent": false}]
+ * }
+ * @apiErrorExample {json} List error
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * HTTP/1.1
+ * {
+ * 
+ * }
+*/
+
+/** API DELETE
+ * @api {delete} /calendar/:calendarId Delete Calendar
+ * @apiName DeleteCalendar
+ * @apiGroup Calendar
+ * @apiParam {Number} calendarId Calendar id
+ * @apiSuccess {none} none
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ *  "code": 200,
+ *  "message": "OK"
+ * }
+ * @apiErrorExample {json} List error
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ *  "code": 500,
+ *  "message": "Internal Server Error"
+ * }
+ * @apiErrorExample {none} Error
+ * HTTP/1.1
+ * {
+ * 
+ * }
+ */
 
 router.get('/', handler({
     use: isConnectedMiddleware,
@@ -38,7 +240,7 @@ router.post('/', handler({
         const { title } = req.body;
 
         const calendarId = await createCalendar(title, user);
-        const calendar = await getCalendarById(calendarId)!;
+        const calendar = await getCalendarById(calendarId);
 
         res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: calendar });
     }
