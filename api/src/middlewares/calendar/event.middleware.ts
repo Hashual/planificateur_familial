@@ -1,12 +1,12 @@
 import { Request } from "express";
-import { getCalendarEventById } from "../../models/calendar/event";
+import { getCalendarEventById } from "../../models/calendar/calendarEvent";
 import HttpError from "../../utils/exceptions/HttpError";
 import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
-import {calendarMiddleware} from "./calendar.middleware";
+import {calendarIdMiddleware} from "./calendar.middleware";
 
-export const calendarEventMiddleware = async (req: Request) => {
-    const newReq = await calendarMiddleware(req);
+export const calendarEventIdMiddleware = async (req: Request) => {
+    const newReq = await calendarIdMiddleware(req);
 
     const { calendar } = newReq;
     const { eventId } = newReq.params;
@@ -23,4 +23,4 @@ export const calendarEventMiddleware = async (req: Request) => {
     return Object.assign(newReq, { event });
 }
 
-export const EVENT_ID_TYPE = z.coerce.number().int();
+export const CALENDAR_EVENT_ID_TYPE = z.coerce.number().int();

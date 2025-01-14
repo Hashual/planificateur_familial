@@ -5,7 +5,7 @@ import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 import {isConnectedMiddleware} from "../auth/isConnected.middleware";
 
-export const calendarMiddleware = async (req: Request) => {
+export const calendarIdMiddleware = async (req: Request) => {
     const newReq = await isConnectedMiddleware(req);
 
     const { user } = newReq;
