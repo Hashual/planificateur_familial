@@ -29,12 +29,12 @@ function formatRowData(row: RowDataPacket): CalendarEvent {
     };
 }
 
-export const createCalendarEvent = async(calendarId: number, title: string, description: string, startDate: Date, endDate: Date, color: string, isRecurrent: boolean): Promise<number> => {
+export const createCalendarEvent = async(calendarId: number, title: string, description: string, startDate: Date, endDate: Date, color: string | null, isRecurrent: boolean | null): Promise<number> => {
     const result : ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO calendarEvent (calendarId, title, description, startDate, endDate, color, isRecurrent) VALUES (?, ?, ?, ?, ?, ?, ?)", [calendarId, title, description, startDate, endDate, color, isRecurrent]);
     return result.insertId;
 }
 
-export const updateCalendarEvent = async(id: number, title: string, description: string, startDate: Date, endDate: Date, color: string, isRecurrent: boolean): Promise<boolean> => {
+export const updateCalendarEvent = async(id: number, title: string, description: string, startDate: Date, endDate: Date, color: string | null, isRecurrent: boolean): Promise<boolean> => {
     const result = await SqlQuery<ResultSetHeader>("UPDATE calendarEvent SET title = ?, description = ?, startDate = ?, endDate = ?, color = ?, isRecurrent = ? WHERE id = ?", [title, description, startDate, endDate, color, isRecurrent, id]);
     return result.affectedRows > 0;
 }
