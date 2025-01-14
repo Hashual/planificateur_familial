@@ -137,6 +137,7 @@ const router = Router();
  * 		"createdAt": "2025-01-07T18:51:44.000Z",
  * 		"updatedAt": "2025-01-07T18:51:44.000Z",
  * 		"tasks": [{
+ * 				"id": 1,
  * 				"todoListId": 1,
  * 				"title": "Task 1",
  * 				"dueDate": null,
@@ -173,11 +174,47 @@ const router = Router();
  *  "code": 200,
  *  "message": "OK"
  *  }
- *@apiErrorExample {none} Error
+ * @apiErrorExample {none} Error
+ * {
+ *  "code": 400,
+ *  "message": "Bad Request"
+ * }
+ * @apiErrorExample {none} Error
  * {
  * 
  * }
  */
+
+/** API PUT
+ * @api {put} /todo-list/:listId Update Todo List by Todo List Id
+ * @apiName UpdateTodoList
+ * @apiGroup Todo List
+ * @apiParam {Number} listId Todo list id
+ * @apiBody {String} title Todo list title
+ * @apiSuccess {Object} data Todo list
+ * @apiSuccess {Number} data.id Todo list id
+ * @apiSuccess {String} data.title Todo list title
+ * @apiSuccess {Date} data.createdAt Todo list creation date
+ * @apiSuccess {Date} data.updatedAt Todo list update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ * "code": 200,
+ * "message": "OK",
+ * "data": {
+ * 		"id": 1,
+ * 		"title": "Todo list 1",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 		}
+ * 	}
+ *  @apiErrorExample {none} Error
+ *  {
+ *  "code": 404,
+ *  "message": "Not Found"
+ *  }
+ *
+**/
 
 router.get('/', handler({
 	use: isConnectedMiddleware,
@@ -205,44 +242,6 @@ router.post('/', handler({
 	}
 }))
 
-/** API PUT
- * @api {put} /todo-list/:listId Update Todo List by Todo List Id
- * @apiName UpdateTodoList
- * @apiGroup Todo List
- * @apiParam {Number} listId Todo list id
- * @apiBody {String} title Todo list title
- * @apiSuccess {Object} data Todo list
- * @apiSuccess {Number} data.id Todo list id
- * @apiSuccess {String} data.title Todo list title
- * @apiSuccess {Date} data.createdAt Todo list creation date
- * @apiSuccess {Date} data.updatedAt Todo list update date
- * @apiSuccessExample {json} Success
- * HTTP/1.1 200 OK
- * {
- * "code": 200,
- * "message": "OK",
- * "data": {
- * 		"id": 1,
- * 		"title": "Todo list 1",
- * 		"createdAt": "2025-01-07T18:51:44.000Z",
- * 		"updatedAt": "2025-01-07T18:51:44.000Z"
- * 		}
- * 	}
- *
- * @apiErrorExample {none} Error
- * {
- *  "code": 400,
- *  "message": "Bad Request"
- *  }
- *
- *  @apiErrorExample {none} Error
- *  {
- *  "code": 404,
- *  "message": "Not Found"
- *  }
- *
- **/
-
 router.put('/:listId', handler({
 	params: z.object({
 		listId: TODO_LIST_ID_TYPE
@@ -262,7 +261,6 @@ router.put('/:listId', handler({
 		res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: updatedTodoList });
 	}
 }))
-
 
 router.get('/:listId', handler({
 	params: z.object({
