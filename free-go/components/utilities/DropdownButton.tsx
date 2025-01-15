@@ -46,8 +46,28 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ options, selectOption, onSe
         <View style={[styles.menu, Shadows.dp2, { backgroundColor: colors.elementBackground, borderColor: colors.primary }]}>
           <ThemedText variant="title">Trié par</ThemedText>
 
+          {/* Liste des options */}
+          <ThemedText variant="subtitle">Critères :</ThemedText>
+          {options.map((option, index) => (
+            <TouchableOpacity
+              key={index}
+              style={menuItemStyle}
+              onPress={() => handleOptionPress(option.value)}
+            >
+              <ThemedText>{option.label}</ThemedText>
+              {selectOption === option.value && (
+                <MaterialCommunityIcons
+                  name="check"
+                  size={20}
+                  color="green"
+                  style={styles.selectedIcon}
+                />
+              )}
+            </TouchableOpacity>
+          ))}
+
           {/* Choix de l'ordre */}
-          <ThemedText variant="subtitle">Ordre :</ThemedText>
+          <ThemedText variant="subtitle" style={{marginTop: 15}}>Ordre :</ThemedText>
           <TouchableOpacity
             style={menuItemStyle}
             onPress={() => handleSortOrderChange('asc')}
@@ -78,25 +98,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ options, selectOption, onSe
             )}
           </TouchableOpacity>
 
-          {/* Liste des options */}
-          <ThemedText variant="subtitle">Options :</ThemedText>
-          {options.map((option, index) => (
-            <TouchableOpacity
-              key={index}
-              style={menuItemStyle}
-              onPress={() => handleOptionPress(option.value)}
-            >
-              <ThemedText>{option.label}</ThemedText>
-              {selectOption === option.value && (
-                <MaterialCommunityIcons
-                  name="check"
-                  size={20}
-                  color="green"
-                  style={styles.selectedIcon}
-                />
-              )}
-            </TouchableOpacity>
-          ))}
+          
         </View>
       )}
     </View>
