@@ -36,7 +36,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   const [sortOrder, setSortOrder] = useState('asc');
   const sortOptions = [
     { label: 'Date d\'ajout', value: 'createdAt' },
-    { label: 'Nom (A-Z)', value: 'title' },
+    { label: 'Nom', value: 'title' },
     { label: 'Acheté', value: 'completedAt' },
   ];
   
