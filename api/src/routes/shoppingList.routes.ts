@@ -17,9 +17,10 @@ import {isConnectedMiddleware} from "../middlewares/auth/isConnected.middleware"
 const router = Router();
 
 /**API GET
- * @api {get} /shopping-list Get Shopping Lists
- * @apiName GetShoppingLists
- * @apiGroup ShoppingList
+ * @api {get} /shopping-list Get all shopping lists
+ * @apiName Get all shopping lists
+ * @apiGroup Shopping list
+ * @apiDescription This function allow you to get all shopping lists.
  * @apiParam {none} none
  * @apiSuccess {Object[]} data List of shopping lists
  * @apiSuccess {Number} data.id Shopping list id
@@ -55,9 +56,10 @@ const router = Router();
 */
 
 /** API POST
- * @api {post} /shopping-list Create Shopping List
- * @apiName CreateShoppingList
- * @apiGroup ShoppingList
+ * @api {post} /shopping-list Create a shopping list
+ * @apiName Create a shopping list
+ * @apiGroup Shopping list
+ * @apiDescription This function allow you to create a shopping list
  * @apiBody {String} title Shopping list title
  * @apiSuccess {Object} data Shopping list
  * @apiSuccess {Number} data.id Shopping list id
@@ -85,10 +87,47 @@ const router = Router();
  * }  
 */
 
+/** API PUT
+ * @api {put} /shopping-list/:listId Update a shopping list
+ * @apiName Update a shopping list
+ * @apiGroup Shopping list
+ * @apiDescription This function allow you to update a shopping list.
+ * @apiParam {Number} listId Shopping list id
+ * @apiBody {String} title Shopping list title
+ * @apiSuccess {Object} data Shopping list
+ * @apiSuccess {Number} data.id Shopping list id
+ * @apiSuccess {String} data.title Shopping list title
+ * @apiSuccess {Number} data.numberOfInProgressArticles Shopping list articles buy in progress
+ * @apiSuccess {Number} data.numberOfArticles Shopping list articles
+ * @apiSuccess {Date} data.createdAt Shopping list creation date
+ * @apiSuccess {Date} data.updatedAt Shopping list update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ * "code": 200,
+ * "message": "OK",
+ * "data": {
+ *         "id": 1,
+ *         "title": "Supermarché",
+ *         "numberOfInProgressArticles": 2,
+ *         "numberOfArticles": 2,
+ *         "createdAt": "2025-01-07T18:51:44.000Z",
+ *         "updatedAt": "2025-01-07T18:51:44.000Z"
+ *         }
+ *     }
+ * @apiErrorExample {none} Error
+ * {
+ * "code": 404,
+ * "message": "Shopping list not found"
+ * }
+ *
+*/
+
 /** API GET 
- * @api {get} /shopping-list/:listId Get Shopping List articles by Id
- * @apiName GetShoppingList
- * @apiGroup ShoppingList
+ * @api {get} /shopping-list/:listId Get shopping list articles
+ * @apiName Get shopping list articles
+ * @apiGroup Shopping list
+ * @apiDescription This function allow you to get a shopping list and his articles, returned in a list.
  * @apiParam {Number} listId Shopping list id
  * @apiSuccess {Object} data Shopping list
  * @apiSuccess {Number} data.id Shopping list id
@@ -136,9 +175,10 @@ const router = Router();
 */
 
 /** API DELETE
- * @api {delete} /shopping-list/:listId Delete Shopping List
- * @apiName DeleteShoppingList
- * @apiGroup ShoppingList
+ * @api {delete} /shopping-list/:listId Delete a shopping list
+ * @apiName Delete a shopping list
+ * @apiGroup Shopping list
+ * @apiDescription This function allow you to delete a shopping list by his id.
  * @apiParam {Number} listId Shopping list id
  * @apiSuccess {String} message Shopping list deleted successfully
  * @apiSuccessExample {json} Success
@@ -190,42 +230,6 @@ router.post('/', handler({
         res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: shoppingList });
     },
 }));
-
-
-/**
- * @api {put} /shopping-list/:listId Update Shopping List
- * @apiName UpdateShoppingList
- * @apiGroup ShoppingList
- * @apiParam {Number} listId Shopping list id
- * @apiBody {String} title Shopping list title
- * @apiSuccess {Object} data Shopping list
- * @apiSuccess {Number} data.id Shopping list id
- * @apiSuccess {String} data.title Shopping list title
- * @apiSuccess {Number} data.numberOfInProgressArticles Shopping list articles buy in progress
- * @apiSuccess {Number} data.numberOfArticles Shopping list articles
- * @apiSuccess {Date} data.createdAt Shopping list creation date
- * @apiSuccess {Date} data.updatedAt Shopping list update date
- * @apiSuccessExample {json} Success
- * HTTP/1.1 200 OK
- * {
- * "code": 200,
- * "message": "OK",
- * "data": {
- *         "id": 1,
- *         "title": "Supermarché",
- *         "numberOfInProgressArticles": 2,
- *         "numberOfArticles": 2,
- *         "createdAt": "2025-01-07T18:51:44.000Z",
- *         "updatedAt": "2025-01-07T18:51:44.000Z"
- *         }
- *     }
- * @apiErrorExample {none} Error
- * {
- * "code": 404,
- * "message": "Shopping list not found"
- * }
- *
-**/
 
 router.put('/:listId', handler({
     params: z.object({
