@@ -18,7 +18,7 @@ const router = Router();
 
 /** API GET
  * @api {get} /calendar Get all calendars
- * @apiName Get calendars
+ * @apiName Get all calendars
  * @apiGroup Calendar
  * @apiDescription This function is used to get all calendars.
  * @apiParam {none} none
@@ -59,7 +59,7 @@ const router = Router();
 */
 
 /** API POST
- * @api {post} /calendar Create calendar
+ * @api {post} /calendar Create a calendar
  * @apiName Create a calendar
  * @apiGroup Calendar
  * @apiDescription This function is used to create a calendar.
@@ -95,7 +95,7 @@ const router = Router();
 
 /** API PUT
  * @api {put} /calendar/:calendarId Update a calendar
- * @apiName Update calendar 
+ * @apiName Update a calendar 
  * @apiGroup Calendar
  * @apiDescription This function is used to update a calendar.
  * @apiParam {Number} calendarId Calendar id
@@ -130,8 +130,8 @@ const router = Router();
 */
 
 /** API GET
- * @api {get} /calendar/:calendarId Get calendar 
- * @apiName Get a calendar by his id.
+ * @api {get} /calendar/:calendarId Get a calendar 
+ * @apiName Get a calendar
  * @apiGroup Calendar
  * @apiDescription This function is used to get a calendar by his id. It also returns all events linked to this calendar.
  * @apiParam {Number} calendarId Calendar id
@@ -200,8 +200,8 @@ const router = Router();
 */
 
 /** API DELETE
- * @api {delete} /calendar/:calendarId Delete calendar
- * @apiName Delete a calendar by his id.
+ * @api {delete} /calendar/:calendarId Delete a calendar
+ * @apiName Delete a calendar
  * @apiGroup Calendar
  * @apiDescription This function is used to delete a calendar by his id.
  * @apiParam {Number} calendarId Calendar id
