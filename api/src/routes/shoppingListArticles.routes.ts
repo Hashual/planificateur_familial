@@ -15,8 +15,9 @@ const router = Router();
 
 /** API POST
  * @api {post} /api/shopping-lists/:listId/articles Create a new article
- * @apiName CreateShoppingListArticle
- * @apiGroup ShoppingListArticles
+ * @apiName Create a new article
+ * @apiGroup Shopping list articles
+ * @apiDescription This function allow you to create a new article in a shopping list.
  * @apiParam {String} listId The id of the shopping list
  * @apiBody {String} title The title of the article
  * @apiBody {Date} [dueDate] The due date of the article
@@ -59,8 +60,9 @@ const router = Router();
 
 /** API PUT
  * @api {put} /api/shopping-lists/:listId/articles/:articleId Update an article
- * @apiName UpdateShoppingListArticle
- * @apiGroup ShoppingListArticles
+ * @apiName Update an article
+ * @apiGroup Shopping list articles
+ * @apiDescription This function allow you to update an article in a shopping list.
  * @apiParam {String} listId The id of the shopping list
  * @apiParam {String} articleId The id of the article
  * @apiBody {String} title The title of the article
@@ -154,11 +156,11 @@ const router = Router();
 
 /** API DELETE
  * @api {delete} /api/shopping-lists/:listId/articles/:articleId Delete an article
- * @apiName DeleteShoppingListArticle
- * @apiGroup ShoppingListArticles
+ * @apiName Delete an article
+ * @apiGroup Shopping list articles
+ * @apiDescription This function allow you to delete an article in a shopping list.
  * @apiParam {Number} listId The id of the shopping list
  * @apiParam {Number} articleId The id of the article
- * 
  * @apiSuccess {Object} data The shopping list
  * @apiSuccess {Number} data.id The id of the shopping list
  * @apiSuccess {String} data.title The title of the shopping list
