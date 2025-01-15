@@ -15,6 +15,8 @@ import Header from "@/components/Header";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
 import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-action-sheet";
 import ArticleModal from "@/components/modals/ArticleModal";
+import DropdownMenu from "@/components/utilities/DropdownButton";
+import { sortArticle } from "@/utils/sortFunctions";
 
 
 const ShoppingList = ({ showActionSheetWithOptions } : any) => {
@@ -30,6 +32,13 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   const [articleNameInput, setArticleNameInput] = useState("");
   const [numberOfArticle, setNumberOfArticle] = useState(1);
   const [currentArticleId, setCurrentArticleId] = useState(-1);
+  const [sortOption, setSortOption] = useState('createdAt');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const sortOptions = [
+    { label: 'Date d\'ajout', value: 'createdAt' },
+    { label: 'Nom (A-Z)', value: 'title' },
+    { label: 'Acheté', value: 'completedAt' },
+  ];
   
   const loadShoppingData = async () => {
     try {
@@ -173,14 +182,22 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       }});
   }
 
-  const sortArticlesByIsChecked = (articles: Article[]): Article[] =>  {
-    return [...articles].sort((a, b) => {
-      if (a.isChecked === b.isChecked) {
-        return 0;
-      }
-      return a.isChecked ? 1 : -1; 
-    });
-  }
+  const handleOptionSelect = (value: string) => {
+      setSortOption(value);
+      setSortOrder('asc');
+      setList((prevList: any) => ({
+        ...prevList,
+        articles: sortArticle(list.articles, value as keyof Article, 'asc')
+      }));
+    };
+
+  const handleSortOrderChange = (order: 'asc' | 'desc') => {
+    setSortOrder(order);
+    setList((prevList: any) => ({
+      ...prevList,
+      articles: sortArticle(list.articles, sortOption as keyof Article, order as 'asc' | 'desc')
+    }));
+  };
   
   useFocusEffect(
     useCallback(() => {
@@ -197,9 +214,11 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <Header title={list.title} />
+      <Header title={list.title} Component={() => {
+        return <DropdownMenu options={sortOptions} onSelectOption={handleOptionSelect} sortOrder={sortOrder as 'asc' | 'desc'} onSortOrderChange={handleSortOrderChange} selectOption={sortOption} />;
+      }}/>
       <FlatList
-        data={sortArticlesByIsChecked(list.articles)}
+        data={list.articles}
         renderItem={({ item: article }) => (
           <ArticleItem
             article={article}
