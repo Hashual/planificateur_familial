@@ -17,9 +17,10 @@ import { isConnectedMiddleware } from '../middlewares/auth/isConnected.middlewar
 const router = Router();
 
 /** API GET
- * @api {get} /todo-list Get Todo Lists
- * @apiName GetTodoLists
- * @apiGroup Todo List
+ * @api {get} /todo-list Get all todo lists
+ * @apiName Get all todo lists
+ * @apiGroup Todo list
+ * @apiDescription This function allow you to get all the todo lists.
  * @apiParam {none} none
  * @apiSuccess {Object[]} data List of todo lists
  * @apiSuccess {Number} data.id Todo list id
@@ -54,9 +55,10 @@ const router = Router();
 */
 
 /** API POST
- * @api {post} /todo-list Create Todo List
- * @apiName CreateTodoList
- * @apiGroup Todo List
+ * @api {post} /todo-list Create a Todo List
+ * @apiName Create a Todo List
+ * @apiGroup Todo list
+ * @apiDescription This function allow you to create a todo list.
  * @apiParam {none} none
  * @apiBody {String} title Todo list title
  * @apiSuccess {Object} data Todo list
@@ -91,10 +93,43 @@ const router = Router();
  * }
 */	
 
+/** API PUT
+ * @api {put} /todo-list/:listId Update a todo list 
+ * @apiName Update a todo list
+ * @apiGroup Todo list
+ * @apiDescription This function allow you to update a todo list by his id.
+ * @apiParam {Number} listId Todo list id
+ * @apiBody {String} title Todo list title
+ * @apiSuccess {Object} data Todo list
+ * @apiSuccess {Number} data.id Todo list id
+ * @apiSuccess {String} data.title Todo list title
+ * @apiSuccess {Date} data.createdAt Todo list creation date
+ * @apiSuccess {Date} data.updatedAt Todo list update date
+ * @apiSuccessExample {json} Success
+ * HTTP/1.1 200 OK
+ * {
+ * "code": 200,
+ * "message": "OK",
+ * "data": {
+ * 		"id": 1,
+ * 		"title": "Todo list 1",
+ * 		"createdAt": "2025-01-07T18:51:44.000Z",
+ * 		"updatedAt": "2025-01-07T18:51:44.000Z"
+ * 		}
+ * 	}
+ *  @apiErrorExample {none} Error
+ *  {
+ *  "code": 404,
+ *  "message": "Not Found"
+ *  }
+ *
+**/
+
 /** API GET
- * @api {get} /todo-list/:listId Get Todo List Tasks by Todo List Id
- * @apiName GetTodoListById
- * @apiGroup Todo List
+ * @api {get} /todo-list/:listId Get the todo list tasks 
+ * @apiName Get the todo list tasks 
+ * @apiGroup Todo list
+ * @apiDescription This function allow you to get all the todo list tasks, returned in a list.
  * @apiParam {Number} todoListId Todo list id
  * @apiSuccess {Object} data Todo list
  * @apiSuccess {Number} data.id Task id
@@ -163,9 +198,10 @@ const router = Router();
 */ 
 
 /** API DELETE
- * @api {delete} /todo-list/:listId Delete Todo List by Todo List Id
- * @apiName DeleteTodoList
- * @apiGroup Todo List
+ * @api {delete} /todo-list/:listId Delete a todo list  
+ * @apiName Delete a todo list
+ * @apiGroup Todo list
+ * @apiDescription This function allow you to delete a todo list by his id.
  * @apiParam {Number} listId Todo list id
  * @apiSuccess {none} none
  * @apiSuccessExample {json} Success
@@ -184,37 +220,6 @@ const router = Router();
  * 
  * }
  */
-
-/** API PUT
- * @api {put} /todo-list/:listId Update Todo List by Todo List Id
- * @apiName UpdateTodoList
- * @apiGroup Todo List
- * @apiParam {Number} listId Todo list id
- * @apiBody {String} title Todo list title
- * @apiSuccess {Object} data Todo list
- * @apiSuccess {Number} data.id Todo list id
- * @apiSuccess {String} data.title Todo list title
- * @apiSuccess {Date} data.createdAt Todo list creation date
- * @apiSuccess {Date} data.updatedAt Todo list update date
- * @apiSuccessExample {json} Success
- * HTTP/1.1 200 OK
- * {
- * "code": 200,
- * "message": "OK",
- * "data": {
- * 		"id": 1,
- * 		"title": "Todo list 1",
- * 		"createdAt": "2025-01-07T18:51:44.000Z",
- * 		"updatedAt": "2025-01-07T18:51:44.000Z"
- * 		}
- * 	}
- *  @apiErrorExample {none} Error
- *  {
- *  "code": 404,
- *  "message": "Not Found"
- *  }
- *
-**/
 
 router.get('/', handler({
 	use: isConnectedMiddleware,
