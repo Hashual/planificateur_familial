@@ -10,9 +10,10 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 const router = Router();
 
 /** API GET 
- * @api {get} /api/todo-lists/:listId/tasks/:taskId Get Todo List Task by Id
- * @apiName GetTodoListTask 
- * @apiGroup Todo List Task
+ * @api {get} /api/todo-lists/:listId/tasks/:taskId Get a task 
+ * @apiName Get a task
+ * @apiGroup Todo list task
+ * @apiDescription This function allow you to get a task by his id.
  * @apiParam {Number} listId Todo list id
  * @apiParam {Number} taskId Todo list task id
  * @apiSuccess {Object} data Todo list task
@@ -68,9 +69,10 @@ const router = Router();
 */
 
 /** API POST
- * @api {post} /api/todo-lists/:listId/tasks Create Todo List Task
- * @apiName CreateTodoListTask
- * @apiGroup Todo List Task
+ * @api {post} /api/todo-lists/:listId/tasks Create a task
+ * @apiName Create a task
+ * @apiGroup Todo list task
+ * @apiDescription This function allow you to create a task in a todo list.
  * @apiParam {Number} listId Todo list id
  * @apiBody {String} title Todo list task title
  * @apiBody {Date} dueDate Todo list task due date
@@ -130,9 +132,10 @@ const router = Router();
  */
 
 /** API PUT
- * @api {put} /api/todo-lists/:listId/tasks/:taskId Update Todo List Task By Id
- * @apiName UpdateTodoListTask
- * @apiGroup Todo List Task
+ * @api {put} /api/todo-lists/:listId/tasks/:taskId Update a task
+ * @apiName Update a task
+ * @apiGroup Todo list task
+ * @apiDescription This function allow you to update a task in a todo list, by his id.
  * @apiParam {Number} listId Todo list id
  * @apiParam {Number} taskId Todo list task id
  * @apiBody {String} title Todo list task title
@@ -178,9 +181,10 @@ const router = Router();
  */
 
 /** API DELETE
- * @api {delete} /api/todo-lists/:listId/tasks/:taskId Delete Todo List Task By Id
- * @apiName DeleteTodoListTask
- * @apiGroup Todo List Task
+ * @api {delete} /api/todo-lists/:listId/tasks/:taskId Delete a task
+ * @apiName Delete a task
+ * @apiGroup Todo list task
+ * @apiDescription This function allow you to delete a task in a todo list, by his id.
  * @apiParam {Number} listId Todo list id
  * @apiParam {Number} taskId Todo list task id
  * @apiSuccess {Object} data Todo list 
