@@ -4,12 +4,12 @@
     "slug": "Free-go",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/Icone.jpg",
-    "scheme": "Free-go",
+    "icon": "./assets/images/icone.png",
+    "scheme": "free-go",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/freeGo.jpg",
+      "image": "./assets/images/freego.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/Icone.jpg",
+        "foregroundImage": "./assets/images/icone.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.hashual.freego"
@@ -26,7 +26,7 @@
     "web": {
       "bundler": "metro",
       "output": "single",
-      "favicon": "./assets/images/Icone.jpg"
+      "favicon": "./assets/images/icone.png"
     },
     "plugins": [
       "expo-router",
