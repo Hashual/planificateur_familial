@@ -10,10 +10,10 @@ import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 const router = Router();
 
 /** API GET
- * @api {GET} /:calendarId/events/:eventId
+ * @api {GET} /:calendarId/events/:eventId Get an event
  * @apiName Get calendar event
  * @apiGroup Calendar event
- * @apiDescription Get a calendar event by his id
+ * @apiDescription This function allow you to get a calendar event by his id.
  * @apiParam {number} calendarId Calendar id
  * @apiParam {number} eventId Event id
  * @apiSuccessExample {json} Success
@@ -47,10 +47,10 @@ const router = Router();
 */
 
 /** API POST 
- * @api {POST} /:calendarId/events
+ * @api {POST} /:calendarId/events Create an event
  * @apiName Create calendar event
  * @apiGroup Calendar event
- * @apiDescription Create a new calendar event
+ * @apiDescription This function allow you to create a new calendar event for a specific calendar (by his id). 
  * @apiParam {number} calendarId Calendar id
  * @apiParam {string} title Event title
  * @apiParam {string} description Event description
@@ -100,10 +100,10 @@ const router = Router();
 */
 
 /** API PUT
- * @api {PUT} /:calendarId/events/:eventId
+ * @api {PUT} /:calendarId/events/:eventId Update an event
  * @apiName Update calendar event
  * @apiGroup Calendar event
- * @apiDescription Update a calendar event by his id
+ * @apiDescription This function allow you to update a calendar event by his id.
  * @apiParam {number} calendarId Calendar id
  * @apiParam {number} eventId Event id
  * @apiParam {string} title Event title
@@ -144,10 +144,10 @@ const router = Router();
 */
 
 /** API DELETE
- * @api {DELETE} /:calendarId/events/:eventId
+ * @api {DELETE} /:calendarId/events/:eventId Delete an event
  * @apiName Delete calendar event
  * @apiGroup Calendar event
- * @apiDescription Delete a calendar event by his id
+ * @apiDescription This function allow you to delete a calendar event by his id
  * @apiParam {number} calendarId Calendar id
  * @apiParam {number} eventId Event id
  * @apiSuccessExample {json} Success
