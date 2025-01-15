@@ -14,7 +14,7 @@ Notifications.setNotificationHandler({
 });  
 
 export default async function RegisterForPushNotifications() {
-	if (!(await IsLogin()) || !Device.isDevice) {
+	if (!(await IsLogin())) {
 		return;
 	}
 
