@@ -1,45 +1,58 @@
+import { Shadows } from '@/constants/Shadows';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { ThemedText } from './ThemedText';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
-const DropdownMenu = ({ options, onSelectOption }) => {
+interface DropdownMenuProps {
+  options: { value: string; label: string }[];
+  selectOption: string;
+  onSelectOption: (value: string) => void;
+  sortOrder: 'asc' | 'desc';
+  onSortOrderChange: (order: 'asc' | 'desc') => void;
+}
+
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ options, selectOption, onSelectOption, sortOrder, onSortOrderChange }) => {
+  const colors = useThemeColor();
   const [visible, setVisible] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(options[0]); // Première option sélectionnée par défaut
-  const [sortOrder, setSortOrder] = useState('asc'); // "asc" pour croissant, "desc" pour décroissant
 
   const toggleMenu = () => {
     setVisible(!visible);
   };
 
-  const handleOptionPress = (value, label) => {
-    const selected = { value, label };
-    setSelectedOption(selected);  // Mise à jour de l'option sélectionnée
-    onSelectOption(value);  // Appel de la fonction avec la value de l'option
-    setVisible(false);  // Fermer le menu après sélection
+  const handleOptionPress = (value: string) => {
+    onSelectOption(value);
+    setVisible(false);
   };
 
-  const handleSortOrderChange = (order) => {
-    setSortOrder(order);  // Mettre à jour l'ordre de tri
-    setVisible(false);  // Fermer le menu après changement
+  const handleSortOrderChange = (order: 'asc' | 'desc') => {
+    onSortOrderChange(order);
+    setVisible(false);
   };
+
+  const menuItemStyle = {
+    ...styles.menuItem,
+    borderBottomColor: colors.shelf,
+  }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={toggleMenu}>
-        <MaterialCommunityIcons name="menu" size={30} color="white" />
+      <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={toggleMenu}>
+        <MaterialCommunityIcons name="sort" size={20} color="white" />
       </TouchableOpacity>
 
       {visible && (
-        <View style={styles.menu}>
-          <Text style={styles.menuTitle}>Trié par :</Text>
+        <View style={[styles.menu, Shadows.dp2, { backgroundColor: colors.elementBackground, borderColor: colors.primary }]}>
+          <ThemedText variant="title">Trié par</ThemedText>
 
           {/* Choix de l'ordre */}
-          <Text style={styles.menuTitle}>Ordre :</Text>
+          <ThemedText variant="subtitle">Ordre :</ThemedText>
           <TouchableOpacity
-            style={styles.menuItem}
+            style={menuItemStyle}
             onPress={() => handleSortOrderChange('asc')}
           >
-            <Text style={styles.menuItemText}>Croissant</Text>
+            <ThemedText>Croissant</ThemedText>
             {sortOrder === 'asc' && (
               <MaterialCommunityIcons
                 name="check"
@@ -51,10 +64,10 @@ const DropdownMenu = ({ options, onSelectOption }) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.menuItem}
+            style={menuItemStyle}
             onPress={() => handleSortOrderChange('desc')}
           >
-            <Text style={styles.menuItemText}>Décroissant</Text>
+            <ThemedText>Décroissant</ThemedText>
             {sortOrder === 'desc' && (
               <MaterialCommunityIcons
                 name="check"
@@ -66,15 +79,15 @@ const DropdownMenu = ({ options, onSelectOption }) => {
           </TouchableOpacity>
 
           {/* Liste des options */}
-          <Text style={styles.menuTitle}>Options :</Text>
-          {options.map((option, label) => (
+          <ThemedText variant="subtitle">Options :</ThemedText>
+          {options.map((option, index) => (
             <TouchableOpacity
-              key={label}
-              style={styles.menuItem}
-              onPress={() => handleOptionPress(option.value, option.label)}
+              key={index}
+              style={menuItemStyle}
+              onPress={() => handleOptionPress(option.value)}
             >
-              <Text style={styles.menuItemText}>{option.label}</Text>
-              {selectedOption.value === option.value && (
+              <ThemedText>{option.label}</ThemedText>
+              {selectOption === option.value && (
                 <MaterialCommunityIcons
                   name="check"
                   size={20}
@@ -93,13 +106,11 @@ const DropdownMenu = ({ options, onSelectOption }) => {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    marginTop: 50,
   },
   button: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,  // Rendre le bouton rond
-    backgroundColor: 'yellow',
+    width: 50,
+    height: 50,
+    borderRadius: 999,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -107,37 +118,23 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 70,
     right: 0,
-    backgroundColor: 'white',
     borderRadius: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
     width: 200,
-    paddingTop: 10,
-    zIndex: 10, // Assurer que le menu soit au-dessus
-  },
-  menuTitle: {
-    paddingLeft: 10,
-    paddingBottom: 5,
-    fontWeight: 'bold',
-    fontSize: 18,  // Agrandir le texte
+    padding: 10,
+    zIndex: 10,
+    borderWidth: 1,
   },
   menuItem: {
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  menuItemText: {
-    fontSize: 18,  // Agrandir le texte
   },
   selectedIcon: {
     marginLeft: 10,
   },
 });
+
 
 export default DropdownMenu;
