@@ -17,15 +17,16 @@ import { isConnectedMiddleware } from '../middlewares/auth/isConnected.middlewar
 const router = Router();
 
 /** API GET
- * @api {get} /calendar Get Calendars
- * @apiName GetCalendars
+ * @api {get} /calendar Get all calendars
+ * @apiName Get calendars
  * @apiGroup Calendar
+ * @apiDescription This function is used to get all calendars.
  * @apiParam {none} none
  * @apiSuccess {Object[]} data List of calendars
  * @apiSuccess {Number} data.id Calendar id
  * @apiSuccess {String} data.title Calendar title
  * @apiSuccess {Date} data.createdAt Calendar creation date
- * @apiSuccess {Date} data.updatedAt Calendar update date
+ * @apiSuccess {Date} data.updatedAt Calendar last update date
  * @apiSuccessExample {json} Success
  * HTTP/1.1 200 OK
  * {
@@ -58,9 +59,10 @@ const router = Router();
 */
 
 /** API POST
- * @api {post} /calendar Create Calendar
- * @apiName CreateCalendar
+ * @api {post} /calendar Create calendar
+ * @apiName Create a calendar
  * @apiGroup Calendar
+ * @apiDescription This function is used to create a calendar.
  * @apiParam {String} title Calendar title
  * @apiSuccess {Object} data Calendar
  * @apiSuccess {Number} data.id Calendar id
@@ -92,9 +94,10 @@ const router = Router();
 */
 
 /** API PUT
- * @api {put} /calendar/:calendarId Update Calendar
- * @apiName UpdateCalendar 
+ * @api {put} /calendar/:calendarId Update a calendar
+ * @apiName Update calendar 
  * @apiGroup Calendar
+ * @apiDescription This function is used to update a calendar.
  * @apiParam {Number} calendarId Calendar id
  * @apiParam {String} title Calendar title
  * @apiSuccess {Object} data Calendar
@@ -127,9 +130,10 @@ const router = Router();
 */
 
 /** API GET
- * @api {get} /calendar/:calendarId Get Calendar
- * @apiName GetCalendar
+ * @api {get} /calendar/:calendarId Get calendar 
+ * @apiName Get a calendar by his id.
  * @apiGroup Calendar
+ * @apiDescription This function is used to get a calendar by his id. It also returns all events linked to this calendar.
  * @apiParam {Number} calendarId Calendar id
  * @apiSuccess {Object} data Calendar
  * @apiSuccess {Number} data.id Calendar id
@@ -196,9 +200,10 @@ const router = Router();
 */
 
 /** API DELETE
- * @api {delete} /calendar/:calendarId Delete Calendar
- * @apiName DeleteCalendar
+ * @api {delete} /calendar/:calendarId Delete calendar
+ * @apiName Delete a calendar by his id.
  * @apiGroup Calendar
+ * @apiDescription This function is used to delete a calendar by his id.
  * @apiParam {Number} calendarId Calendar id
  * @apiSuccess {none} none
  * @apiSuccessExample {json} Success
