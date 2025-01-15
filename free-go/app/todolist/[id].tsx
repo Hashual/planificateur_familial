@@ -17,7 +17,6 @@ import WaitingScreen from "@/components/utilities/WaitingScreen";
 import TaskModal from "@/components/modals/TaskModal";
 import { createDate } from "@/utils/dateFunctions";
 import { sortTask } from "@/utils/sortFunctions";
-import DropdownButton from "@/components/utilities/DropdownButton";
 import DropdownMenu from "@/components/utilities/DropdownButton";
 
 const ToDoList = ({ showActionSheetWithOptions } : any) => {
@@ -32,11 +31,13 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
   const [currentTaskId, setCurrentTaskId] = useState(-1);
+  const [sortOption, setSortOption] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('asc');
-  const options = [
+  const sortOptions = [
     { label: 'Date de création', value: 'createdAt' },
-    { label: 'Nom', value: 'title' },
+    { label: 'Nom (A-Z)', value: 'title' },
     { label: 'Date d\'échéance', value: 'dueDate' },
+    { label: 'Date de complétion', value: 'completedDate' },
   ];
   
   const loadToDoData = async () => {
@@ -223,19 +224,28 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
       }});
   }
 
+  const handleOptionSelect = (value: string) => {
+    setSortOption(value);
+    setSortOrder('asc');
+    setList((prevList: any) => ({
+      ...prevList,
+      tasks: sortTask(list.tasks, value as keyof Task, 'asc')
+    }));
+  };
+
+  const handleSortOrderChange = (order: 'asc' | 'desc') => {
+    setSortOrder(order);
+    setList((prevList: any) => ({
+      ...prevList,
+      tasks: sortTask(list.tasks, sortOption as keyof Task, order as 'asc' | 'desc')
+    }));
+  };
+
   useFocusEffect(
     useCallback(() => {
       loadToDoData();
     }, [])
   );
-
-  const handleOptionSelect = (value: string) => {
-    
-    setList((prevList: any) => ({
-      ...prevList,
-      tasks: sortTask(list.tasks, value as keyof Task, "asc")
-    }));
-  };
 
   if (!list) {
     return (
@@ -247,7 +257,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
       <Header title={list.title} Component={() => (
-        <DropdownMenu options={options} onSelectOption={handleOptionSelect} />
+        <DropdownMenu options={sortOptions} onSelectOption={handleOptionSelect} sortOrder={sortOrder as 'asc' | 'desc'} onSortOrderChange={handleSortOrderChange} selectOption={sortOption} />
       )} />
       <FlatList
         data={list.tasks}
