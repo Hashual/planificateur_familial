@@ -1,6 +1,6 @@
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList } from "react-native";
+import { Alert, FlatList } from "react-native";
 
 import {Task} from "@/mockapi/types";
 
@@ -17,6 +17,8 @@ import WaitingScreen from "@/components/utilities/WaitingScreen";
 import TaskModal from "@/components/modals/TaskModal";
 import { createDate } from "@/utils/dateFunctions";
 import { sortTask } from "@/utils/sortFunctions";
+import DropdownButton from "@/components/utilities/DropdownButton";
+import DropdownMenu from "@/components/utilities/DropdownButton";
 
 const ToDoList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/todolists");
@@ -30,6 +32,12 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
   const [currentTaskId, setCurrentTaskId] = useState(-1);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const options = [
+    { label: 'Date de création', value: 'createdAt' },
+    { label: 'Nom', value: 'title' },
+    { label: 'Date d\'échéance', value: 'dueDate' },
+  ];
   
   const loadToDoData = async () => {
     try {
@@ -221,6 +229,14 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
     }, [])
   );
 
+  const handleOptionSelect = (value: string) => {
+    
+    setList((prevList: any) => ({
+      ...prevList,
+      tasks: sortTask(list.tasks, value as keyof Task, "asc")
+    }));
+  };
+
   if (!list) {
     return (
       <WaitingScreen />
@@ -230,9 +246,11 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
   return (
     <RootView color="background" padding={20}>
       <ThemedStatusBar isDark={isModalVisible} />
-      <Header title={list.title} />
+      <Header title={list.title} Component={() => (
+        <DropdownMenu options={options} onSelectOption={handleOptionSelect} />
+      )} />
       <FlatList
-        data={sortTask(list.tasks, "id", "asc")}
+        data={list.tasks}
         keyExtractor={(task) => task.id.toString()}
         renderItem={({ item: task }) => (
           <TaskItem
