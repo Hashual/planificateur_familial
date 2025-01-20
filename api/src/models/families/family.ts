@@ -43,3 +43,17 @@ export async function getUserFamilies(user: User) {
 
 	return result as Family[];
 }
+
+export async function getFamilyById(familyId: number): Promise<Family | undefined> {
+	const result = await SqlQuery<RowDataPacket[]>(`
+		SELECT * FROM family
+		WHERE id = ?
+	`, [familyId]);
+
+	if (result.length === 0) {
+		return undefined;
+	}
+
+	return result[0] as Family;
+	
+}
