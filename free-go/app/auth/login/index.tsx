@@ -12,7 +12,7 @@ function RedirectToRegister() {
 
 
 function Login() {
-	SetBackPage("/homePage/OpenDoorPage");
+	SetBackPage("/auth/login");
 	return (
 		<RootView padding={20} style={styles.container}>
 			<LoginForm/>
