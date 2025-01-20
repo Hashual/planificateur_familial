@@ -38,9 +38,9 @@ router.get('/', handler({
 	}
 }))
 
-router.get('/:id', handler({
+router.get('/:familyId', handler({
 	params: z.object({
-		id: FAMILY_ID_TYPE
+		familyId: FAMILY_ID_TYPE
 	}),
 	use: familyIdMiddleware,
 	handler: async (req, res) => {
