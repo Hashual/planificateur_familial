@@ -3,6 +3,7 @@ import { handler } from "../utils/handler";
 import { z } from "zod";
 import { isConnectedMiddleware } from "../middlewares/auth/isConnected.middleware";
 import { createFamily, getUserFamilies } from "../models/families/family";
+import { FAMILY_ID_TYPE, familyIdMiddleware } from "../middlewares/families/familyId.middleware";
 
 const router = Router();
 
@@ -34,6 +35,18 @@ router.get('/', handler({
 		const families = await getUserFamilies(user);
 
 		res.status(200).json({ code: 200, data: families });
+	}
+}))
+
+router.get('/:id', handler({
+	params: z.object({
+		id: FAMILY_ID_TYPE
+	}),
+	use: familyIdMiddleware,
+	handler: async (req, res) => {
+		const { family } = req;
+
+		res.status(200).json({ code: 200, data: family });
 	}
 }))
 
