@@ -27,8 +27,6 @@ type UserInfosProps = {
 }
 
 export default function UserInfos({ avatarUrl, displayName }: UserInfosProps) {
-	// TODO: Improve the design
-	// Don't forget that the avatarUrl can be null (put a default image)
 	return (
 		<View style={styles.container}>
 			<Image 
