@@ -64,6 +64,7 @@ export type API = {
         updatedAt: Date;
     }[],
     '/families': Family[],
+    '/families/[id]': Family
 }
 
 type QueryType = {
