@@ -1,3 +1,4 @@
+import FamilyMemberItem from "@/components/families/FamilyMemberItem";
 import WaitingScreen from "@/components/utilities/WaitingScreen";
 import { API, useFetchQuery } from "@/hooks/useAPI";
 import { Family, FamilyMember } from "@/types/Family";
@@ -6,6 +7,7 @@ import { SetBackPage } from "@/utils/SetBackPage";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function FamilyIndexPage() {
   SetBackPage("/families");
@@ -43,6 +45,16 @@ export default function FamilyIndexPage() {
         <Text>{familyInfos.name}</Text>
         <Text>Code pour rejoindre: {familyInfos.joinCode}</Text>
         <Text>Liste des membres :</Text>
+        <FlatList
+          data={members}
+          keyExtractor={(member) => member.user.id.toString()}
+          renderItem={({ item: member }) => (
+            <FamilyMemberItem
+              member={member}
+              onPress={() => { }}
+            />
+          )}
+        />
       </View>}
     </View>
   )
