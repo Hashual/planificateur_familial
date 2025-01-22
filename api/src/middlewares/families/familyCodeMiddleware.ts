@@ -19,6 +19,7 @@ export const familyCodeMiddleware = async (req: Request) => {
 		throw new HttpError(StatusCodes.NOT_FOUND, 'Family not found');
 	}
 
+	// TODO: Extract this check to a separate middleware
 	if (await isInFamily(family, user)) {
 		throw new HttpError(StatusCodes.CONFLICT, 'User is already in the family');
 	}
