@@ -12,7 +12,7 @@ type UserInfos = {
 	email: string;
 	firstName: string
 	lastName: string;
-	avatarUrl: string;
+	avatarUrl: string | null;
 	gender: Gender | null;
 	nickname: string | null;
 	createdAt: string;

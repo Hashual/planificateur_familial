@@ -4,41 +4,46 @@ import { Image } from "react-native";
 import { View, StyleSheet } from "react-native";
 
 export function MeUserPicture() {
-    const [userInfos, setUserInfos] = React.useState(<></>)
+    const [userInfos, setUserInfos] = React.useState(<></>);
 
-    useEffect( () => {
-        GetUserInfosFromCache().then( (userInfos) => {    
-            setUserInfos(<>
-                <UserPicture avatarUrl={userInfos.avatarUrl} />
-            </>)
-        }).catch( (_e) => {} )
-    }, [])
-
+    useEffect(() => {
+        GetUserInfosFromCache()
+            .then((userInfos) => {
+                setUserInfos(
+                    <>
+                        <UserPicture avatarUrl={userInfos.avatarUrl} />
+                    </>
+                );
+            })
+            .catch((_e) => {});
+    }, []);
 
     return userInfos;
 }
 
 type UserInfosProps = {
-    avatarUrl: string,
-}
+    avatarUrl: string | null;
+};
 
 export default function UserPicture({ avatarUrl }: UserInfosProps) {
+    const defaultAvatar = require("@/assets/images/profil.jpg");
+
     return (
         <View style={styles.container}>
-            <Image 
-                style={{ width: 75, height: 75, borderRadius: 150 }}  
-                source={{ uri: avatarUrl }}
+            <Image
+                style={{ width: 100, height: 100, borderRadius: 150 }}
+                source={avatarUrl ? { uri: avatarUrl } : defaultAvatar}
             />
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        padding: 10,
-        width: '100%',
-        height: '100%',
+        alignItems: "center",
+        marginBottom: 50,
+        width: "100%",
+        height: "20%",
         flex: 1,
     },
-})
+});

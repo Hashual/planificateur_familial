@@ -35,8 +35,9 @@ export default function UserInfos({ displayName }: UserInfosProps) {
 
 const styles = StyleSheet.create({
     text:{
+        flex: 1,
         width: '100%',
-        height: '100%',
-        marginLeft: 10,
+        height: '5%',
+        alignItems: 'center',
     }
 })
