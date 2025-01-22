@@ -1,7 +1,18 @@
 import { RowDataPacket } from "mysql2";
 import { SqlQuery } from "../../db";
-import { User } from "../user/user";
+import { batchGetUsersById, getUserById, User } from "../user/user";
 import { Family, getUserOwnedFamilies } from "./family";
+
+export enum FamilyMemberRole {
+	Owner = 'owner',
+	Member = 'member'
+}
+
+type FamilyMember = {
+	user: User,
+	role: FamilyMemberRole,
+	joinAt: Date | null
+}
 
 export async function isInFamily(family: Family, user: User): Promise<boolean> {
 	if (family.ownerId === user.id) { return true; }
@@ -38,4 +49,27 @@ export async function getUserFamilies(user: User) {
 		...result as Family[],
 		...ownedFamilies
 	];
+}
+
+export async function getFamilyMembers(family: Family): Promise<FamilyMember[]> {
+	const membersIds = await SqlQuery<RowDataPacket[]>(`
+		SELECT userId, created_at AS joinAt FROM family_members
+		WHERE familyId = ?
+	`, [family.id]);
+
+	const users = await batchGetUsersById(membersIds.map(row => row.userId as number));
+	const owner = await getUserById(family.ownerId)!;
+
+	return {
+		...users.map(user => ({
+			user,
+			role: FamilyMemberRole.Member,
+			joinAt: membersIds.find(row => row.userId === user.id)!.joinAt
+		})),
+		...{
+			user: owner,
+			role: FamilyMemberRole.Owner,
+			joinAt: null
+		}
+	}
 }
