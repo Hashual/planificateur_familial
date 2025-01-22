@@ -19,7 +19,7 @@ export const familyIdMiddleware = async (req: Request) => {
 	}
 
 	if (!(await isInFamily(family, user))) {
-		throw new HttpError(StatusCodes.FORBIDDEN, 'Forbidden');
+		throw new HttpError(StatusCodes.NOT_FOUND, 'Family not found');
 	}
 
 	return Object.assign(newReq, { family });
