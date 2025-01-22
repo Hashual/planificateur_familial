@@ -8,8 +8,10 @@ const Profile = () => {
     return (
         <View style={styles.container}>
             <ThemedText variant="mainTitle">Profile</ThemedText>
-            <MeUserPicture/>
-            <MeUserName/>
+            <View style={styles.profile}>
+                <MeUserPicture/>
+                <MeUserName/>
+            </View>
         </View>
     );
 }
@@ -17,10 +19,16 @@ const Profile = () => {
 const styles = StyleSheet.create({
     container :{
         flex: 1,
+        width: '100%',
+        height: '100%',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
         flexDirection: 'column',
-    }
+    },
+    profile: {
+        width: '100%',
+        alignItems: 'center',
+    },
 });
 
 export default Profile;
