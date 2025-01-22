@@ -4,8 +4,9 @@ import { z } from "zod";
 import { isConnectedMiddleware } from "../middlewares/auth/isConnected.middleware";
 import { createFamily } from "../models/families/family";
 import { FAMILY_ID_TYPE, familyIdMiddleware } from "../middlewares/families/familyId.middleware";
-import { FAMILY_CODE_TYPE, familyCodeMiddleware } from "../middlewares/families/familyCodeMiddleware";
+import { FAMILY_CODE_TYPE } from "../middlewares/families/familyCodeMiddleware";
 import { getUserFamilies, joinFamily } from "../models/families/members";
+import { joinFamilyMiddleware } from "../middlewares/families/joinFamilyMiddleware";
 
 const router = Router();
 
@@ -56,7 +57,7 @@ router.post('/join', handler({
 	body: z.object({
 		code: FAMILY_CODE_TYPE
 	}),
-	use: familyCodeMiddleware,
+	use: joinFamilyMiddleware,
 	handler: async (req, res) => {
 		const { user, family } = req;
 
