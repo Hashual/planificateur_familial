@@ -2,7 +2,7 @@ import { BASE_URL } from "@/hooks/useAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type UserInfos = {
-	id: string;
+	id: number;
 	email: string;
 	firstName: string
 	lastName: string;
