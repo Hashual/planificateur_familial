@@ -35,7 +35,7 @@ export async function createFamily(name: string, owner: User): Promise<number> {
 	return result.insertId;
 }
 
-export async function getUserFamilies(user: User) {
+export async function getUserOwnedFamilies(user: User) {
 	const result = await SqlQuery<RowDataPacket[]>(`
 		SELECT * FROM family
 		WHERE ownerId = ?
@@ -56,4 +56,17 @@ export async function getFamilyById(familyId: number): Promise<Family | undefine
 
 	return result[0] as Family;
 	
+}
+
+export async function getFamilyByCode(code: string): Promise<Family | undefined> {
+	const result = await SqlQuery<RowDataPacket[]>(`
+		SELECT * FROM family
+		WHERE joinCode = ?
+	`, [code]);
+
+	if (result.length === 0) {
+		return undefined;
+	}
+
+	return result[0] as Family;
 }

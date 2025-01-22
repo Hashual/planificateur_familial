@@ -1,6 +1,7 @@
 import FamilyItem from "@/components/families/FamilyItem";
 import Header from "@/components/Header";
 import AddFamilyModal from "@/components/modals/AddFamilyModal";
+import JoinFamilyModal from "@/components/modals/JoinFamilyModal";
 import { RootView } from "@/components/utilities/RootView";
 import { ThemedButton } from "@/components/utilities/ThemedButton";
 import ThemedStatusBar from "@/components/utilities/ThemedStatusBar";
@@ -15,8 +16,10 @@ import { FlatList } from "react-native-gesture-handler";
 const FamilyPage = () => {
 	SetBackPage("/homePage/OpenDoorPage");
 
-	const [isModalVisible, setModalVisible] = useState(false);
+	const [isAddFamilyModalVisible, setFamilyModalVisible] = useState(false);
+  const [isJoinFamilyModalVisible, setJoinFamilyModalVisible] = useState(false);
 	const [familyName, setFamilyName] = useState("");
+  const [joinFamilyCode, setJoinFamilyCode] = useState("");
 	const [familiesList, setFamiliesList] = useState<Family[]>([]);
 
 	const handleCreateFamily = async () => {
@@ -30,7 +33,7 @@ const FamilyPage = () => {
 				})
 
 				setFamilyName("");
-				setModalVisible(false);
+				setFamilyModalVisible(false);
 			} catch(error) {
 				Error("Erreur", "Une erreur est survenue lors de la création de la famille", error);
 			}
@@ -38,6 +41,26 @@ const FamilyPage = () => {
 			Error("Erreur", "Le nom de la famille ne peut pas être vide");
 		}
 	}
+
+  const handleJoinFamily = async () => {
+    if (joinFamilyCode) {
+      try {
+        await useFetchQuery("/families/join", {
+          method: "POST",
+          body: {
+            code: joinFamilyCode,
+          }
+        })
+
+        await loadFamiliesData();
+
+        setJoinFamilyCode("");
+        setJoinFamilyModalVisible(false);
+      } catch(error) {
+        Error("Erreur", "Une erreur est survenue lors de la création de la famille", error);
+      }
+    }
+  }
 
 	const loadFamiliesData = async () => {
 		try {
@@ -75,14 +98,24 @@ const FamilyPage = () => {
 		  <ThemedButton
 			title={"Créer ma famille"}
 			icon="plus"
-			onPress={() => setModalVisible(!isModalVisible)}
+			onPress={() => setFamilyModalVisible(!isAddFamilyModalVisible)}
 			type="primary"
 		  />
+		  <ThemedButton
+		  	title="Rejoindre une famille"
+        icon="plus"
+        onPress={() => setJoinFamilyModalVisible(!isJoinFamilyModalVisible)}
+			/>
 		  <AddFamilyModal
-		  	visible={isModalVisible}
-			setFamilyName={setFamilyName}
-			onCreated={handleCreateFamily}
+		  	visible={isAddFamilyModalVisible}
+        setFamilyName={setFamilyName}
+        onCreated={handleCreateFamily}
 		  />
+      <JoinFamilyModal
+        visible={isJoinFamilyModalVisible}
+        setFamilyJoinCode={setJoinFamilyCode}
+        onSubmit={handleJoinFamily}
+      />
 		</RootView>
 	  );
 }
