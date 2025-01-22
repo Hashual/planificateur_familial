@@ -1,4 +1,4 @@
-import { Family } from "@/types/Family";
+import { Family, FamilyMember } from "@/types/Family";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const BASE_URL = 'http://192.168.1.40:3000';
@@ -64,7 +64,8 @@ export type API = {
         updatedAt: Date;
     }[],
     '/families': Family[],
-    '/families/[id]': Family
+    '/families/[id]': Family,
+    '/families/[id]/members': FamilyMember[]
 }
 
 type QueryType = {
