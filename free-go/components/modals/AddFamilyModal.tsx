@@ -3,13 +3,13 @@ import { TextInput } from "react-native-gesture-handler";
 import { ThemedButton } from "../utilities/ThemedButton";
 import { Dispatch, SetStateAction } from "react";
 
-type props = {
+type AddFamilyModalProps = {
 	visible: boolean;
 	setFamilyName: Dispatch<SetStateAction<string>>;
 	onCreated: () => void;
 }
 
-export default function AddFamilyModal({ visible, setFamilyName, onCreated }: props) {
+export default function AddFamilyModal({ visible, setFamilyName, onCreated }: AddFamilyModalProps) {
 	return (
 		<Modal
 			animationType="slide"
