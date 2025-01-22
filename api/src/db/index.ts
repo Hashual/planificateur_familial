@@ -16,6 +16,9 @@ export const connection = createConnection({
 
 let isConnected = false;
 async function Connect() {
+	if (isConnected) {
+		return;
+	}
 	connection.connect((err) => {
 		if (err) {
 			console.error('Database connection failed: ' + err.stack);
@@ -29,6 +32,20 @@ async function Connect() {
 	})
 }
 Connect();
+
+connection.on( "error", (err) => {
+	console.error('Database error: ' + err.stack);
+	isConnected = false;
+	console.log('Reconnecting in 5 seconds.')
+	setTimeout(Connect, 5000);
+})
+
+connection.on( "end", () => {
+	isConnected = false;
+	console.log('Database connection ended.')
+	console.log('Reconnecting in 5 seconds.')
+	setTimeout(Connect, 5000);
+})
 
 export const SqlQuery = <T extends QueryResult>(sql: string, values?: any) => {
 	return new Promise<T>((resolve, reject) => {
