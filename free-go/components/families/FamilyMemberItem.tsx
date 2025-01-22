@@ -1,18 +1,22 @@
 import { FamilyMember } from "@/types/Family";
 import { ThemedButton } from "../utilities/ThemedButton";
+import { ThemedText } from "../utilities/ThemedText";
+import { View } from "react-native";
 
 type FamilyMemberItemProps = {
 	member: FamilyMember;
-	onPress: () => void;
+	onFireButtonPressed?: () => void;
 }
 
-export default function FamilyMemberItem({ member, onPress }: FamilyMemberItemProps) {
-	console.log(member);
+export default function FamilyMemberItem({ member, onFireButtonPressed }: FamilyMemberItemProps) {
 	return (
-		<ThemedButton
-			title={`${member.user.firstName} ${member.user.lastName.substring(0, 1).toUpperCase()}. - ${member.role}`}
-			onPress={onPress}
-			type="secondary"
-		/>
+		<View>
+			<ThemedText>{member.user.firstName} {member.user.lastName.substring(0, 1).toUpperCase()}.</ThemedText>
+			{onFireButtonPressed ? (<ThemedButton
+				title = "Virer"
+				onPress={onFireButtonPressed}
+				type="primary"
+			/> ) : null}
+		</View>
 	)
 }
