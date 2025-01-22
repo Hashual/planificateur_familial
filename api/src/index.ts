@@ -6,6 +6,8 @@ import GoogleAuthRoutes from './routes/auth.google.routes';
 import LocalAuthRoutes from './routes/auth.local.routes';
 import UserRoutes from './routes/user.routes';
 import NotificationRoutes from './routes/notifications.routes';
+import FamiliesRoutes from "./routes/families.routes";
+import FamiliesMembersRoutes from "./routes/families_members.routes";
 import { connection, RunScripts } from './db';
 import { ZodError } from 'zod';
 import session from 'express-session';
@@ -45,6 +47,8 @@ app.use('/todo-list', todoListRoutes);
 app.use('/shopping-list', shoppingListRoutes);
 app.use('/users', UserRoutes);
 app.use('/notifications', NotificationRoutes);
+app.use('/families', FamiliesRoutes);
+app.use('/families', FamiliesMembersRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: Function) => {
 	if (err instanceof ZodError) {

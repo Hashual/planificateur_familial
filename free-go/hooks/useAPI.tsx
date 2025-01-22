@@ -1,11 +1,12 @@
+import { Family, FamilyMember } from "@/types/Family";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const BASE_URL = 'https://api.free-go.tech';
+export const BASE_URL = 'http://192.168.1.40:3000';
 
 export type API_RESPONSE<T> = {
     code: number;
     message: string;
-    data:  T
+    data: T
 }
 
 type shoppingListArticles = {
@@ -62,6 +63,10 @@ export type API = {
         createdAt: Date;
         updatedAt: Date;
     }[],
+    '/families': Family[],
+    '/families/[id]': Family,
+    '/families/[id]/members': FamilyMember[],
+    '/families/[id]/members/[id]': undefined
 }
 
 type QueryType = {
