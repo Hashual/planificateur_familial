@@ -1,12 +1,12 @@
 import { Family } from "@/types/Family";
 import { ThemedButton } from "../utilities/ThemedButton";
 
-type Props = {
+type FamilyItemProps = {
 	family: Family;
 	onPress: () => void;
 }
 
-export default function FamilyItem({ family, onPress }: Props) {
+export default function FamilyItem({ family, onPress }: FamilyItemProps) {
 	return (
 		<ThemedButton
 			title={family.name}
