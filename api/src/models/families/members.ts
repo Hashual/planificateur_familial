@@ -37,7 +37,7 @@ export async function joinFamily(family: Family, user: User) {
 }
 
 export async function removeFamilyMember(family: Family, member: FamilyMember) {
-	if (family.ownerId === member.user.id) {
+	if (member.role == FamilyMemberRole.Owner) {
 		throw new Error("Cannot remove the owner of the family");
 	}
 
