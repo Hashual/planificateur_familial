@@ -4,6 +4,7 @@ import { getFamilyById } from "../../models/families/family";
 import HttpError from "../../utils/exceptions/HttpError";
 import { StatusCodes } from "http-status-codes";
 import { z } from "zod";
+import { isInFamily } from "../../models/families/members";
 
 export const familyIdMiddleware = async (req: Request) => {
 	const newReq = await isConnectedMiddleware(req);
@@ -17,7 +18,7 @@ export const familyIdMiddleware = async (req: Request) => {
 		throw new HttpError(StatusCodes.NOT_FOUND, 'Family not found');
 	}
 
-	if (family.ownerId !== user.id) {
+	if (!(await isInFamily(family, user))) {
 		throw new HttpError(StatusCodes.FORBIDDEN, 'Forbidden');
 	}
 
