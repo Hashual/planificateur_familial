@@ -22,16 +22,19 @@ export function MeUserInfos() {
 }
 
 type UserInfosProps = {
-	avatarUrl: string,
+	avatarUrl: string | null,
 	displayName: string
 }
 
 export default function UserInfos({ avatarUrl, displayName }: UserInfosProps) {
+	const defaultAvatar = require("@/assets/images/profil.jpg");
+
 	return (
+
 		<View style={styles.container}>
 			<Image 
 				style={{ width: 50, height: 50 }}
-				source={{ uri: avatarUrl }}
+                source={avatarUrl ? { uri: avatarUrl } : defaultAvatar}
 			/>
 			<View style={styles.text}>
 				<ThemedText>{displayName}</ThemedText>
