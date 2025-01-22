@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent: "flex-start",
         flexDirection: "row",
+        zIndex: 10,
     },
     arrowContainer: {
         paddingRight: 20,
