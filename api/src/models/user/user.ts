@@ -32,6 +32,14 @@ export type User = UserCreate & {
 	updatedAt: Date;
 }
 
+function formatUserRow(row: RowDataPacket) {
+	return {
+		...row,
+		createdAt: new Date(row.createdAt),
+		updatedAt: new Date(row.updatedAt)
+	} as User;
+}
+
 export async function createUser(user: UserCreate): Promise<number> {
 	const hashedPassword = user.password ? hashPassword(user.password) : null;
 
@@ -67,11 +75,21 @@ export async function getUserById(id: number): Promise<User | null> {
 	}
 
 	const row = result[0];
-	return {
-		...row,
-		createdAt: new Date(row.createdAt),
-		updatedAt: new Date(row.updatedAt)
-	} as User;
+	return formatUserRow(row) as User;
+}
+
+export async function batchGetUsersById(ids: number[]): Promise<User[]> {
+	if (ids.length === 0) {
+		return [];
+	}
+
+	const result: RowDataPacket[] = await SqlQuery<RowDataPacket[]>(`
+		SELECT *
+		FROM user
+		WHERE id IN (?)
+	`, [ids]);
+
+	return result.map(formatUserRow);
 }
 
 export async function getUserByProvider(provider: UserProvider, providerId: string): Promise<User | null> {

@@ -37,6 +37,15 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               icon="basket"
               onTop={true}
             />
+            <ThemedButton
+              title="Famille"
+              onPress={() => router.push('/families')}
+              type="primary"
+              textStyle={{ fontSize: 10 }}
+              style={styles.button}
+              icon="human"
+              onTop={true}
+            />
             <DoorShelfs />
             <NavLoginButton
               style={styles.button}
