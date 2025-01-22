@@ -58,18 +58,18 @@ export async function getFamilyMembers(family: Family): Promise<FamilyMember[]> 
 	`, [family.id]);
 
 	const users = await batchGetUsersById(membersIds.map(row => row.userId as number));
-	const owner = await getUserById(family.ownerId)!;
+	const owner = (await getUserById(family.ownerId))!;
 
-	return {
+	return [
 		...users.map(user => ({
 			user,
 			role: FamilyMemberRole.Member,
 			joinAt: membersIds.find(row => row.userId === user.id)!.joinAt
 		})),
-		...{
+		...[{
 			user: owner,
 			role: FamilyMemberRole.Owner,
 			joinAt: null
-		}
-	}
+		}]
+	]
 }
