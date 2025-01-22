@@ -36,6 +36,17 @@ export async function joinFamily(family: Family, user: User) {
 	`, [family.id, user.id]);
 }
 
+export async function removeFamilyMember(family: Family, member: FamilyMember) {
+	if (family.ownerId === member.user.id) {
+		throw new Error("Cannot remove the owner of the family");
+	}
+
+	await SqlQuery<RowDataPacket[]>(`
+		DELETE FROM family_members
+		WHERE familyId = ? AND userId = ?
+	`, [family.id, member.user.id]);
+}
+
 export async function getUserFamilies(user: User) {
 	const result = await SqlQuery<RowDataPacket[]>(`
 		SELECT family.* FROM family_members
@@ -72,4 +83,29 @@ export async function getFamilyMembers(family: Family): Promise<FamilyMember[]> 
 			joinAt: null
 		}]
 	]
+}
+
+export async function getFamilyMember(family: Family, user: User) {
+	if (family.ownerId === user.id) {
+		return {
+			user,
+			role: FamilyMemberRole.Owner,
+			joinAt: null
+		}
+	}
+
+	const result = await SqlQuery<RowDataPacket[]>(`
+		SELECT * FROM family_members
+		WHERE familyId = ? AND userId = ?
+	`, [family.id, user.id]);
+
+	if (result.length === 0) {
+		return null;
+	}
+
+	return {
+		user,
+		role: FamilyMemberRole.Member,
+		joinAt: result[0].created_at
+	}
 }
