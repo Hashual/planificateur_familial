@@ -20,6 +20,7 @@ export const Colors = {
     inputBorder: "#DDD", 
     icon: "#666",
     error: "#D32F2F",
+    settingsBackground: "light-grey",
   },
 
   dark: {
@@ -43,5 +44,7 @@ export const Colors = {
     inputBorder: "#3C4A5A",
     icon: "#AAA",
     error: "#FF3B30",
+    settingsBackground: "dark-grey",
+
   },
 };
