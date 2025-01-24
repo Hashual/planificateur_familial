@@ -41,9 +41,6 @@ export default function UserPicture({ avatarUrl }: UserInfosProps) {
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
-        marginBottom: 50,
         width: "100%",
-        height: "20%",
-        flex: 1,
     },
 });
