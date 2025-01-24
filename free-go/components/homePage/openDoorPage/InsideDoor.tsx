@@ -3,7 +3,6 @@ import { View, StyleSheet, ScrollView, StatusBar, Button } from 'react-native';
 import DoorShelfs from './DoorShelf';
 import { ThemedButton } from '@/components/utilities/ThemedButton';
 import { useRouter } from 'expo-router';
-import { MeUserInfos } from '@/components/user/UserInfos';
 import NavLoginButton from '@/components/auth/nav/LoginButton';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
