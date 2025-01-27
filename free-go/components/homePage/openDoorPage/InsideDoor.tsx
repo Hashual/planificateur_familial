@@ -27,6 +27,8 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               style={styles.button}
               icon="check"
               onTop={true}
+              textStyle={styles.textButtonStyle}
+              padH={0}
             />
             <DoorShelfs />
             <ThemedButton
@@ -36,6 +38,8 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               style={styles.button}
               icon="basket"
               onTop={true}
+              textStyle={styles.textButtonStyle}
+              padH={0}
             />
             <ThemedButton
               title="Famille"
@@ -100,6 +104,10 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: StatusBar.currentHeight,
   },
+  textButtonStyle: {
+    fontSize: 11,
+    fontWeight: "bold"
+  }
 });
 
 export default InsideDoor;

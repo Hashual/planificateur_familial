@@ -29,7 +29,8 @@ export function ThemedButton({
   type = 'primary',
   style,
   padV,
-  padH
+  padH,
+  textStyle
 }: ThemedButtonProps) {
   const colors = useThemeColor();
 
@@ -79,7 +80,7 @@ export function ThemedButton({
           </View>
         )}
         
-        {title && <ThemedText variant='fs11Bold' color="fixedPrimaryText">{title}</ThemedText>}
+        {title && <ThemedText variant="bold" color="fixedPrimaryText" style={textStyle}>{title}</ThemedText>}
       </View>
       </Animated.View>
     </Pressable>
