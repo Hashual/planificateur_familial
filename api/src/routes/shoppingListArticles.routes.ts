@@ -235,15 +235,16 @@ router.post('/:listId/articles', handler({
     }),
     body: z.object({
         title: z.string(),
+        pictureUrl: z.string().nullable(),
         dueDate: z.date().optional().nullable(),
         quantity: z.number(),
     }),
     handler: async (req, res) => {
         
         const { shoppingList } = req;
-        const { title, dueDate, quantity} = req.body;
+        const { title, pictureUrl, dueDate, quantity} = req.body;
 
-        const newArticleId = await createShoppingListArticle(shoppingList.id, title, dueDate, quantity);
+        const newArticleId = await createShoppingListArticle(shoppingList.id, title, pictureUrl, dueDate, quantity);
 
         if (!newArticleId) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ code: StatusCodes.INTERNAL_SERVER_ERROR, message: 'Failed to create article' });
@@ -263,19 +264,20 @@ router.put('/:listId/articles/:articleId', handler({
     }),
     body: z.object({
         title: z.string(),
+        pictureUrl: z.string().nullable(),
         quantity: SHOPPING_LIST_QUANTITY_TYPE,
         completedAt: SHOPPING_LIST_COMPLETED_TYPE
     }),
     handler: async (req, res) => {
         const { article } = req;
-        const { title, quantity, completedAt } = req.body;
+        const { title, pictureUrl, quantity, completedAt } = req.body;
 
         if (!article) {
             res.status(StatusCodes.NOT_FOUND).json({ code: StatusCodes.NOT_FOUND, message: 'Article not found' });
             return;
         }
 
-        const updated = await updateShoppingListArticle(article.id, title, quantity, completedAt);
+        const updated = await updateShoppingListArticle(article.id, title, pictureUrl, quantity, completedAt);
         if (!updated) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ code: StatusCodes.INTERNAL_SERVER_ERROR, message: 'Failed to update article' });
             return;
