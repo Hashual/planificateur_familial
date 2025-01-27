@@ -4,6 +4,7 @@ import { QueryResult, ResultSetHeader, RowDataPacket } from "mysql2";
 type shoppingListArticles = {
     id: number;
     title: string;
+    pictureUrl: string | null;
     quantity: number;
     dueDate: Date;
     completedAt: Date;
@@ -12,14 +13,14 @@ type shoppingListArticles = {
     shoppingListId: number;
 }
 
-export const createShoppingListArticle = async (shoppingListId: number, title: string, dueDate: Date | null | undefined, quantity: number): Promise<number> => {
-    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO shoppingListArticle (shoppingListId, title, dueDate, quantity) VALUES (?, ?, ?, ?)", [shoppingListId, title, dueDate, quantity]);
+export const createShoppingListArticle = async (shoppingListId: number, title: string, pictureUrl: string | null , dueDate: Date | null | undefined, quantity: number): Promise<number> => {
+    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("INSERT INTO shoppingListArticle (shoppingListId, title, pictureUrl, dueDate, quantity) VALUES (?, ?, ?, ?)", [shoppingListId, title, pictureUrl, dueDate, quantity]);
     return result.insertId;
 }
 
-export const updateShoppingListArticle = async (id: number, title: string, quantity: number, completedAt: string | null | undefined): Promise<boolean> => {
+export const updateShoppingListArticle = async (id: number, title: string, pictureUrl: string | null ,quantity: number, completedAt: string | null | undefined): Promise<boolean> => {
     const completedAtDate = completedAt ? new Date(completedAt) : null;
-    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE shoppingListArticle SET title = ? , quantity = ? , completedAt = ? WHERE id = ?", [title, quantity, completedAtDate, id]);
+    const result: ResultSetHeader = await SqlQuery<ResultSetHeader>("UPDATE shoppingListArticle SET title = ? , pictureUrl = ?, quantity = ? , completedAt = ? WHERE id = ?", [title, pictureUrl, quantity, completedAtDate, id]);
     return result.affectedRows > 0;
 }
 
@@ -33,6 +34,7 @@ export const getShoppingListArticles = async (shoppingListId: number): Promise<s
         return {
             id: row.id,
             title: row.title,
+            pictureUrl: row.pictureUrl,
             quantity: row.quantity,
             dueDate: row.dueDate ? new Date(row.dueDate) : null,
             completedAt: row.completedAt ? new Date(row.completedAt) : null,
@@ -52,6 +54,7 @@ export const getShoppingListArticleById = async (id: number): Promise<shoppingLi
     return {
         id: row.id,
         title: row.title,
+        pictureUrl: row.pictureUrl,
         quantity: row.quantity,
         dueDate: row.dueDate ? new Date(row.dueDate) : null,
         completedAt: row.completedAt ? new Date(row.completedAt) : null,
