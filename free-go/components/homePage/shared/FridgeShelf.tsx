@@ -1,3 +1,4 @@
+import { ThemedText } from '@/components/utilities/ThemedText';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
@@ -12,7 +13,7 @@ const colors = useThemeColor();
   
   const shelfStyle = {
     ...styles.shelf,
-    backgroundColor: colors.shelf
+    backgroundColor: colors.shelf,
   }
   return (
     <View >
