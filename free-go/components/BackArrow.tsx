@@ -18,5 +18,6 @@ export default function BackArrow() {
 const styles = StyleSheet.create({
 	arrowContainer: {
 		paddingRight: 20,
+		marginLeft: 10,
 	},
 });

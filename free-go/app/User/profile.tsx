@@ -6,28 +6,35 @@ import { ThemedText } from "@/components/utilities/ThemedText";
 import ContextMenu from "@/components/user/profile/ContextMenu";
 import { SearchBar } from "react-native-elements"; // Import de la SearchBar
 import Settings from "@/components/user/profile/Settings";
+import BackArrow from "@/components/BackArrow";
 
 const Profile = () => {
     const [searchQuery, setSearchQuery] = useState(""); // État pour la SearchBar
     return (
-        <View style={styles.container}>
-            <ThemedText variant="mainTitle">Profil</ThemedText>
-            <View style={styles.profile}>
-                <MeUserPicture />
-                <MeUserName />
+        <View style={{backgroundColor: "#F5FCFF", height: "100%"}}>
+            <View style={{flexDirection: "row", width:"100%", position:"relative"}}>
+                <BackArrow/>
+                <ThemedText variant="title" style={{position: "absolute", width:"100%",pointerEvents:"none", textAlign:"center"}}>Profil</ThemedText>
             </View>
-            <SearchBar
-                placeholder="Chercher"
-                value={searchQuery} // Gestion de l'état
-                onChangeText={(setSearchQuery)} // Mise à jour de la valeur
-                platform="default" // Style natif
-                containerStyle={styles.searchBarContainer} // Style optionnel
-                inputContainerStyle={styles.searchBarInput} // Style de l'input
-            />
-            <ContextMenu>
-                <Settings/>
-            </ContextMenu>
+            <View style={styles.container}>
+                <View style={styles.profile}>
+                    <MeUserPicture />
+                    <MeUserName />
+                </View>
+                <SearchBar
+                    placeholder="Chercher"
+                    value={searchQuery} // Gestion de l'état
+                    onChangeText={(setSearchQuery)} // Mise à jour de la valeur
+                    platform="default" // Style natif
+                    containerStyle={styles.searchBarContainer} // Style optionnel
+                    inputContainerStyle={styles.searchBarInput} // Style de l'input
+                />
+                <ContextMenu>
+                    <Settings/>
+                </ContextMenu>
+            </View>
         </View>
+        
     );
 };
 
@@ -37,7 +44,6 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         alignItems: "center",
-        backgroundColor: "#F5FCFF",
         flexDirection: "column",
     },
     profile: {

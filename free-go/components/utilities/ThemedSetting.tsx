@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, ViewStyle, TextStyle, View, Animated, Easing } from 'react-native';
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { Shadows } from '@/constants/Shadows';
 import { ThemedText } from './ThemedText';
 
 export type ThemedSettingVisualProps = {
