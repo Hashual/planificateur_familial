@@ -19,8 +19,8 @@ export function sortTask(
   const comparator: Comparator<Task> = (a, b) => {
     if (a[key] == null) return order === 'asc' ? 1 : -1;
     if (b[key] == null) return order === 'asc' ? -1 : 1;
-    if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
-    if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+    if ((typeof a[key] === "string" ? a[key].toLowerCase() : a[key]) < (typeof b[key] === "string" ? b[key].toLowerCase() : b[key])) return order === 'asc' ? -1 : 1;
+    if ((typeof a[key] === "string" ? a[key].toLowerCase() : a[key]) > (typeof b[key] === "string" ? b[key].toLowerCase() : b[key])) return order === 'asc' ? 1 : -1;
     return 0;
   };
 
@@ -42,8 +42,8 @@ export function sortArticle(
   const comparator: Comparator<Article> = (a, b) => {
     if (a[key] == null) return order === 'asc' ? 1 : -1;
     if (b[key] == null) return order === 'asc' ? -1 : 1;
-    if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
-    if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+    if ((typeof a[key] === "string" ? a[key].toLowerCase() : a[key]) < (typeof b[key] === "string" ? b[key].toLowerCase() : b[key])) return order === 'asc' ? -1 : 1;
+    if ((typeof a[key] === "string" ? a[key].toLowerCase() : a[key]) > (typeof b[key] === "string" ? b[key].toLowerCase() : b[key])) return order === 'asc' ? 1 : -1;
     return 0;
   };
 
