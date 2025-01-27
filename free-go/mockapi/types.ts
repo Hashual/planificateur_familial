@@ -20,6 +20,7 @@ export type Article = {
   quantity: number;
   isChecked: boolean;
   completedAt: Date | null;
+  picture?: string | null;
 };
 
 export type ShoppingList = {

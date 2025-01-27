@@ -27,6 +27,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   const listId = Number(params.id);
   const [list, setList] = useState<any | undefined>(undefined);
 
+  const [articlePicture, setArticleImage] = useState<string | null>(null);
   const [isNewArticle, setIsNewArticle] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [articleNameInput, setArticleNameInput] = useState("");
@@ -39,6 +40,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
     { label: 'Nom', value: 'title' },
     { label: 'Acheté', value: 'completedAt' },
   ];
+
   
   const loadShoppingData = async () => {
     try {
@@ -77,6 +79,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
         quantity: numberOfArticle,
         isChecked: false,
         completedAt: null,
+        picture: articlePicture,
       };
       const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles", {method: "POST", body: newArticle});
       closeModal();
@@ -94,6 +97,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       const updatedArticle = {
         title: articleNameInput,
         quantity: numberOfArticle,
+        picture: articlePicture,
       };
 
       const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles/" + articleId, {
@@ -143,11 +147,12 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   };
 
 
-  const openModal = (isNewArticle: boolean, articleName?: string, numberOfArticle?: number) => {
+  const openModal = (isNewArticle: boolean, articleName?: string, numberOfArticle?: number, picture?: string | null) => {
     setIsNewArticle(isNewArticle);
     if (!isNewArticle && articleName && numberOfArticle) {
       setArticleNameInput(articleName);
       setNumberOfArticle(numberOfArticle);
+      setArticleImage(picture || null);
     }
     setModalVisible(true);
   };
@@ -156,9 +161,10 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
     setModalVisible(false);
     setArticleNameInput("");
     setNumberOfArticle(1);
+    setArticleImage(null);
   };
 
-  const openActionSheet = (articleId: number, articleTitle: string, articleQuantity: number) => {
+  const openActionSheet = (articleId: number, articleTitle: string, articleQuantity: number, articlePicture?: string | null) => {
     const options = ['Annuler', 'Modifier', 'Supprimer'];
     const destructiveButtonIndex = 2;
     const cancelButtonIndex = 0;
@@ -171,7 +177,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       switch (selectedIndex) {
         case 1:
           setCurrentArticleId(articleId);
-          openModal(false, articleTitle, articleQuantity);
+          openModal(false, articleTitle, articleQuantity, articlePicture);
           break;
         case destructiveButtonIndex:
           handleDeleteArticle(articleId);
@@ -222,7 +228,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
         renderItem={({ item: article }) => (
           <ArticleItem
             article={article}
-            handleArticleMenu={() => openActionSheet(article.id, article.title, article.quantity)}
+            handleArticleMenu={() => openActionSheet(article.id, article.title, article.quantity, article.picture)}
             handleCompleteArticle={() => handlePurchaseArticle(article.id)}
           />
         )}
@@ -242,6 +248,8 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
         setArticleNameInput={setArticleNameInput} 
         numberOfArticle={numberOfArticle} 
         setNumberOfArticle={setNumberOfArticle} 
+        articlePicture={articlePicture} 
+        setArticlePicture={setArticleImage} 
         handleAddArticle={isNewArticle ? handleAddArticle : () => {handleModifyArticle(currentArticleId)}} 
       />
 
