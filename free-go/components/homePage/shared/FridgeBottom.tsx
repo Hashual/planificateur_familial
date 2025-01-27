@@ -16,7 +16,7 @@ const FridgeBottom = () => {
         <View style={[styles.innerContainer, {backgroundColor: colors.background}]}>
           <View style={styles.shelfContainer}>
             <FridgeShelves>
-              <TouchableOpacity onPress={() => router.push('/User/profile')}>
+              <TouchableOpacity onPress={() => router.push('/user/profile')}>
                 <MeUserInfos />
               </TouchableOpacity>
             </FridgeShelves>
@@ -43,12 +43,10 @@ const styles = StyleSheet.create({
     height: '95%',
     borderRadius: 20, // Coins arrondis
     
-    
   },
   innerContainer: {
     flex: 1,
     borderRadius: 15,
-    justifyContent: 'space-between', // Espacement uniforme
   },
 
   shelfContainer: {

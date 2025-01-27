@@ -37,7 +37,7 @@ export default function UserInfos({ avatarUrl, displayName }: UserInfosProps) {
                 source={avatarUrl ? { uri: avatarUrl } : defaultAvatar}
 			/>
 			<View style={styles.text}>
-				<ThemedText>{displayName}</ThemedText>
+				<ThemedText variant="fs10" >{displayName}</ThemedText>
 			</View>
 		</View>
 	)

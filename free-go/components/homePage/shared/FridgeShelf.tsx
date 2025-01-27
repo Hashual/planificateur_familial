@@ -15,7 +15,7 @@ const colors = useThemeColor();
     backgroundColor: colors.shelf
   }
   return (
-    <View>
+    <View >
       <View>{children}</View>
       <View style={shelfStyle} />
     </View>
@@ -26,9 +26,13 @@ const styles = StyleSheet.create({
 
   shelf: {
     height: 2,
+    marginBottom:"2%",
     backgroundColor: '#D3D3D3',
-    
   },
+  // container: {
+  //   width: "100%",
+  //   height: "20%",
+  // }
 });
 
 export default FridgeShelves;

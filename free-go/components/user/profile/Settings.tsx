@@ -10,7 +10,7 @@ const Settings: React.FC = () => {
     return (
         <ThemedSetting
         title="Name"
-        onPress={() => router.push('../user/settings/NameSetting')}
+        onPress={() => router.push('/user/settings/[setting]')}
         type="primary"
         style={styles.button}
         />
@@ -19,18 +19,10 @@ const Settings: React.FC = () => {
 }
 
 const styles = StyleSheet.create({ 
-    container:{
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80%',
-        height: '100%',
-        borderWidth: 1,
-        borderColor: 'black',
-    },
     button: {
         marginVertical: 10,
         alignSelf: 'center',
-        width: '80%',
+        width: '90%',
       },
 });
 

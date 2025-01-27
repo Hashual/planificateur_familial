@@ -11,7 +11,7 @@ const Profile = () => {
     const [searchQuery, setSearchQuery] = useState(""); // État pour la SearchBar
     return (
         <View style={styles.container}>
-            <ThemedText variant="mainTitle">Profile</ThemedText>
+            <ThemedText variant="mainTitle">Profil</ThemedText>
             <View style={styles.profile}>
                 <MeUserPicture />
                 <MeUserName />
@@ -19,7 +19,7 @@ const Profile = () => {
             <SearchBar
                 placeholder="Chercher"
                 value={searchQuery} // Gestion de l'état
-                onChangeText={setSearchQuery} // Mise à jour de la valeur
+                onChangeText={(setSearchQuery)} // Mise à jour de la valeur
                 platform="default" // Style natif
                 containerStyle={styles.searchBarContainer} // Style optionnel
                 inputContainerStyle={styles.searchBarInput} // Style de l'input

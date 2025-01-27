@@ -22,18 +22,15 @@ export function ThemedSetting({
   title,
   onTop,
   onPress,
-  type = 'primary',
   style,
   padV,
   padH
 }: ThemedSettingProps) {
-  const colors = useThemeColor();
 
   const SettingStyles = [
     styles.Setting,
     styles.center,
-    {paddingVertical: padV ?? 12, paddingHorizontal: padH ?? 24},
-    {border: 1 , borderColor: 'black'},
+    {paddingVertical: padV ?? 12, paddingHorizontal: padH ?? 24, borderWidth: 1,borderColor: 'black'},
     style,
   ];
 
@@ -58,7 +55,7 @@ export function ThemedSetting({
   };
 
   return (
-    <Pressable onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut} >
+    <Pressable onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut} style={{width: "100%"}}>
       <Animated.View
         style={[
           SettingStyles,
@@ -78,6 +75,7 @@ export function ThemedSetting({
 const styles = StyleSheet.create({
   Setting: {
     borderRadius: 8,
+    width: "100%",
   },
   center: {
     justifyContent: 'center',
