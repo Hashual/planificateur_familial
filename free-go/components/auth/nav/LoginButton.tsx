@@ -31,6 +31,8 @@ export default function NavLoginButton(customProps?: ThemedButtonVisualProps) {
 					icon={ isLogin ? 'logout' : 'login' }
 					onTop={true}
 					{...customProps}
+					textStyle={{fontSize: 11}}
+					padH={0}
 				/>
 			)
 		})
