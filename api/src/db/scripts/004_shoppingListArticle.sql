@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS shoppingListArticle (
     shoppingListId INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     quantity INT NOT NULL,
+    pictureUrl VARCHAR(255) NULL,
     dueDate TIMESTAMP NULL,
     completedAt TIMESTAMP NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
