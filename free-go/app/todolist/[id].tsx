@@ -1,6 +1,6 @@
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
-import { Alert, FlatList } from "react-native";
+import { FlatList } from "react-native";
 
 import {Task} from "@/mockapi/types";
 
@@ -36,8 +36,8 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
   const sortOptions = [
     { label: 'Date de création', value: 'createdAt' },
     { label: 'Nom', value: 'title' },
-    { label: 'Date d\'échéance', value: 'dueDate' },
-    { label: 'Date de complétion', value: 'completedDate' },
+    { label: 'Date limite', value: 'dueDate' },
+    { label: 'Terminé le', value: 'completedDate' },
   ];
   
   const loadToDoData = async () => {
@@ -260,7 +260,7 @@ const ToDoList = ({ showActionSheetWithOptions } : any) => {
         <DropdownMenu options={sortOptions} onSelectOption={handleOptionSelect} sortOrder={sortOrder as 'asc' | 'desc'} onSortOrderChange={handleSortOrderChange} selectOption={sortOption} />
       )} />
       <FlatList
-        data={list.tasks}
+        data={sortTask(list.tasks, sortOption as keyof Task, sortOrder as 'asc' | 'desc')}
         keyExtractor={(task) => task.id.toString()}
         renderItem={({ item: task }) => (
           <TaskItem

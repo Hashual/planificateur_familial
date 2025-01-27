@@ -32,8 +32,8 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   const [articleNameInput, setArticleNameInput] = useState("");
   const [numberOfArticle, setNumberOfArticle] = useState(1);
   const [currentArticleId, setCurrentArticleId] = useState(-1);
-  const [sortOption, setSortOption] = useState('createdAt');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOption, setSortOption] = useState('completedAt');
+  const [sortOrder, setSortOrder] = useState('desc');
   const sortOptions = [
     { label: 'Date d\'ajout', value: 'createdAt' },
     { label: 'Nom', value: 'title' },
@@ -218,7 +218,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
         return <DropdownMenu options={sortOptions} onSelectOption={handleOptionSelect} sortOrder={sortOrder as 'asc' | 'desc'} onSortOrderChange={handleSortOrderChange} selectOption={sortOption} />;
       }}/>
       <FlatList
-        data={list.articles}
+        data={sortArticle(list.articles, sortOption as keyof Article, sortOrder as 'asc' | 'desc')}
         renderItem={({ item: article }) => (
           <ArticleItem
             article={article}
