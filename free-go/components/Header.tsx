@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
 import { ThemedText } from "./utilities/ThemedText";
+import BackArrow from "./BackArrow";
 
 type HeaderProps = {
     title: string;
@@ -10,14 +11,7 @@ type HeaderProps = {
 export default function Header({ title, Component }: HeaderProps) {
     return (
         <View style={styles.container}>
-            <TouchableOpacity
-                style={styles.arrowContainer}
-                onPress={() => router.back()}
-            >
-                <ThemedText variant="title" color="primaryText">
-                    {"<"}
-                </ThemedText>
-            </TouchableOpacity>
+            <BackArrow />
             <ThemedText
                 style={styles.centerItem}
                 variant="title"
@@ -35,9 +29,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent: "flex-start",
         flexDirection: "row",
-    },
-    arrowContainer: {
-        paddingRight: 20,
     },
     centerItem: {
         flex: 1,
