@@ -8,7 +8,7 @@ import { SetBackPage } from "@/utils/SetBackPage";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList } from "react-native";
 
 export default function FamilyIndexPage() {
   SetBackPage("/families");

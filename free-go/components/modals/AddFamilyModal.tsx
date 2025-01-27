@@ -1,5 +1,5 @@
 import { Modal, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput } from "react-native";
 import { ThemedButton } from "../utilities/ThemedButton";
 import { Dispatch, SetStateAction } from "react";
 

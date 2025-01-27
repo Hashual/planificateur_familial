@@ -11,7 +11,7 @@ import Error from "@/utils/alerts/Error";
 import { SetBackPage } from "@/utils/SetBackPage";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList } from "react-native";
 
 const FamilyPage = () => {
   SetBackPage("/homePage/OpenDoorPage");
