@@ -227,6 +227,15 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
           />
         )}
       />
+
+      <ThemedButton
+        title={"Propose moi des recettes"}
+        icon="lightbulb-on-outline"
+        onPress={() => {}}
+        type="primary"
+        style={{marginBottom: 15}}
+        
+      />
       <ThemedButton
         title={"Ajouter un article"}
         icon="plus"
