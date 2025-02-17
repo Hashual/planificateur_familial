@@ -1,4 +1,4 @@
-import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 import { FlatList } from "react-native";
 
@@ -17,12 +17,14 @@ import { ActionSheetProvider, connectActionSheet } from "@expo/react-native-acti
 import ArticleModal from "@/components/modals/ArticleModal";
 import DropdownMenu from "@/components/utilities/DropdownButton";
 import { sortArticle } from "@/utils/sortFunctions";
+import { Meals } from "@/types/Meal";
 
 
 const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/shoppinglists");
 
   const params = useLocalSearchParams();
+  const router = useRouter();
 
   const listId = Number(params.id);
   const [list, setList] = useState<any | undefined>(undefined);
@@ -198,6 +200,24 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       articles: sortArticle(list.articles, sortOption as keyof Article, order as 'asc' | 'desc')
     }));
   };
+
+  const mockMeals: Meals = [
+    {
+      title: "Pâtes à la carbonara",
+      ingredients: ["Pâtes", "Lardons", "Œufs", "Parmesan", "Crème fraîche"],
+      description: "Un délicieux plat italien à base de pâtes et de lardons dans une sauce crémeuse."
+    },
+    {
+      title: "Salade César",
+      ingredients: ["Laitue romaine", "Poulet grillé", "Croûtons", "Parmesan", "Sauce César"],
+      description: "Une salade classique avec du poulet grillé et une sauce savoureuse."
+    },
+    {
+      title: "Ratatouille",
+      ingredients: ["Aubergine", "Courgette", "Poivron", "Tomate", "Oignon", "Ail"],
+      description: "Un plat provençal de légumes mijotés, parfait en accompagnement ou en plat principal."
+    }
+  ];
   
   useFocusEffect(
     useCallback(() => {
@@ -231,11 +251,11 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       <ThemedButton
         title={"Propose moi des recettes"}
         icon="lightbulb-on-outline"
-        onPress={() => {}}
+        onPress={() => router.push({ pathname: "/shoppinglist/generatemeallists", params: { meals: JSON.stringify(mockMeals) } })}
         type="primary"
-        style={{marginBottom: 15}}
-        
+        style={{marginBottom: 15}} 
       />
+
       <ThemedButton
         title={"Ajouter un article"}
         icon="plus"
