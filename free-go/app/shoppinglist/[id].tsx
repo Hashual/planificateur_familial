@@ -18,6 +18,7 @@ import ArticleModal from "@/components/modals/ArticleModal";
 import DropdownMenu from "@/components/utilities/DropdownButton";
 import { sortArticle } from "@/utils/sortFunctions";
 import { Meals } from "@/types/Meal";
+import ChooseIngredientsModal from "@/components/modals/ChooseIngredientsModal";
 
 
 const ShoppingList = ({ showActionSheetWithOptions } : any) => {
@@ -30,10 +31,12 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   const [list, setList] = useState<any | undefined>(undefined);
 
   const [isNewArticle, setIsNewArticle] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isArticleModalVisible, setArticleModalVisible] = useState(false);
+  const [isRecipesModalVisible, setRecipesModalVisible] = useState(false);
   const [articleNameInput, setArticleNameInput] = useState("");
   const [numberOfArticle, setNumberOfArticle] = useState(1);
   const [currentArticleId, setCurrentArticleId] = useState(-1);
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [sortOption, setSortOption] = useState('completedAt');
   const [sortOrder, setSortOrder] = useState('desc');
   const sortOptions = [
@@ -81,7 +84,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
         completedAt: null,
       };
       const updatedData = await useFetchQuery("/shopping-list/" + listId + "/articles", {method: "POST", body: newArticle});
-      closeModal();
+      closeArticleModal();
       setList((prevList: any) => ({
         ...prevList,
         articles: updatedData.data
@@ -113,7 +116,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       } else {
         Error("Erreur", "Erreur lors de la mise à jour de la tâche");
       }
-      closeModal();
+      closeArticleModal();
     } catch (error) {
       Error("Erreur", "Erreur lors de la modification de l'article", error);
     }
@@ -145,20 +148,31 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   };
 
 
-  const openModal = (isNewArticle: boolean, articleName?: string, numberOfArticle?: number) => {
+  const openArticleModal = (isNewArticle: boolean, articleName?: string, numberOfArticle?: number) => {
     setIsNewArticle(isNewArticle);
     if (!isNewArticle && articleName && numberOfArticle) {
       setArticleNameInput(articleName);
       setNumberOfArticle(numberOfArticle);
     }
-    setModalVisible(true);
+    setArticleModalVisible(true);
   };
 
-  const closeModal = () => {
-    setModalVisible(false);
+  const closeArticleModal = () => {
+    setArticleModalVisible(false);
     setArticleNameInput("");
     setNumberOfArticle(1);
   };
+
+  const closeRecipesModal = () => {
+    setRecipesModalVisible(false);
+    setSelectedIngredients([]);
+  };
+
+  const showRecipes = () => {
+    setRecipesModalVisible(false);
+    router.push({ pathname: "/shoppinglist/generatemeallists", params: { meals: JSON.stringify(mockMeals) } })
+  };
+
 
   const openActionSheet = (articleId: number, articleTitle: string, articleQuantity: number) => {
     const options = ['Annuler', 'Modifier', 'Supprimer'];
@@ -173,7 +187,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       switch (selectedIndex) {
         case 1:
           setCurrentArticleId(articleId);
-          openModal(false, articleTitle, articleQuantity);
+          openArticleModal(false, articleTitle, articleQuantity);
           break;
         case destructiveButtonIndex:
           handleDeleteArticle(articleId);
@@ -233,7 +247,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
 
   return (
     <RootView color="background" padding={20}>
-      <ThemedStatusBar isDark={isModalVisible} />
+      <ThemedStatusBar isDark={isArticleModalVisible || isRecipesModalVisible} />
       <Header title={list.title} Component={() => {
         return <DropdownMenu options={sortOptions} onSelectOption={handleOptionSelect} sortOrder={sortOrder as 'asc' | 'desc'} onSortOrderChange={handleSortOrderChange} selectOption={sortOption} />;
       }}/>
@@ -251,7 +265,7 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       <ThemedButton
         title={"Propose moi des recettes"}
         icon="lightbulb-on-outline"
-        onPress={() => router.push({ pathname: "/shoppinglist/generatemeallists", params: { meals: JSON.stringify(mockMeals) } })}
+        onPress={() => setRecipesModalVisible(true)}
         type="primary"
         style={{marginBottom: 15}} 
       />
@@ -259,19 +273,27 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       <ThemedButton
         title={"Ajouter un article"}
         icon="plus"
-        onPress={() => {openModal(true)}}
+        onPress={() => {openArticleModal(true)}}
         type="primary"
       />
 
       <ArticleModal
         isNewArticle={isNewArticle}
-        isModalVisible={isModalVisible} 
-        closeModal={closeModal} 
+        isModalVisible={isArticleModalVisible} 
+        closeModal={closeArticleModal} 
         articleNameInput={articleNameInput} 
         setArticleNameInput={setArticleNameInput} 
         numberOfArticle={numberOfArticle} 
         setNumberOfArticle={setNumberOfArticle} 
         handleAddArticle={isNewArticle ? handleAddArticle : () => {handleModifyArticle(currentArticleId)}} 
+      />
+
+      <ChooseIngredientsModal 
+        isModalVisible={isRecipesModalVisible} 
+        closeModal={closeRecipesModal} 
+        ingredients={list?.articles.map((article: any) => article.title) || []} 
+        setSelectedIngredients={setSelectedIngredients} 
+        showRecipes={showRecipes} 
       />
 
     </RootView>
