@@ -24,6 +24,58 @@ import ChooseIngredientsModal from "@/components/modals/ChooseIngredientsModal";
 const ShoppingList = ({ showActionSheetWithOptions } : any) => {
   SetBackPage("/shoppinglists");
 
+  const mockMeals: Meals = [
+    {
+      recipeName: "Spaghetti Carbonara",
+      ingredients: [
+        { ingredient: "Spaghetti", quantity: "200g" },
+        { ingredient: "Bacon", quantity: "100g" },
+        { ingredient: "Eggs", quantity: "2" },
+        { ingredient: "Cream", quantity: "50ml" },
+        { ingredient: "Parmesan", quantity: "30g" },
+      ],
+      instructions: [
+        { step: 1, description: "Cook the spaghetti according to the package instructions." },
+        { step: 2, description: "Fry the bacon in a pan until golden." },
+        { step: 3, description: "Mix the eggs and cream in a bowl." },
+        { step: 4, description: "Drain the pasta and mix it with the bacon and sauce." },
+        { step: 5, description: "Serve hot with grated parmesan." },
+      ],
+    },
+    {
+      recipeName: "Caesar Salad",
+      ingredients: [
+        { ingredient: "Romaine lettuce", quantity: "1" },
+        { ingredient: "Grilled chicken", quantity: "150g" },
+        { ingredient: "Croutons", quantity: "50g" },
+        { ingredient: "Parmesan", quantity: "30g" },
+        { ingredient: "Caesar dressing", quantity: "50ml" },
+      ],
+      instructions: [
+        { step: 1, description: "Wash and chop the romaine lettuce." },
+        { step: 2, description: "Slice the chicken." },
+        { step: 3, description: "Mix the lettuce, chicken, croutons, and parmesan." },
+        { step: 4, description: "Add the Caesar dressing and mix well." },
+        { step: 5, description: "Serve immediately." },
+      ],
+    },
+    {
+      recipeName: "Mushroom Omelette",
+      ingredients: [
+        { ingredient: "Eggs", quantity: "3" },
+        { ingredient: "Mushrooms", quantity: "100g" },
+        { ingredient: "Butter", quantity: "20g" },
+        { ingredient: "Salt and pepper", quantity: "To taste" },
+      ],
+      instructions: [
+        { step: 1, description: "Beat the eggs in a bowl and season with salt and pepper." },
+        { step: 2, description: "Melt the butter in a pan and sauté the mushrooms." },
+        { step: 3, description: "Pour the beaten eggs over the mushrooms and cook on low heat." },
+        { step: 4, description: "Fold the omelette in half and serve hot." },
+      ],
+    },
+  ];
+
   const params = useLocalSearchParams();
   const router = useRouter();
 
@@ -170,7 +222,10 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
 
   const showRecipes = () => {
     setRecipesModalVisible(false);
-    router.push({ pathname: "/shoppinglist/generatemeallists", params: { meals: JSON.stringify(mockMeals) } })
+    router.push({
+      pathname: "/shoppinglist/generatemeallists",
+      params: { meals: JSON.stringify(mockMeals) }
+    });
   };
 
 
@@ -214,24 +269,6 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
       articles: sortArticle(list.articles, sortOption as keyof Article, order as 'asc' | 'desc')
     }));
   };
-
-  const mockMeals: Meals = [
-    {
-      title: "Pâtes à la carbonara",
-      ingredients: ["Pâtes", "Lardons", "Œufs", "Parmesan", "Crème fraîche"],
-      description: "Un délicieux plat italien à base de pâtes et de lardons dans une sauce crémeuse."
-    },
-    {
-      title: "Salade César",
-      ingredients: ["Laitue romaine", "Poulet grillé", "Croûtons", "Parmesan", "Sauce César"],
-      description: "Une salade classique avec du poulet grillé et une sauce savoureuse."
-    },
-    {
-      title: "Ratatouille",
-      ingredients: ["Aubergine", "Courgette", "Poivron", "Tomate", "Oignon", "Ail"],
-      description: "Un plat provençal de légumes mijotés, parfait en accompagnement ou en plat principal."
-    }
-  ];
   
   useFocusEffect(
     useCallback(() => {
