@@ -358,6 +358,7 @@ router.get('/:listId/suggests', handler({
             },
             options: {
                 "temperature": 0.2,
+                // @ts-ignore
                 "max_tokens": 1000,
                 "top_p": 0.9,
                 "frequency_penalty": 0.2,
