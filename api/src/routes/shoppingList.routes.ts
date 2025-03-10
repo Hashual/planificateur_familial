@@ -292,7 +292,7 @@ router.delete('/:listId', handler({
 }));
 
 
-router.get('/:listId/suggests', handler({
+router.post('/:listId/suggests', handler({
     params: z.object({
         listId: SHOPPING_LIST_ID_TYPE,
     }),
