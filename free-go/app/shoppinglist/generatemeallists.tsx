@@ -7,12 +7,12 @@ import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 
 const GeneratedMealList = () => {
-  const { recettes } = useLocalSearchParams();
-  const recipeList = typeof recettes === 'string' ? JSON.parse(recettes) : [];
+  const { meals } = useLocalSearchParams();
+  const recipeList = typeof meals === 'string' ? JSON.parse(meals) : [];
   const colors = useThemeColor();
   console.log('====================================');
-  console.log(recettes);
-  console.log(typeof recettes);
+  console.log(meals);
+  console.log(typeof meals);
   console.log(recipeList);
   console.log('====================================');
 
@@ -25,22 +25,22 @@ const GeneratedMealList = () => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.recipeContainer}>
-            <ThemedText style={styles.recipeTitle}>{item.nom_recette}</ThemedText>
+            <ThemedText style={styles.recipeTitle}>{item.recipe.name}</ThemedText>
 
             <ThemedText style={styles.sectionTitle}>Ingrédients :</ThemedText>
             <FlatList
-              data={item.ingredients}
+              data={item.recipe.ingredients}
               keyExtractor={(ingredient, index) => index.toString()}
               renderItem={({ item: ingredient }) => (
                 <ThemedText style={styles.ingredientItem}>
-                  - {ingredient.ingredient}: {ingredient.quantite}
+                  - {ingredient.ingredient}: {ingredient.quantity}
                 </ThemedText>
               )}
             />
 
             <ThemedText style={styles.sectionTitle}>Instructions :</ThemedText>
             <FlatList
-              data={item.instructions}
+              data={item.recipe.instructions}
               keyExtractor={(instruction) => instruction.step.toString()}
               renderItem={({ item: instruction }) => (
                 <View style={[styles.instructionItem, { backgroundColor: colors.elementBackground }]}>

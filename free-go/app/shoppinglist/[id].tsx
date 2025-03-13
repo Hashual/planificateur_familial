@@ -220,11 +220,20 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
     setSelectedIngredients([]);
   };
 
-  const showRecipes = () => {
+  const showRecipes = async () => {
     setRecipesModalVisible(false);
+    const data = await useFetchQuery(`/shopping-list/${listId}/suggests`, {
+      method: "POST",
+      body: { selectedArticles: selectedIngredients },
+    });
+    console.log('====================================');
+    console.log(selectedIngredients);
+    console.log(data.data);
+    console.log('====================================');
+
     router.push({
       pathname: "/shoppinglist/generatemeallists",
-      params: { meals: JSON.stringify(mockMeals) }
+      params: { meals: JSON.stringify(data.data) }
     });
   };
 
