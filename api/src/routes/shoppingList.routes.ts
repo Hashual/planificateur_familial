@@ -14,6 +14,7 @@ import { SHOPPING_LIST_ID_TYPE, shoppingListIdMiddleware } from '../middlewares/
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 import {isConnectedMiddleware} from "../middlewares/auth/isConnected.middleware";
 import {Ollama} from "ollama";
+import { searchRecipes } from '../utils/recipes/marmiton';
 
 const router = Router();
 
@@ -291,10 +292,15 @@ router.delete('/:listId', handler({
     },
 }));
 
+enum SuggestMethod{
+    MARMITON = 'marmiton',
+    OLLAMA = 'ollama',   
+};
 
-router.post('/:listId/suggests', handler({
+router.post('/:listId/suggests/:method', handler({
     params: z.object({
         listId: SHOPPING_LIST_ID_TYPE,
+        method: z.nativeEnum(SuggestMethod)
     }),
     body: z.object({
         selectedArticles: z.array(z.string()),
@@ -302,6 +308,7 @@ router.post('/:listId/suggests', handler({
     use: shoppingListIdMiddleware,
     handler: async (req, res) => {
         const { shoppingList } = req;
+        const { method } = req.params;
         const { selectedArticles } = req.body;
 
         if (!shoppingList) {
@@ -309,64 +316,71 @@ router.post('/:listId/suggests', handler({
             return;
         }
 
-        const request = 'Quelles recettes puis-je préparer avec les ingrédients présent dans cette liste de course  :' + selectedArticles.join(', ') + ' ?\'';
+        if (method == SuggestMethod.MARMITON) {
 
-        const ollama = new Ollama({ host: 'https://ai.free-go.tech', headers: { "authorization": "Bearer 5zTNKrO6YkLz5B2CwR9u9I5EPJ6SpRpt" } })
-        const response = await ollama.chat({
-            model: 'qwen2.5:1.5b',
-            messages: [{
-                role: 'context',
-                content: 'Tu es un chatbot dédié à la cuisine et à la nutrition. Tu peux répondre à des questions sur les recettes, les ingrédients, les régimes alimentaires, les allergies, les valeurs nutritives, etc.'
-            }, {
-                role: 'instruction',
-                content: `
-                Réponds en français et retourne toujours un JSON valide avec la structure suivante :
-                {
-                    "title": "Titre de la recette",
-                    "recettes": {
-                        {
-                             ingredients: {
-                                "ingredient1": "quantité1",
-                                "ingredient2": "quantité2",
-                                ...
-                            },
-                            "instructions": {
-                                "step1": "description1",
-                                "step2": "description2",
-                                ...
+            const recipes = await searchRecipes(selectedArticles);
+
+            res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: recipes });
+        } else {
+
+            const request = 'Quelles recettes puis-je préparer avec les ingrédients présent dans cette liste de course  :' + selectedArticles.join(', ') + ' ?\'';
+    
+            const ollama = new Ollama({ host: 'https://ai.free-go.tech', headers: { "authorization": "Bearer 5zTNKrO6YkLz5B2CwR9u9I5EPJ6SpRpt" } })
+            const response = await ollama.chat({
+                model: 'qwen2.5:1.5b',
+                messages: [{
+                    role: 'context',
+                    content: 'Tu es un chatbot dédié à la cuisine et à la nutrition. Tu peux répondre à des questions sur les recettes, les ingrédients, les régimes alimentaires, les allergies, les valeurs nutritives, etc.'
+                }, {
+                    role: 'instruction',
+                    content: `
+                    Réponds en français et retourne toujours un JSON valide avec la structure suivante :
+                    {
+                        "title": "Titre de la recette",
+                        "recettes": {
+                            {
+                                 ingredients: {
+                                    "ingredient1": "quantité1",
+                                    "ingredient2": "quantité2",
+                                    ...
+                                },
+                                "instructions": {
+                                    "step1": "description1",
+                                    "step2": "description2",
+                                    ...
+                                }
                             }
                         }
                     }
+                    Assure-toi que la réponse ne contient aucun élément non JSON.
+                    Ignore tout éléments de la liste de course qui ne sont pas des ingrédients.
+                    Propose une unique réponse par requête
+                `
+                },
+                    {
+                        role: 'user',
+                        content: request
+                    }
+                ],
+                format: 'json',
+                baseUrl: 'https://ai.free-go.tech',
+                headers: {
+                    Authorization: 'Bearer 5zTNKrO6YkLz5B2CwR9u9I5EPJ6SpRpt'
+                },
+                options: {
+                    "temperature": 0.2,
+                    // @ts-ignore
+                    "max_tokens": 1000,
+                    "top_p": 0.9,
+                    "frequency_penalty": 0.2,
+                    "presence_penalty": 0.2
                 }
-                Assure-toi que la réponse ne contient aucun élément non JSON.
-                Ignore tout éléments de la liste de course qui ne sont pas des ingrédients.
-                Propose une unique réponse par requête
-            `
-            },
-                {
-                    role: 'user',
-                    content: request
-                }
-            ],
-            format: 'json',
-            baseUrl: 'https://ai.free-go.tech',
-            headers: {
-                Authorization: 'Bearer 5zTNKrO6YkLz5B2CwR9u9I5EPJ6SpRpt'
-            },
-            options: {
-                "temperature": 0.2,
-                // @ts-ignore
-                "max_tokens": 1000,
-                "top_p": 0.9,
-                "frequency_penalty": 0.2,
-                "presence_penalty": 0.2
-            }
-        })
-
-        let formatedResponse = JSON.parse(response.message.content)
-
-
-        res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: formatedResponse });
+            })
+    
+            let formatedResponse = JSON.parse(response.message.content)
+    
+            res.status(StatusCodes.OK).json({ code: StatusCodes.OK, message: ReasonPhrases.OK, data: formatedResponse });
+        }
     }
 }))
 
