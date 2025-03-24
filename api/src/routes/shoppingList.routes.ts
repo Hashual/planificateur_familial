@@ -322,28 +322,25 @@ router.post('/:listId/suggests', handler({
                 content: `
                 Réponds en français et retourne toujours un JSON valide avec la structure suivante :
                 {
-                    "question": "Reformule ici la question de l'utilisateur",
-                    "response": {
-                        "title": "Titre de la recette",
-                        "recettes": {
-                            {
-                                 ingredients: {
-                                    "ingredient1": "quantité1",
-                                    "ingredient2": "quantité2",
-                                    ...
-                                },
-                                "instructions": {
-                                    "step1": "description1",
-                                    "step2": "description2",
-                                    ...
-                                }
+                    "title": "Titre de la recette",
+                    "recettes": {
+                        {
+                             ingredients: {
+                                "ingredient1": "quantité1",
+                                "ingredient2": "quantité2",
+                                ...
+                            },
+                            "instructions": {
+                                "step1": "description1",
+                                "step2": "description2",
+                                ...
                             }
                         }
                     }
                 }
                 Assure-toi que la réponse ne contient aucun élément non JSON.
                 Ignore tout éléments de la liste de course qui ne sont pas des ingrédients.
-                Propose deux à trois recettes par réponse.
+                Propose une unique réponse par requête
             `
             },
                 {
@@ -362,7 +359,7 @@ router.post('/:listId/suggests', handler({
                 "max_tokens": 1000,
                 "top_p": 0.9,
                 "frequency_penalty": 0.2,
-                "presence_penalty": 0.3
+                "presence_penalty": 0.2
             }
         })
 
