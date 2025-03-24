@@ -5,9 +5,11 @@ const BASE_URL = "https://www.marmiton.org";
 type MarmitonRecipeResult = {
 	title: string,
 	url: string,
-	pictureUrls: {
-		origin: string
-	}
+	image: {
+		pictureUrls: {
+			origin: string
+		}
+	},
 	ingredients: string[],
 }
 
@@ -39,7 +41,7 @@ export async function searchRecipes(ingredients: string[]): Promise<Recipe[]> {
 
 				res({
 					title: recipe.title,
-					pictureUrl: recipe.pictureUrls.origin,
+					pictureUrl: recipe.image.pictureUrls.origin,
 					steps: steps,
 					ingredients: recipe.ingredients
 				})
