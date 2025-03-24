@@ -20,6 +20,7 @@
     "googleapis": "^144.0.0",
     "http-status-codes": "^2.3.0",
     "mysql2": "^3.11.4",
+    "node-html-parser": "^7.0.1",
     "ollama": "^0.5.13",
     "zod": "^3.23.8"
   },
