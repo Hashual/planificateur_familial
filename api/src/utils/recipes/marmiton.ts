@@ -8,8 +8,8 @@ type MarmitonRecipeResult = {
 	image: {
 		pictureUrls: {
 			origin: string
-		}
-	},
+		} | null
+	} | null,
 	ingredients: string[],
 }
 
@@ -41,7 +41,7 @@ export async function searchRecipes(ingredients: string[]): Promise<Recipe[]> {
 
 				res({
 					title: recipe.title,
-					pictureUrl: recipe.image.pictureUrls.origin,
+					pictureUrl: recipe?.image?.pictureUrls?.origin,
 					steps: steps,
 					ingredients: recipe.ingredients
 				})
