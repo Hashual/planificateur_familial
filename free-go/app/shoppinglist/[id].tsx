@@ -220,19 +220,28 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
     setSelectedIngredients([]);
   };
 
-  const showRecipes = async () => {
+  const showAIRecipes = async () => {
     setRecipesModalVisible(false);
-    const data = await useFetchQuery(`/shopping-list/${listId}/suggests`, {
+    const data = await useFetchQuery(`/shopping-list/${listId}/suggests/ollama`, {
       method: "POST",
       body: { selectedArticles: selectedIngredients },
     });
-    console.log('====================================');
-    console.log(selectedIngredients);
-    console.log(data.data);
-    console.log('====================================');
 
     router.push({
       pathname: "/shoppinglist/generatemeallists",
+      params: { meals: JSON.stringify(data.data) }
+    });
+  };
+
+  const showMarmitonRecipes = async () => {
+    setRecipesModalVisible(false);
+    const data = await useFetchQuery(`/shopping-list/${listId}/suggests/marmiton`, {
+      method: "POST",
+      body: { selectedArticles: selectedIngredients },
+    });
+
+    router.push({
+      pathname: "/shoppinglist/generatemeallistsmarmiton",
       params: { meals: JSON.stringify(data.data) }
     });
   };
@@ -339,7 +348,8 @@ const ShoppingList = ({ showActionSheetWithOptions } : any) => {
         closeModal={closeRecipesModal} 
         ingredients={list?.articles.map((article: any) => article.title) || []} 
         setSelectedIngredients={setSelectedIngredients} 
-        showRecipes={showRecipes} 
+        showAIRecipes={showAIRecipes}
+        showMarmitonRecipes={showMarmitonRecipes} 
       />
 
     </RootView>

@@ -10,7 +10,8 @@ type ChooseIngredientsModal = {
     closeModal: () => void;
     ingredients: string[];
     setSelectedIngredients: (value: string[]) => void;
-    showRecipes: () => void;
+    showAIRecipes: () => void;
+    showMarmitonRecipes: () => void;
 };
 
 export default function ChooseIngredientsModal({
@@ -18,7 +19,8 @@ export default function ChooseIngredientsModal({
     closeModal,
     ingredients,
     setSelectedIngredients,
-    showRecipes,
+    showAIRecipes,
+    showMarmitonRecipes,
 }: ChooseIngredientsModal) {
     const colors = useThemeColor();
 
@@ -81,8 +83,13 @@ export default function ChooseIngredientsModal({
                             type="secondary"
                         />
                         <ThemedButton
-                            title={"Valider"}
-                            onPress={showRecipes}
+                            title={"IA"}
+                            onPress={showAIRecipes}
+                            type="primary"
+                        />
+                        <ThemedButton
+                            title={"Marmiton"}
+                            onPress={showMarmitonRecipes}
                             type="primary"
                         />
                     </View>

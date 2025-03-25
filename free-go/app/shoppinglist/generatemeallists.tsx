@@ -9,6 +9,7 @@ import { View, FlatList, StyleSheet } from "react-native";
 const GeneratedMealList = () => {
   const { meals } = useLocalSearchParams();
   const recipeList = typeof meals === 'string' ? JSON.parse(meals) : [];
+  const recipes = recipeList.recipes || recipeList;
   const colors = useThemeColor();
   console.log('====================================');
   console.log(meals);
@@ -18,40 +19,43 @@ const GeneratedMealList = () => {
 
   return (
     <RootView padding={20}>
-      <Header title={"Propositions de recettes"} />
+      <Header title="Propositions de recettes (en cours de développement)" />
 
-      <FlatList
-        data={recipeList}
+      {/* <FlatList
+        data={recipeList.recipes}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.recipeContainer}>
-            <ThemedText style={styles.recipeTitle}>{item.recipe.name}</ThemedText>
+            <ThemedText style={styles.recipeTitle}>{item.title || item.name || "titre indiponble"}</ThemedText>
 
             <ThemedText style={styles.sectionTitle}>Ingrédients :</ThemedText>
             <FlatList
-              data={item.recipe.ingredients}
+              data={item.ingredients}
               keyExtractor={(ingredient, index) => index.toString()}
               renderItem={({ item: ingredient }) => (
                 <ThemedText style={styles.ingredientItem}>
-                  - {ingredient.ingredient}: {ingredient.quantity}
+                  - {ingredient.name}
+                  {ingredient.quantity ? `: ${ingredient.quantity}` : ""}
+                  {ingredient.unit ? ` ${ingredient.unit}` : ""}
                 </ThemedText>
               )}
             />
 
             <ThemedText style={styles.sectionTitle}>Instructions :</ThemedText>
             <FlatList
-              data={item.recipe.instructions}
-              keyExtractor={(instruction) => instruction.step.toString()}
-              renderItem={({ item: instruction }) => (
+              data={item.instructions}
+              keyExtractor={(instruction, index) => index.toString()}
+              renderItem={({ item: instruction, index }) => (
                 <View style={[styles.instructionItem, { backgroundColor: colors.elementBackground }]}>
-                  <ThemedText style={styles.stepTitle}>Étape {instruction.step}</ThemedText>
-                  <ThemedText>{instruction.description}</ThemedText>
+                  <ThemedText style={styles.stepTitle}>Étape {index + 1}</ThemedText>
+                  <ThemedText>{instruction}</ThemedText>
                 </View>
               )}
             />
           </View>
         )}
-      />
+      /> */}
+      <ThemedText>{meals}</ThemedText>
     </RootView>
   );
 };
