@@ -41,7 +41,7 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               textStyle={styles.textButtonStyle}
               padH={0}
             />
-            <ThemedButton
+            {/* <ThemedButton
               title="Famille"
               onPress={() => router.push('/families')}
               type="primary"
@@ -49,7 +49,7 @@ const InsideDoor: React.FC<InsideDoorProps> = ({ children }) => {
               style={styles.button}
               icon="human"
               onTop={true}
-            />
+            /> */}
             <DoorShelfs />
             <NavLoginButton
               style={styles.button}
